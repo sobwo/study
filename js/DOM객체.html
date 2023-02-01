@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>DOM객체</title>
+	<script type="text/javascript" async>
+		function p(){
+			let p = document.getElementById("firstP"); 
+			p.style.background="blue";
+			p.style.color="red";
+		}
+		
+		document.addEventListener("DOMContentLoaded", function() {  
+		    // DOM 생성이 완료된 후 실행
+		});
+		
+	</script>
+
+</head>
+<body>
+	<p id="firstP">안녕하세요</p>
+	<p id="secondP">안녕하세요</p>
+	
+
+</body>
+</html>
