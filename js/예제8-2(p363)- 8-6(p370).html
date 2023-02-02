@@ -2,7 +2,7 @@
 <html lang="ko">
 	<head>
 		<meta charset="utf-8">
-		<title>예제8-2(p363) 8-3(p364) 8-5(p365)</title>
+		<title>예제8-2(p363)- 8-6(p370).html</title>
 		<script type="text/javascript">
 			function callName(){
 				var mySpan = document.getElementById("mySpan");
@@ -22,6 +22,16 @@
 				obj.style.border="0";
 				obj.style.color="#FFF";
 			}
+			function numP(){
+				let pTag = document.getElementsByTagName("p");
+				let pTagCnt = pTag.length;
+				alert("p태그 갯수는 "+pTagCnt);	
+			}
+			function changeColor(){
+				let span=document.getElementsByClassName("fruit");
+				for(let i=0;i<span.length;i++)
+					span[i].style.color="orange";
+			}
 		</script>
 	</head>
 	<body>
@@ -32,5 +42,12 @@
 		<input type="button" name="btn2" id="btn2" value="직업은 무엇인가요" onclick="callJob()"/>
 		<input type="button" name="btn3" id="btn3" value="사진을 보여주세요" onclick="callImg()"/>
 		<input type="button" name="btn4" id="btn4" value="버튼색상을 변경합니다" onclick="callBtn(this)"/>
+		<input type="button" name="btn5" id="btn5" value="p태그의 갯수는?" onclick="numP()"/>
+		
+		<input type="button" name="btn" id="btn" value="누르세요" onclick="changeColor()">
+		<hr/>
+		저는 <span class="fruit">포도</span>를 좋아하고 <span class="fruit">토마토</span>는 매일 먹습니다.<br/>
+		<span class="fruit">양배추</span>는 좋아하지 않지만 건강을 위해서 매일 먹습니다.<br/>
+		<span class="fruit">사과</span>도 매일 하나씩 먹지요.
 	</body>
 </html>
