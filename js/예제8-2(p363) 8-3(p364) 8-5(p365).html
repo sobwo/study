@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<title>예제8-2(p363) 8-3(p364) 8-5(p365)</title>
+		<script type="text/javascript">
+			function callName(){
+				var mySpan = document.getElementById("mySpan");
+				mySpan.style.color="red";
+				mySpan.style.fontSize="30px";
+				mySpan.style.border="3px solid green";
+			}
+			function callJob(){
+				var myP = document.getElementById("myP");
+				myP.innerHTML="제 직업은 개발자입니다";
+			}
+			function callImg(){
+				myP.innerHTML="<img src='https://search.pstatic.net/sunny/?src=http%3A%2F%2Ffile3.instiz.net%2Fdata%2Fcached_img%2Fupload%2F2022%2F05%2F27%2F8%2F3987292f0002597798f0e2c769f74673.png&type=a340'>";
+			}
+			function callBtn(obj){
+				obj.style.background="orange";
+				obj.style.border="0";
+				obj.style.color="#FFF";
+			}
+		</script>
+	</head>
+	<body>
+		<!-- span 태그의 값과 크기를 변경하는 문제 -->
+		<p id="myP">안녕하세요 제 이름은 <span id="mySpan" style="color:blue;"><b>홍길동</b></span>입니다.</p>
+		
+		<input type="button" name="btn" id="btn" value="이름색상을 변경합니다" onclick="callName()"/>
+		<input type="button" name="btn2" id="btn2" value="직업은 무엇인가요" onclick="callJob()"/>
+		<input type="button" name="btn3" id="btn3" value="사진을 보여주세요" onclick="callImg()"/>
+		<input type="button" name="btn4" id="btn4" value="버튼색상을 변경합니다" onclick="callBtn(this)"/>
+	</body>
+</html>
