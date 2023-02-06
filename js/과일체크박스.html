@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>과일체크박스</title>
 		<style>
+			p{display:inline-block; width:80px;height:10px;text-align:center;}
 		</style>
 		<script>
 		let sum=0;
@@ -21,10 +22,10 @@
 	</head>
 	<body>
 		<form>
-			사과<input type="checkbox" value="5000" onclick="price(this)"><br/>
-			배<input type="checkbox" value="6000" onclick="price(this)"><br/>
-			복숭아<input type="checkbox" value="7000" onclick="price(this)"><br/>
-			총 금액<input type="text" id="result" value="0">
+			<p>사과</p><input type="checkbox" value="5000" onclick="price(this)"><br/>
+			<p>배</p><input type="checkbox" value="6000" onclick="price(this)"><br/>
+			<p>복숭아</p><input type="checkbox" value="7000" onclick="price(this)"><br/>
+			<p>총 금액</p><input type="text" id="result" value="0">
 		</form>
 	</body>
 </html>
