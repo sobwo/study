@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>과일체크박스</title>
+		<style>
+		</style>
+		<script>
+		let sum=0;
+			function price(obj){
+				if(obj.checked){
+					alert("가격은 "+obj.value+" 입니다.")
+					sum += parseInt(obj.value);
+				}
+				else
+					sum -= parseInt(obj.value);
+				
+				document.getElementById("result").value = sum;
+			}
+		</script>
+	</head>
+	<body>
+		<form>
+			사과<input type="checkbox" value="5000" onclick="price(this)"><br/>
+			배<input type="checkbox" value="6000" onclick="price(this)"><br/>
+			복숭아<input type="checkbox" value="7000" onclick="price(this)"><br/>
+			총 금액<input type="text" id="result" value="0">
+		</form>
+	</body>
+</html>
