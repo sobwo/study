@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>AJAX</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#btn1").on("click",function(){
+					$.ajax({
+						url:"json.jsp",
+						method:"GET",
+						dataType:"json",
+						success:function(data){
+							let name = data.이름;
+							let age = data.나이;
+							let job = data.직업;
+							let str = "이름은 "+name+" 나이는 "+age+" 직업은 "+job;
+							$("#sss").html(str);
+						},
+						error:function(request,status,error){	
+							alert("실패");
+						}	
+					});	
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="sss">버튼을 클릭하면 이곳에 데이터를 출력하세요</div>
+		<button id="btn1">데이터 가져와서 화면에 출력하기</button>
+	</body>
+</html>
