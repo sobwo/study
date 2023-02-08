@@ -26,3 +26,12 @@ public class StarWrite7{
 		bw.close();
 	}
 }
+/* 숏코딩
+import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        int n = new Scanner(System.in).nextInt();
+        for(int i=0; i<2*n-1; i++) 
+            System.out.println(" ".repeat(Math.abs(n-1-i)) + "*".repeat((2*n-1)-2*Math.abs(n-1-i)));
+    }
+}*/
