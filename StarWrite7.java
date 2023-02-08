@@ -26,12 +26,30 @@ public class StarWrite7{
 		bw.close();
 	}
 }
-/* 숏코딩
-import java.util.Scanner;
-public class Main{
-    public static void main(String[] args){
-        int n = new Scanner(System.in).nextInt();
-        for(int i=0; i<2*n-1; i++) 
-            System.out.println(" ".repeat(Math.abs(n-1-i)) + "*".repeat((2*n-1)-2*Math.abs(n-1-i)));
-    }
-}*/
+/* 랭킹 1등 정답
+public class Main {
+	public static void main(String[] args) throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int N = Integer.parseInt(br.readLine());
+		
+		for(int i=0; i<N-1; i++) {
+			for(int j=0; j<N-i-1; j++)
+				bw.write(' ');
+			for(int j=0; j<2*i+1; j++) {
+				bw.write('*');
+			}
+			bw.write('\n');
+		}
+		for(int i=N-1; i>=0; i--) {
+			for(int j=0; j<N-i-1; j++)
+				bw.write(' ');
+			for(int j=0; j<2*i+1; j++) {
+				bw.write('*');
+			}
+			bw.write('\n');
+		}
+		bw.flush();
+	}
+}
