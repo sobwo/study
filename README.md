@@ -1,2 +1,2 @@
 # html-css-js
-html+css 및 js 강의 내용
+html+css 및 js / j-query강의 내용
