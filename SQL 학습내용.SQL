@@ -49,6 +49,29 @@
 
 	ALTER TABLE member1230 ADD ip VARCHAR(30);
 
+	--EX) 회원 전화번호 컬럼 추가하기
+--MEMBERPHONE VARCHAR(12) 추가
+	ALTER TABLE member1230 ADD memberPhone VARCHAR(12);
+
+--컬럼 순서 변경
+	ALTER TABLE member1230 MODIFY(memberEmail invisible);
+	ALTER TABLE member1230 MODIFY(memberGender invisible);
+	ALTER TABLE member1230 MODIFY(memberAddr invisible);
+	ALTER TABLE member1230 MODIFY(memberBirth invisible);
+	ALTER TABLE member1230 MODIFY(delYn invisible);
+	ALTER TABLE member1230 MODIFY(writeday invisible);
+	ALTER TABLE member1230 MODIFY(ip invisible);
+
+	ALTER TABLE member1230 MODIFY(memberEmail visible);
+	ALTER TABLE member1230 MODIFY(memberGender visible);
+	ALTER TABLE member1230 MODIFY(memberAddr visible);
+	ALTER TABLE member1230 MODIFY(memberBirth visible);
+	ALTER TABLE member1230 MODIFY(delYn visible);
+	ALTER TABLE member1230 MODIFY(writeday visible);
+	ALTER TABLE member1230 MODIFY(ip visible);
+
+	COMMIT;
+
 ----------------------------------------------------------------------------------------------------
 
 --2. 데이터 조작하기(DML) = SELECT, DELETE, INSERT, UPDATE
@@ -67,16 +90,28 @@
 	INSERT INTO member1230 VALUES(7,'test7','7777','e','e@a.a','woman','여수','20050101','Y',SYSDATE,'127.0.0.7');
 	INSERT INTO member1230 VALUES(8,'test8','8888','f','f@a.a','man','강릉','20060101','N',SYSDATE,'127.0.0.8');
 	INSERT INTO member1230 VALUES(9,'test9','9999','g','g@a.a','man','인천','20070101','N',SYSDATE,'127.0.0.9');
-	INSERT INTO member1230 VALUES(10,'test10','1010','h','h@a.a','man','경기','20080101',default,SYSDATE,'127.0.0.10');
+	INSERT INTO member1230 VALUES(10,'test10','1010','h','h@a.a','man','전주','20080101',default,SYSDATE,'127.0.0.10');
 	COMMIT;
 
+--10명의 회원의전화번호를 01045671990~01045671999
+	UPDATE member1230 SET memberPhone='01045671990' WHERE midx=1;
+	UPDATE member1230 SET memberPhone='01045671991' WHERE midx=3;
+	UPDATE member1230 SET memberPhone='01045671992' WHERE midx=2;
+	UPDATE member1230 SET memberPhone='01045671993' WHERE midx=4;
+	UPDATE member1230 SET memberPhone='01045671994' WHERE midx=5;
+	UPDATE member1230 SET memberPhone='01045671995' WHERE midx=6;
+	UPDATE member1230 SET memberPhone='01045671996' WHERE midx=7;
+	UPDATE member1230 SET memberPhone='01045671997' WHERE midx=8;
+	UPDATE member1230 SET memberPhone='01045671998' WHERE midx=9;
+	UPDATE member1230 SET memberPhone='01045671999' WHERE midx=10;
+	COMMIT;
 /*
 	데이터 수정하기
 	UPDATE 테이블이름 SET 변형할 컬럼=변경할 컬럽값, 변경할 컬럼=변경할 컬럼값 WHERE 컬럼명=컬럼값;
 */
 	UPDATE member1230 SET memberName='홍길순' WHERE midx=1;
 	UPDATE member1230 SET memberAddr='전주' WHERE midx BETWEEN 4 AND 8;
-	UPDATE member1230 SET memberAddr='서울' WHERE midx BETWEEN 9 AND 10;
+	UPDATE member1230 SET memberAddr='서울' WHERE midx =9;
 	SELECT memberName FROM member1230;
 	COMMIT;
 -- EX) 회원번호가 1번인 사람의 email을 sbu@naver.com으로 변경하고, 생년월일을 19990101로 변경
@@ -140,38 +175,6 @@ SELECT * FROM member1230 WHERE memberAddr='전주' AND memberBirth LIKE '2%' ORD
 --EX) 길순이라는 사람의 이메일주소를 출력하시오.
  SELECT memberEmail AS 이메일 FROM member1230 WHERE SUBSTR(memberName,-2)='길서';
 
---EX) 회원 전화번호 컬럼 추가하기
---MEMBERPHONE VARCHAR(12) 추가
-	ALTER TABLE member1230 ADD memberPhone VARCHAR(12);
---10명의 회원의전화번호를 01045671990~01045671999
-	UPDATE member1230 SET memberPhone='01045671990' WHERE midx=1;
-	UPDATE member1230 SET memberPhone='01045671991' WHERE midx=3;
-	UPDATE member1230 SET memberPhone='01045671992' WHERE midx=2;
-	UPDATE member1230 SET memberPhone='01045671993' WHERE midx=4;
-	UPDATE member1230 SET memberPhone='01045671994' WHERE midx=5;
-	UPDATE member1230 SET memberPhone='01045671995' WHERE midx=6;
-	UPDATE member1230 SET memberPhone='01045671996' WHERE midx=7;
-	UPDATE member1230 SET memberPhone='01045671997' WHERE midx=8;
-	UPDATE member1230 SET memberPhone='01045671998' WHERE midx=9;
-	UPDATE member1230 SET memberPhone='01045671999' WHERE midx=10;
-
---컬럼 순서 변경
-	ALTER TABLE member1230 MODIFY(memberEmail invisible);
-	ALTER TABLE member1230 MODIFY(memberGender invisible);
-	ALTER TABLE member1230 MODIFY(memberAddr invisible);
-	ALTER TABLE member1230 MODIFY(memberBirth invisible);
-	ALTER TABLE member1230 MODIFY(delYn invisible);
-	ALTER TABLE member1230 MODIFY(writeday invisible);
-	ALTER TABLE member1230 MODIFY(ip invisible);
-
-	ALTER TABLE member1230 MODIFY(memberEmail visible);
-	ALTER TABLE member1230 MODIFY(memberGender visible);
-	ALTER TABLE member1230 MODIFY(memberAddr visible);
-	ALTER TABLE member1230 MODIFY(memberBirth visible);
-	ALTER TABLE member1230 MODIFY(delYn visible);
-	ALTER TABLE member1230 MODIFY(writeday visible);
-	ALTER TABLE member1230 MODIFY(ip visible);
-
 --EX) 전주에 사는 90년대생 사람들의 전화번호 뒷자리 4개를 출력하시오.
 	SELECT SUBSTR(memberPhone,-4) AS 전화번호 뒷자리 FROM member1230 WHERE memberAddr='전주' AND memberBirth LIKE '199%';
 	SELECT * FROM member1230;
@@ -203,7 +206,7 @@ SELECT * FROM member1230 WHERE memberAddr='전주' AND memberBirth LIKE '2%' ORD
 --EX) 가입된 회원의 총 인원수를 출력하시오.
 	SELECT COUNT(midx) AS 총 인원수 FROM member1230;
 --EX) 전주에 사는 회원들의 평균나이를 출력하시오.
-	SELECT AVG(TO_CHAR(sysdate,'yyyy')-SUBSTR(memberBirth,1,4)) AS 평균나이 FROM member1230 WHERE memberAddr='전주';
+	SELECT AVG(TO_CHAR(SYSDATE,'yyyy')-SUBSTR(memberBirth,1,4)) AS 평균나이 FROM member1230 WHERE memberAddr='전주';
 --EX) 최근에 등록된 서울에 사는 사람의 이름을 출력하시오.
 	SELECT memberName FROM member1230 WHERE midx = (SELECT MAX(midx) FROM member1230 GROUP BY memberAddr HAVING memberAddr='서울');
 --EX) 회원번호 1번부터 7번까지의 사람들의 나이의 총합을 구하시오.
