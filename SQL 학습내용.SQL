@@ -1,7 +1,3 @@
---초기화 
-drop table member;
-drop table member1230;
-
 --SQL 학습하기
 
 --	1. DDL(테이블 조작 언어)
