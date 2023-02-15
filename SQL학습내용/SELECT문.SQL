@@ -1,4 +1,4 @@
---정렬: 오름차순, 내림차순
+﻿--정렬: 오름차순, 내림차순
 	--EX) 회원번호를 최근 등록한 사람들 순으로 정렬하시오.(내림차순)
 			SELECT * FROM member1230 ORDER BY midx DESC;
 	--EX) 회원번호를 오룸차순 형태로 정렬하시오.
@@ -71,6 +71,7 @@
 		--EX) 각 지역별 여성 인원수를 서브쿼리를 활용해서 출력하시오
 				SELECT a.memberAddr AS 지역, COUNT(*) AS 여성인원수 FROM member1230 a,(SELECT * FROM member1230 WHERE memberGender='woman') b WHERE a.midx=b.midx GROUP BY a.memberAddr;
 
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --조건문
 	--case 컬럼 when 조건 then 출력값 else 출력값 end
@@ -92,6 +93,38 @@
 			SELECT NVL(ip,'추적불가') FROM member1230;
 			SELECT NVL2(ip,'추적가능','추적불가') FROM member1230;
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--날짜 함수
+	-- 시스템 날짜 출력
+		SELECT SYSDATE FROM dual;
+	-- 시스템 날짜를 문자열로 출력 (ex) 2000-01-01
+		SELECT TO_CHAR(SYSDATE,'yyyy-mm-dd') AS 현재날짜 FROM dual;
+	-- 문자열을 날짜 타입으로 출력
+		SELECT TO_DATE('20020110','yyyymmdd') AS 날짜 FROM dual;
+		--EX) member1230의 writeday 컬럼의 데이터를 문자형 2023-01-01 형태로 출력
+			SELECT DISTINCT TO_CHAR(writeday,'yyyy-mm-dd') AS 날짜 FROM member1230;  --distinct : 중복값 출력 제거
+
+	-- 특정일에 달수를 더할 때 : add_months()
+		--EX) 현재 날짜에서 3개월후의 날짜를 출력하시오
+			SELECT ADD_MONTHS(SYSDATE,3) FROM dual;
+	-- 특정 월의 마지막 날짜를 출력 : last_day
+		--EX) 현재 월의 마지막 날짜를 출력하시오.
+			SELECT LAST_DAY(SYSDATE) FROM dual;
+		--EX) 현재일로부터 6개월 후의 마지막 날짜를 출력하시오.
+			SELECT LAST_DAY(ADD_MONTHS(SYSDATE,6)) FROM dual;
+  -- 요일 찾기 : next_day('기준일',찾을요일')     //    1(일요일) 2(월요일) ... 7(토요일)
+  	--EX) 다음 일요일의 날짜를 출력하시오.
+  		SELECT SYSDATE, NEXT_DAY(SYSDATE,1) AS 다음일요일 FROM dual;
+  -- 첫날짜 찾기 : trunc()
+  	--EX) 현재일로부터 2개월 후의 첫날짜를 출력하시오.
+  		SELECT TRUNC(ADD_MONTHS(SYSDATE,2),'MM') FROM dual;
+  	--EX) 현재일로부터 올해년도 첫날짜를 출력하시오.
+  		SELECT TRUNC(SYSDATE,'yyyy') FROM dual;
+
+		--EX) 현재날짜의 3개월 후의 그달의 세번째 토요일 날짜를 출력하시오.
+			SELECT NEXT_DAY(ADD_MONTHS(SYSDATE,3),7) FROM dual;
+			SELECT NEXT_DAY(TRUNC(ADD_MONTHS(SYSDATE,3),'MM')+14,7) FROM dual;
+
 ---------------------------------------------------------------------------------------------------
 --내장 함수
 	--문자열 자르기 SUBSTR(컬럼,자리수,갯수)
@@ -111,3 +144,4 @@
 				SELECT INSTR(memberEmail,'@') FROM member1230;
 		--EX) 회원들의 사용하는 메일 별로 사람들의 인원 수를 출력
 				SELECT SUBSTR(memberEmail,INSTR(memberEmail,'@')+1) AS 이메일주소, COUNT(*) AS 인원수 FROM member1230 GROUP BY SUBSTR(memberEmail,INSTR(memberEmail,'@')+1);
+
