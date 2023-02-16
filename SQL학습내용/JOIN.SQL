@@ -34,7 +34,7 @@
 			SELECT COUNT(B.bidx) AS cnt FROM member1230 A, board1230 B WHERE A.midx=B.midx AND A.memberName = '홍길순';
 	--EX) 각 지역별로 게시물을 쓴 사람들의 인원수를 출력하시오
 			SELECT A.memberAddr, COUNT(DISTINCT A.midx) AS cnt FROM member1230 A, board1230 B WHERE A.midx=B.midx GROUP BY A.memberAddr;
-	--EX) 게시글 내용중에 다섯이라는 글자가 포함된 글을 쓴 사람의 ID를 출력하시오0
+	--EX) 게시글 내용중에 다섯이라는 글자가 포함된 글을 쓴 사람의 ID를 출력하시오
 			SELECT A.memberId FROM member1230 A, board1230 B WHERE A.midx = B.midx AND B.contents LIKE '%다섯%';
 	--EX) 회원번호 1번,8번에 해당하는 사람이 쓴 게시글의 ip를 추출하고 없으면 ip없음으로 출력하시오
 			SELECT NVL2(B.ip,B.ip,'ip없음') AS ip주소 FROM member1230 A, board1230 B WHERE A.midx=B.midx AND A.midx IN(1,8);
