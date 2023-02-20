@@ -46,4 +46,5 @@ drop table member1230;
 		select * from member1230 order by midx desc limit 6,2;
 	--EX) 성이 홍씨인 사람의 데이터를 출력하시오
 		select * from member1230 where memberName like '홍%';
+		select * from member1230 where memberName like concat('%','홍','%');
 
