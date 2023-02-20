@@ -44,4 +44,6 @@ drop table member1230;
 		select * from member1230 order by midx desc limit 0,5;
 	--EX) 회원번호 내림차순으로 정렬하고 7번째부터 2개를 출력하시오
 		select * from member1230 order by midx desc limit 6,2;
+	--EX) 성이 홍씨인 사람의 데이터를 출력하시오
+		select * from member1230 where memberName like '홍%';
 
