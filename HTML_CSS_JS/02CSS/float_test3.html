@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title>float_test1</title>
+		<style>
+			#parent{
+				display:inline-block;
+				border:10px solid #000;
+				background:#FFEEFF;
+			}
+		
+			#parent1 {width:300px;height:300px;
+					border:10px solid #f00;
+					margin:20px;
+					background:#FFF;
+					float:left;}
+			#parent1 div{width:100px;height:100px; float:left;}
+			
+			#parent2 {width:300px;height:300px;
+					border:10px solid green;
+					margin:20px;
+					background:yellow;
+					float:right;}
+					
+			#parent2 div{width:100px;height:100px; float:right;}
+			
+			#a1,#a2{background:#011;}
+			#b1,#b2{background:#022;}
+			#c1,#c2{background:#044;}
+			#d1,#d2{background:#066;}
+			#e1,#e2{background:#F88;}	
+			
+			#d1,#e1,#b2,#c2{clear:both;}
+			
+		</style>
+	</head>
+	<body>
+		<div id="parent">
+			<div id="parent1">
+				<div id="a1">a</div>
+				<div id="b1">b</div>
+				<div id="c1">c</div>
+				<div id="d1">d</div>
+				<div id="e1">e</div>
+			</div>
+			<div id="parent2">
+				<div id="a2">a2</div>
+				<div id="b2">b2</div>
+				<div id="c2">c2</div>
+				<div id="d2">d2</div>
+				<div id="e2">e2</div>
+			</div>
+		</div>
+	</body>
+</html>

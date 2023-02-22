@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>회원가입</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){});
+		function check(){
+				let memberId = $("#memberId").val();
+				let memberPw = $("#memberPw").val();
+				let memberPw2 = $("#memberPw2").val();
+				let name = $("#name").val();
+				let birth = $("#birth").val();
+				
+				if(!memberId) {
+					alert("ID를 입력해 주시오");
+					$("#memberId").focus(); 
+				}
+				else if(!memberPw) {
+					alert("패스워드를 입력해 주시오"); 
+					$("#memberPw").focus();
+				
+				}
+				else if(!memberPw2) {
+					alert("패스워드 확인을 입력해 주시오"); 
+					$("#memberPw2").focus();
+				
+				}
+				else if(memberPw!=memberPw2){
+					alert("비밀번호가 일치하지 않습니다.");
+					$("memberPw2").focus();
+				
+				}
+				else if(!name) {
+					alert("이름을 입력해 주시오"); 
+					$("#name").focus();
+			
+				}
+				else if(!birth) {
+					alert("생년월일을 입력해 주시오"); 
+					$("#birth").focus();
+			
+				}
+				else if(isNaN(birth)){
+					alert("숫자를 입력해주시오");
+					$("#birth").focus();
+				
+				}
+				else if($("#memberIdCheck").val() != "Y"){
+					alert("아이디 중복체크를 하시오");
+					$("#memberIdCheck").focus();
+					return;
+				}
+				var frm = document.frm;
+				//이경로로 데이터를 감추어서 전송한다.
+				frm.action="memberJoinAction.jsp";
+				frm.method = "POST";
+				frm.submit();	
+				
+		}
+		
+		function idCheck(){
+			alert("아이디 체크창입니다.");	
+			let memberId = $("#memberId").val();
+			$.ajax({
+				url: "idList.jsp",		
+				method: "POST",
+				data: {"memberId": memberId },
+				dataType: "json",
+				success : function(data){
+					alert(data.idYn)
+					if (data.idYn =="Y"){
+						alert("사용가능한 아이디입니다.");
+						$("#memberIdCheck").val("Y");
+					}
+					else
+						alert("사용불가한 아이디 입니다");	
+				},
+				error : function(request,status,error){
+					alert("다시 시도하시기 바랍니다.");		
+				}		
+			});	
+		}
+		</script>
+	</head>
+	<body>		
+	<form name="frm" id="frm">
+		<table>
+			<caption>회원가입 페이지</caption>
+			<tr>
+				<td>ID : </td>
+				<td>
+					<input type="text" name="memberId" id="memberId">
+					<input type="button" name="memberIdCheck" id="memberIdCheck" onclick="idCheck()" value="ID 중복체크">
+				</td>
+			</tr>
+			<tr>
+				<td>비밀번호 :</td>
+				<td><input type="password" name="memberPw" id="memberPw"></td> 
+			</tr>
+			<tr>
+				<td>비밀번호 확인 :</td> 
+				<td><input type="password" name="memberPw2" id="memberPw2"></td>
+			</tr>
+			<tr>
+				<td>이름 : </td>
+				<td><input type="text" name="name" id="name"></td>
+			</tr>
+			<tr>
+				<td>성별 : </td>
+				<td><input type="radio" name="gen" value="남성" checked>남성<input type="radio" name="gen" value="여성">여성</td>
+			<tr>
+				<td>지역 : </td>
+				<td><select name="region" id="region">
+					<option value="서울">서울</option>
+					<option value="대전">대전</option>
+					<option value="전주">전주</option>
+			   	 </select></td>
+			</tr>
+			<tr>
+				<td>생년월일 : </td>
+				<td><input type="text" name="birth" id="birth">ex)19990101</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" id="btn" value="확인" onclick="check()"></td>
+			</tr>
+	</table>
+	
+	</form>
+	</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>예제2</title>
+    <style>
+    *{margin:0; padding:0;}
+    img{vertical-align:top;}
+
+    body{background:url("img2/dog.png") no-repeat right top #F5EDE3;}
+  
+    #face{width:554px; margin:300px auto 0;
+      position:relative;}
+    #face>div{position:absolute;}
+    #ear_left{top:-90px; left:10px;z-index:-1;}
+    #ear_right{top:-90px; right:10px;z-index:-1;}
+    #eye_left{top:235px;left:120px;}
+    #eye_right{top:235px;right:120px;}
+    #jaw{bottom:0;right:9px;}
+    #flush_left{top:280px;left:115px;}
+    #flush_right{top:280px;right:115px;}
+    #nose{top:230px;left:235px;}
+    #mouth{top:255px;left:240px;}
+    #shadow{bottom:0; right:0;}
+
+    </style>
+  </head>
+  <body>
+    <div id="face">
+      <p><img src="img2/face.png"/></p>
+      <div id="ear_left"><img src="img2/ear_left_out.png"/></div>
+      <div id="ear_right"><img src="img2/ear_right_out.png"/></div>
+      <div id="eye_left"><img src="img2/eye_right.png"/></div>
+      <div id="eye_right"><img src="img2/eye_right.png"/></div>
+      <div id="jaw"><img src="img2/jaw.png"/></div>
+      <div id="flush_left"><img src="img2/flush_left.png"/></div>
+      <div id="flush_right"><img src="img2/flush_right.png"/></div>
+      <div id="nose"><img src="img2/nose.png"/></div>
+      <div id="mouth"><img src="img2/mouth.png"/></div>
+      <div id="shadow"><img src="img2/shadow.png"/></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title>10 완벽한 표만들기</title>
+	</head>
+	<body>
+		<p><iframe src="페이지만들기.html" width = "600" height="40" frameborder="0"></iframe></p>
+		<h1>웹 표준에 맞는 완벽한 표 만들기</h1>
+		<ul>
+			<li>&lt;caption&gt; : 표의 제목이나 간략 설명을 표기</li>
+			<li>&lt;thead&gt; : 제목행을 표기</li>
+			<li>&lt;th&gt; : 제목칸을 표기</li>
+			<li>&lt;tbody&gt; : 행의 그룹화, 데이터행을 표현</li>
+			<li>&lt;tfoot&gt; : 결과행을 표현, 생략가능, thead 다음에 올 수 있다.</li>
+		</ul>
+		<hr/>
+		<!-- 예시-->
+		<div>
+			<h2>성적표</h2>
+			<table border="1" width="400" height="250">
+				<caption>1학년 1반 중간고사 성적표</caption>
+				<thead>
+					<tr>
+						<th>이름</th>
+						<th>국어</th>
+						<th>영어</th>
+						<th>수학</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td>합계</td>
+						<td>210</td>
+						<td>180</td>
+						<td>150</td>
+					</tr>
+				</tfoot>
+				<tbody>
+					<tr>
+						<td>보미</td>
+						<td>100</td>
+						<td>90</td>
+						<td>80</td>
+					</tr>
+					<tr>
+						<td>은비</td>
+						<td>70</td>
+						<td>60</td>
+						<td>50</td>
+					</tr>
+					<tr>
+						<td>우리</td>
+						<td>40</td>
+						<td>30</td>
+						<td>20</td>
+					</tr>
+				</tbody>
+				<tbody>
+					<tr>
+						<td>유리</td>
+						<td>100</td>
+						<td>90</td>
+						<td>80</td>
+					</tr>
+					<tr>
+						<td>르미</td>
+						<td>70</td>
+						<td>60</td>
+						<td>50</td>
+					</tr>
+				</tbody>
+			
+			</table>
+		</div>
+	</body>
+</html>

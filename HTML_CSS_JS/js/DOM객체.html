@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>DOM객체</title>
+	<script type="text/javascript" async>
+		function p(){
+			let p = document.getElementById("firstP"); 
+			p.style.background="blue";
+			p.style.color="red";
+		}
+		
+		document.addEventListener("DOMContentLoaded", function() {  
+		    // DOM 생성이 완료된 후 실행
+		});
+		
+	</script>
+
+</head>
+<body>
+	<p id="firstP">안녕하세요</p>
+	<p id="secondP">안녕하세요</p>
+	//스크립트 객체를 밑에다가 쓸거면 p태그 밑에 써야함. 스크립트는 파싱중 발견됐을 때 가장 먼저 파싱 하기 때문.
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>J-Query</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script type=text/javascript>
+		$(document).ready(function(){ // 모든 html문서가 파싱이 끝난다음에 실행
+			/*
+			$("p").on("click",function(){
+				$("p").css("color","red");
+				$("p").css("font-size","28px");
+			});*/
+			$("#aaa").on("click",function(){
+				alert("id클릭");
+			});
+			$(".bbb").on("click",function(){
+				$(".bbb").css("color","blue");
+			});
+			$("img").on("click",function(){
+				$("img").attr("src","../test/media/Koala.png");
+			})
+		}); 
+		
+
+		</script>
+	</head>
+	<body>
+		<p id="aaa">안녕하세요</p>
+		<span class="bbb">반갑습니다</span>
+		<span class="bbb">오늘도 좋은 하루</span><br/>
+		<img src="../test/media/Jellyfish.png" alt="">
+	</body>
+</html>
