@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title>12 inline-block 요소의 수직정렬.html</title>
+		<style>
+			#box{border:10px solid #000; font-size:50px;line-height:100px;}
+			img{width:20px;vertical-align:10px;}
+				/*
+					vertical-align:inline-block 요소만의 수직위치 조정
+					baseline(기본값) : 글자가 나열되는 수평라인에 맞추어 정렬
+					top : 행 높이를 기준하여 위에 정렬
+					bottom : 행 높이를 기준하여 아래에 정렬
+					
+					text-top : 텍스트 크기를 기준하여 위에 정렬
+					text-bottom : 텍스트 크기를 기준하여 아래에 정렬
+					middle : 텍스트 크기를 기준하여 중간에 정렬
+					sub : 아래 첨자 위치에 표시
+					super : 위 첨자 위치에 표시
+					숫자px : 입력한 수치만큼 baseline에서 이동
+				*/
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			text <img src="../리틀어피치3.jpg">jpg
+		</div>
+	</body>
+</html>

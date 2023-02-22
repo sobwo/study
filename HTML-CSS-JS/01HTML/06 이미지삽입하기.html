@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<!-- 메타태그(p74) : 메타데이터를 작성하는 태그 -->
+		<!-- 위의 메타태그는 반드시 작성 해야함 -->
+		<title> 06 이미지삽입하기 </title>
+	</head>
+	<body>
+		<p><iframe src="페이지만들기.html" width = "600" height="40" frameborder="0"></iframe></p>
+		<!-- 영문,숫자 한글자 : 1byte 8bit
+		     한글 한글자 : 2byte 16bit   -->
+		<h1 title = "제목 태그"> 이미지태그(p75) </h1>
+		<hr size = "5" color = "green" />
+		<div>
+			<h2>절대경로로 주소 지정></h2>
+			<p>최상위폴더(루트)에서부터 위치를 지정해 나아가는 방식</p>
+			<p>
+				<img title = "어피치 먹는 그림"
+					 src = "D:\so\01HTML\리틀어피치2.jpg" 
+					 alt = "어피치 먹는 그림" width = "100" height = "100" />
+				<img title = "어피치 땀나는 그림"
+					 src = "D:\so\01HTML\사진\리틀어피치1.jpg"
+					 alt "어피치 땀나는 그림" width="100" height = "100" \>
+				<img title = "어피치 자는 그림"
+					 src = "D:\so\리틀어피치3.jpg"
+				     alt = "어피치 자는 그림" width="100" height = "100" />
+				<img src = "https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net
+							%2FMjAyMDA5MTlfMjQ4%2FMDAxNjAwNTEwNzA1NDg5.4U-PNc4FCcTBvcu1WF0p1fm7yNkLz
+							-iMOAFd3uNs0Usg.KrThCOBtyPCo1N5Ytl71dic5_RwDNVfUbCom7NksmlEg.GIF%2FexternalFile.gif&type=sc960_832_gif"
+					 alt = "어피치 몰?루" width="100" height = "100" />
+			</p>
+		</div>
+		<hr/>
+		<div>
+			<h2>상대경로로 주소 지정</h2>
+			<p>현재 작성문서를 기준으로 위치를 지정</p>
+			<p>
+				<img src = "리틀어피치2.jpg"
+					 alt = "어피치 먹는 그림" width="100" height = "100"/>
+				<img src = "사진/리틀어피치1.jpg"
+					 alt = "어피치 땀나는 그림" width="100" height = "100"/>
+				<img src = "../리틀어피치3.jpg"
+					 alt = "어피치 땀나는 그림" width="100" height = "100"/>
+				<!-- ../ 한수준 위 폴더 지정
+				     ../../ 두수준위 폴더 지정 -->
+			</p>
+		</div>
+	</body>
+</html>

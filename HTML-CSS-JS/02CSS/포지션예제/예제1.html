@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>예제1</title>
+    <style>
+    *{margin:0; padding:0;}
+      img{vertical-align:top;}
+
+      body{background:url("img1/chicken.png") no-repeat right top #F5EDE3;}
+    
+      #face{width:331px; margin:200px auto 0; 
+        position:relative;}
+      #face>div{position:absolute;}
+      #eye{top:140px; left:95px;}
+      #hair{top:-120px; left:114px;}
+      #beak{top:150px; left:130px;z-index:1;}
+      #flush{top:180px; left:80px;}
+      #poc{top:180px; left:148px;}
+    </style>
+  </head>
+  <body>
+    <div id="face">
+      <p><img src="img1/face.png"/></p>
+      <div id="eye"><img src="img1/eye.png"/></div>
+      <div id="hair"><img src="img1/hair.png"/></div>
+      <div id="beak"><img src="img1/beak.png"/></div>
+      <div id="flush"><img src="img1/flush.png"/></div>
+      <div id="poc"><img src="img1/poc.png"/></div>
+    </div>
+  </body>
+</html>
