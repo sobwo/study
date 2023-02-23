@@ -1,6 +1,6 @@
 package javastudy;
 
-public class first {
+public class Variable {
 
 	public static void main(String[] args) {
 		// 변수 - 메모리상의 가상공간 데이터를 담는다.
