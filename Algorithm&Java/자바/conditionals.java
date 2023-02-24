@@ -26,6 +26,7 @@ public class If {
 			System.out.println("중,고등학생 입니다.");
 		*/
 		
+		/*
 		//입력받은 값에 홀짝 출력
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -37,6 +38,45 @@ public class If {
 		if(value % 2 == 0) bw.write("짝수입니다.");
 		else bw.write("홀수입니다");
 		
+		bw.flush();
+		bw.close();
+		*/
+		
+		/*
+		문제 2.
+			  문자열 a가 남성이면 담겨있고
+			  a가 남성이면 남성입니다. 나머지는 여성입니다라고 출력하시오.
+		 
+		/*
+		String a = "남성";
+		
+		if(a.equals("남성")) System.out.println("남성입니다.");
+		else System.out.println("여성입니다.");
+		*/
+		
+		/*
+		문제 3.
+			  월화수목금은 근무일이고, 토일은 휴일입니다 라고 switch문으로 작성
+		 */
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		bw.write("요일을 입력해 주시오 : ");
+		bw.flush();
+		
+		String day = br.readLine();
+		
+		switch(day) {
+			case "월":
+			case "화":
+			case "수":
+			case "목":
+			case "금": bw.write("근무일"); break;
+			case "토":
+			case "일": bw.write("휴일"); break;
+			default:
+		}
+			
 		bw.flush();
 		bw.close();
 		
