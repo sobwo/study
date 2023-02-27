@@ -2,7 +2,7 @@ package javastudy;
 
 public class Example {
 	
-	public int age = 10;
+	public static int age = 10;
 	public String name = "홍길동";
 
 	public static void main(String[] args) {
@@ -13,11 +13,12 @@ public class Example {
 		Example p1 = new Example();
 		
 		System.out.println(p1.name+"의 나이는 "+p1.age);
-		
 		p1.age = 20;
 		p1.name = "이순신";
 		
-		System.out.println(p1.name+"의 나이는 "+p1.age);
+		System.out.println(p1.name+"의 나이는 "+p1.age); // 객체 생성 후 출력
+		
+		System.out.println(Example.age); // static 변수를 이용하여 출력
 		
 		
 	}
