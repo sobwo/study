@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Create an account</title>
+		<style>
+			fieldset{line-height:40px; width:400px; border:0;}
+			.user{font-size:16px; width:400px; height:35px;margin-bottom:20px; background:#EFEFEF; border:gray solid 1px;}
+			strong{font-size:20px;}
+			p{line-height:20px;margin-top:-5px;margin-bottom:-10px;}
+			#submit{background:gray;color:#FFF;border:0;width:400px;height:40px;text-align:center;font-size:18px;}
+		</style>
+
+	</head>
+	<body>
+		<h1>Create an account</h1>
+		<form>
+			<fieldset>
+				<strong>Full Name</strong><br/><input class="user" id="userName" type="text" placeholder="ex. John Doe"><br/>
+				<strong>Email Address</strong><br/><input class="user" id="userEmail" type="text" placeholder="ex. Johndoe@gmail.com"><br/>
+				<strong>Password</strong><br/><input class="user" id="userPw" type="password" placeholder="Min. 5 characters"><br/>
+				<p>By clicking "Create your account" below, you agree to our terms of service and privacy policy</p><br/>
+				<input id="submit" type="submit" value="Create your account" onclick="check()">
+			</fieldset>
+		</form>
+		
+		<script type="text/javascript">
+			function check(){
+				let userName = document.getElementById("userName").value.split(" ");
+				let userEmail = document.getElementById("userEmail").value;
+				let userPw = document.getElementById("userPw").value;
+				let str = "Full name : "+userName+"\n"+"Email Address : "+userEmail+"\n"+"Password : "+userPw;
+				
+				if(!userName[0] || !userName[1])
+					alert("이름을 다시 입력해 주시오");
+				
+				else if(!userEmail.includes("@")||!userEmail.includes(".com"))
+					alert("이메일을 다시 입력해 주시오");
+				
+				else if(userPw.length<5) 
+					alert("비밀번호를 다시 입력해 주시오");
+				
+				else
+					alert("가입 완료");
+			}
+		</script>
+	</body>
+</html>
