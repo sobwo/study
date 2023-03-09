@@ -3,7 +3,7 @@
 <%@ page import = "java.sql.*"%>
 <% 
 	request.setCharacterEncoding("utf-8");
-
+	
 	String memberId = request.getParameter("memberId");
 	String memberPw = request.getParameter("memberPw");
 	String memberName = request.getParameter("memberName");
@@ -11,9 +11,11 @@
 	String memberEmail = request.getParameter("memberEmail");
 	String memberGender = request.getParameter("memberGender");
 	String memberAddr = request.getParameter("memberAddr");
-	String[] memberBirthArray = request.getParameterValues("memberBirth");
+	String birthyy = request.getParameter("birth_yy");
+	String birthmm = request.getParameter("birth_mm");
+	String birthdd = request.getParameter("birth_dd");
 	
-	String memberBirth = memberBirthArray[0]+memberBirthArray[1]+memberBirthArray[2];
+	String memberBirth = birthyy+birthmm+birthdd;
 	
 	out.println("Id : "+memberId+"<br/>");
 	out.println("Pw : "+memberPw+"<br/>");
@@ -22,7 +24,7 @@
 	out.println("Gender : "+memberGender+"<br/>");
 	out.println("Addr : "+memberAddr+"<br/>");
 	out.println("Birth : "+memberBirth+"<br/>");
-	
+
 	
 	String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
 	String user = "system";

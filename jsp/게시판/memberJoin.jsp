@@ -1,6 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ page import = "java.sql.*"%>
+
+<%
+	request.setCharacterEncoding("utf-8");
+	
+	String memberId = request.getParameter("memberId");
+	String memberPw = request.getParameter("memberPw");
+	String memberName = request.getParameter("memberName");
+	String memberPhone = request.getParameter("memberPhone");
+	String memberEmail = request.getParameter("memberEmail");
+	String memberGender = request.getParameter("memberGender");
+	String memberAddr = request.getParameter("memberAddr");
+	String birth_yy = request.getParameter("birth_yy");
+	String birth_mm = request.getParameter("birth_mm");
+	String birth_dd = request.getParameter("birth_dd");
+	
+	String memberBirth = birth_yy+birth_mm+birth_dd;
+	
+	out.println("Id : "+memberId+"<br/>");
+	out.println("Pw : "+memberPw+"<br/>");
+	out.println("Name : "+memberName+"<br/>");
+	out.println("Email : "+memberEmail+"<br/>");
+	out.println("Gender : "+memberGender+"<br/>");
+	out.println("Addr : "+memberAddr+"<br/>");
+ 	out.println("Birth : "+memberBirth+"<br/>");
+ 	
+ 	
+ 	//DB에 등록
+	String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
+	String user = "system";
+	String password = "1234";
+	
+	Class.forName("oracle.jdbc.driver.OracleDriver"); //동적로딩 - 메모리에 올림
+	Connection conn = DriverManager.getConnection(url,user,password); // db와 접속시킴
+	
+	String sql = "INSERT INTO member1230 (midx,memberId,memberPw,memberName,memberEmail,memberGender,memberAddr,memberBirth,ip) " 
+				+"VALUES(midx_seq.nextval,'"+memberId+"','"+memberPw+"','"+memberName+"','"+memberEmail+"','"+memberGender+"','"+memberAddr+"','"+memberBirth+"',null)";
+	//구문 쿼리 클래스
+	Statement stmt = conn.createStatement();
+	stmt.execute(sql);
+	stmt.close();
+	conn.close();
+
+%>
+
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -37,6 +82,7 @@
 		$(document).ready(function(){});
 		function check(){
 				alert("전송");
+				
 				let memberId = $("#memberId").val();
 				let memberPw = $("#memberPw").val();
 				let memberPw2 = $("#memberPw2").val();
@@ -45,76 +91,98 @@
 				let memberEmail = $("#memberEmail").val();
 				let memberAddr = $("#memberAddr").val();
 				let memberGender = $("select[name='memberGender']").val();
+				let birth_yy = $("#birth_yy").val();
+				let birth_dd = $("#birth_dd").val();
+				let isYN = 1;
 				
-				let memberBirth;
-				let memberBirthArray = new Array();
-				var size = $("input[name='memberBirth']").length;
-				
-				for(var i=0;i<size;i++){
-					memberBirthArray[i] = $("input[name='memberBirth']").eq(i).val();
-				}
+				$("#idMsg").text("");
+				$("#pwMsg").text("");
+				$("#pw2Msg").text("");
+				$("#nameMsg").text("");
+				$("#phoneMsg").text("");
+				$("#emailMsg").text("");
+				$("#addrMsg").text("");
+				$("#genderMsg").text("");
+				$("#birthMsg").text("");
 				
 				if(!memberId) {
 					$("#idMsg").text("필수 정보입니다.");
-					$("#memberId").focus(); 
+					$("#memberId").focus();
+					isYN = 2;
 				}
 				
 				if(!memberPw) {
 					$("#pwMsg").text("필수 정보입니다."); 
 					$("#memberPw").focus();
+					isYN = 2;
 				}
 				
 				if(!memberPw2) {
 					$("#pw2Msg").text("필수 정보입니다."); 
 					$("#memberPw2").focus();
+					isYN = 2;
 				}
 				
 				else if(memberPw!=memberPw2){
 					$("#pw2Msg").text("비밀번호가 일치하지 않습니다."); 
 					$("memberPw2").focus();
+					isYN = 2;
 				}
 				
 				if(!memberName) {
 					$("#nameMsg").text("필수 정보입니다."); 
 					$("#name").focus();
+					isYN = 2;
 				}
 				
 				if(!memberPhone) {
 					$("#phoneMsg").text("필수 정보입니다."); 
 					$("#memberPhone").focus();
+					isYN = 2;
+				}
+				else if(isNaN(memberPhone)){
+					$("#phoneMsg").text("숫자를 입력해주세요."); 
+					$("#memberPhone").focus();
+					isYN = 2;
 				}
 				
 				if(!memberEmail) {
 					$("#emailMsg").text("필수 정보입니다."); 
 					$("#memberEmail").focus();
+					isYN = 2;
 				}
 				
 				if(!memberGender) {
 					$("#genderMsg").text("필수 정보입니다."); 
 					$("#memberGender").focus();
+					isYN = 2;
 				}
 				
 				if(!memberAddr) {
 					$("#addrMsg").text("필수 정보입니다."); 
 					$("#memberAddr").focus();
+					isYN = 2;
 				}
 				
-				if(!memberBirthArray[0] || !memberBirthArray[2]) {
+				if(!birth_yy || !birth_dd) {
 					$("#birthMsg").text("필수 정보입니다.");  
 					$("#memberBirth").focus();
+					isYN = 2;
 				}
 				
-				else if(isNaN(memberBirthArray[0])||isNan(memberBirthArray[2])){
+				else if((isNaN(birth_yy)) || (isNaN(birth_dd))){
 					$("#birthMsg").text("숫자를 입력해 주세요."); 
-					$("#memberBirth").focus();
+					$("#birth_yy").focus();
+					isYN = 2;
 				}
 				
-
-				var fm = document.frm;
-				
-				fm.action ="memberJoinAction.jsp";
-				fm.method = "post";
-				fm.submit();
+				if(isYN == 1){
+					var fm = document.frm;
+					
+					fm.action ="memberJoin.jsp";
+					fm.method = "post";
+					fm.submit();
+				}
 				
 // 				else if($("#memberIdCheck").val() != "Y"){
 //					alert("아이디 중복체크를 하시오");
@@ -228,10 +296,10 @@
 			<div class = "join_row" id="join_birth">
 				<h3>생년월일</h3>
 					<span class="join_input">
-						<input type="text" name="memberBirth" placeholder="년(4자)">
+						<input type="text" name="birth_yy" id="birth_yy" placeholder="년(4자)">
 					</span>
 					<span class="join_input">
-						<select name="memberBirth">
+						<select name="birth_mm" id="birth_mm">
 							<option value="01">01</option>
 							<option value="02">02</option>
 							<option value="03">03</option>
@@ -247,7 +315,7 @@
 						</select>
 					</span>
 					<span class="join_input">
-						<input type="text" name="memberBirth" placeholder="일">
+						<input type="text" name="birth_dd" id="birth_dd" placeholder="일">
 					</span>
 				<span id="birthMsg"></span>
 			</div>
