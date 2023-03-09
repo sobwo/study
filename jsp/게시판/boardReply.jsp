@@ -47,7 +47,6 @@
 				
 				fm.action = "<%=request.getContextPath()%>/board/boardWriteAction.do";
 				fm.method="post";
-				fm.enctype ="multipart/form-data";
 				fm.submit();
 			}
 		</script>

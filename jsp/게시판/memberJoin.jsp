@@ -36,6 +36,7 @@
 		<script type="text/javascript">
 		$(document).ready(function(){});
 		function check(){
+				alert("전송");
 				let memberId = $("#memberId").val();
 				let memberPw = $("#memberPw").val();
 				let memberPw2 = $("#memberPw2").val();
@@ -52,9 +53,6 @@
 				for(var i=0;i<size;i++){
 					memberBirthArray[i] = $("input[name='memberBirth']").eq(i).val();
 				}
-				memberBirthArray[2] = $("select[name='memberBirth']").val();
-				
-				memberBirth = memberBirthArray[0]+memberBirthArray[2]+memberBirthArray[1];
 				
 				if(!memberId) {
 					$("#idMsg").text("필수 정보입니다.");
@@ -111,14 +109,19 @@
 					$("#memberBirth").focus();
 				}
 				
+
+				var fm = document.frm;
 				
+				fm.action ="memberJoinAction.jsp";
+				fm.method = "post";
+				fm.submit();
 				
 // 				else if($("#memberIdCheck").val() != "Y"){
-// 					alert("아이디 중복체크를 하시오");
-// 					$("#memberIdCheck").focus();
-// 					return;
-// 				}
-				
+//					alert("아이디 중복체크를 하시오");
+//					$("#memberIdCheck").focus();
+//					return;
+//				}
+			
 		}
 		
 // 		function idCheck(){
