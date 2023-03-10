@@ -4,6 +4,7 @@
  <%!
  
  	public void memberInsert(Connection conn, String memberId, String memberPw, String memberName, String memberEmail, String memberGender, String memberAddr, String memberBirth){
+	 
 	 	PreparedStatement pstmt = null;
 	 	String sql2 = "INSERT INTO member1230 (midx,memberId,memberPw,memberName,memberEmail,memberGender,memberAddr,memberBirth,ip)"
 	 			+"VALUES(midx_seq.nextval,?,?,?,?,?,?,?,'null')";
