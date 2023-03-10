@@ -7,6 +7,7 @@
 		<meta charset="UTF-8">
 		<title>글 내용 페이지</title>
 		<style>
+			a:link{text-decoration:none;}
 			*{padding:0, border:0; font-size:13px;font-family:"맑은 고딕";}
 			body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
 			h1{font-size:30px;}
@@ -53,10 +54,10 @@
 						<td style="border:0;">
 							<form>
 								<div id="btn">
-									<button>수정</button>
-									<button>삭제</button>
-									<button>답변</button>
-									<button>목록</button>
+									<button><a href="boardModify.jsp">수정</a></button>
+									<button><a href="boardDelete.jsp">삭제</a></button>
+									<button><a href="boardReply.jsp">답변</a></button>
+									<button><a href="boardList.jsp">목록</a></button>
 								</div>
 							</form>
 						</td>
