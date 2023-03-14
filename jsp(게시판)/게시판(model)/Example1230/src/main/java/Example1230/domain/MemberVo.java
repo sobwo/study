@@ -1,9 +1,9 @@
 package Example1230.domain;
 
 public class MemberVo {
-	int midx;
-	String memberId,memberPw,memberName,memberEmail,memberGender,memberAddr,memberBirth,writeDay,ip,memberPhone;
-	String delyn;
+	private int midx;
+	private String memberId,memberPw,memberName,memberEmail,memberGender,memberAddr,memberBirth,writeDay,ip,memberPhone;
+	private String delyn;
 	
 	public int getMidx() {
 		return midx;

@@ -3,7 +3,7 @@
 <web-app>
 	<servlet>
 		<servlet-name>controller</servlet-name>
-		<servlet-class>Example1230.controller.MemberController</servlet-class>
+		<servlet-class>Example1230.controller.FrontController</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>

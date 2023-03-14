@@ -17,18 +17,15 @@ import Example1230.domain.MemberVo;
 @WebServlet("/MemberController")
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	String str;
+	
+	public MemberController(String path) {
+		this.str = path;
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		request.setCharacterEncoding("utf-8");
-		
-		String uri = request.getRequestURI();
-		System.out.println("전체 주소는 : "+uri);
-		
-		String projectName = request.getContextPath();
-		int projectLength = projectName.length();
-		
-		String str = uri.substring(projectLength);
-		System.out.println("가상 경로는 : "+str);
 		
 		if(str.equals("/member/memberList.do")) { //추출한 가상경로가 이 문자열과 같나요?
 			System.out.println("가상경로로 memberList 들어옴");
@@ -51,13 +48,12 @@ public class MemberController extends HttpServlet {
 		else if(str.equals("/member/memberData.do")) {
 			System.out.println("가상경로로 memberData 들어옴");
 		
-			
 			MemberDao md = new MemberDao();
 			
 			String memberId = request.getParameter("memberId");
 			String memberPw = request.getParameter("memberPw");
 			String memberName = request.getParameter("memberName");
-			String memberPhone = request.getParameter("memberPhone");
+//			String memberPhone = request.getParameter("memberPhone");
 			String memberEmail = request.getParameter("memberEmail");
 			String memberGender = request.getParameter("memberGender");
 			String memberAddr = request.getParameter("memberAddr");
@@ -89,7 +85,6 @@ public class MemberController extends HttpServlet {
 			 //넘어온 memberId와 같은 아이디가 있는지 체크
 			 MemberDao md = new MemberDao();
 			 int value = md.memberIdCheck(memberId);
-			 System.out.println("value:"+value);
 			 
 			 PrintWriter out = response.getWriter();
 			 out.println("{\"value\": \""+value+"\"}");

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-       
+<%@ page import = "java.util.*" %>
+<%@ page import = "Example1230.domain.*" %>
+<% 
+	ArrayList<BoardVo> boardList = (ArrayList<BoardVo>)request.getAttribute("boardList"); 
+%>
 <!DOCTYPE html>
 	<html>
 		<head>
@@ -17,10 +21,12 @@
 				table{border-collapse : collapse; border:0; border-top:2px solid black;}
 					#main_board th{height:45px; border-bottom:1px solid #e4e4e4; }
 					#main_board td{text-align:center; border-bottom:1px solid #e4e4e4;}
-					#main_board td:nth-child(1){width:51px; height:37px;}
-					#main_board td:nth-child(2){text-align:left; width:434px;text-indent:10px;}
-					#main_board td:nth-child(3){width:110px;}
-					#main_board td:nth-child(4){width:88px;}
+					#main_board th:nth-child(1){width:51px;}
+					#main_board th:nth-child(2){ width:434px;}
+					#main_board th:nth-child(3){width:110px;}
+					#main_board th:nth-child(4){width:88px;}
+					#main_board td{height:37px;}
+					#main_board td:nth-child(2){text-align:left; text-indent:10px;}
 				#search{margin-top:50px;}
 				#search input[type=text]{width:200px;}
 			
@@ -40,19 +46,15 @@
 			</thead>
 			<tbody>
 				<tr class="board_col">
-					<td style="text-align:center;">1</td>
-					<td style="width:500px;">제목</td>
-					<td>작성자</td>
-					<td>날짜</td>
-					<td>조회수</td>
+				<%for(BoardVo bv : boardList) {%>
+					<td style="text-align:center;"><%= bv.getBidx()%></td>
+					<td style="width:500px;"><%=bv.getSubject() %></td>
+					<td><%=bv.getWriter() %></td>
+					<td><%=bv.getWriteday() %></td>
+					<td><%=bv.getDelyn() %></td>
+				<%} %>
 				</tr>
-				<tr>
-					<td>2</td>
-					<td>제목</td>
-					<td>작성자</td>
-					<td>날짜</td>
-					<td>조회수</td>
-				</tr>
+
 			</tbody>
 		</table>
 		<div id="search">

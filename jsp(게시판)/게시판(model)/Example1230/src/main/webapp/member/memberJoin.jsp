@@ -37,7 +37,6 @@
 		var isYN = 1;
 		function check(){
 				var fm = document.frm;
-				alert("작성 완료");
 				
 				let memberId = $("#memberId").val();
 				let memberPw = $("#memberPw").val();
@@ -144,7 +143,6 @@
 		}
 		
 		function IdCheck(){
-			alert("아이디 중복확인 체크");	
  			let memberId = $("#memberId").val();
  			
  			$.ajax({
@@ -153,7 +151,6 @@
  				data: {"memberId": memberId },
  				dataType: "json",
  				success : function(data){
- 					alert(data.value);
 	 					if (data.value == 1){
 	 						$("#idMsg").text("중복된 ID 입니다.");
 	 						$("#memberId").focus();
