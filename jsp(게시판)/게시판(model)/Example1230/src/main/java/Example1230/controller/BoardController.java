@@ -34,6 +34,11 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
 			rd.forward(request, response);
 		}
+		
+		else if(str.equals("/board/boardWrite.do")) {
+			String path = request.getContextPath()+"/board/boardWrite.jsp";
+			response.sendRedirect(path);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -13,7 +13,7 @@
 			
 			<style>
 				a:link{
-				text-decoration:none;
+				text-decoration:none; color:black;
 				}
 				*{padding:0, border:0; font-size:13px;font-family:"맑은 고딕";}
 				body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
@@ -27,13 +27,20 @@
 					#main_board th:nth-child(4){width:88px;}
 					#main_board td{height:37px;}
 					#main_board td:nth-child(2){text-align:left; text-indent:10px;}
+				#write{margin-bottom:5px;margin-left:662px;}
+				#write input{font-size:14px;font-weight:bold;width:70px; height:35px;}
 				#search{margin-top:50px;}
 				#search input[type=text]{width:200px;}
 			
 			</style>
 		</head>
-	<body>
+	<body>		
 		<h1>게시판 목록</h1>
+		<div id="top_menu">
+			<div id="write">
+				<input type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardWrite.do'" value="글쓰기">
+			</div>
+		</div>
 		<table id="main_board">
 			<thead>
 				<tr class="board_col">
@@ -54,11 +61,10 @@
 					<td><%=bv.getDelyn() %></td>
 				<%} %>
 				</tr>
-
 			</tbody>
-		</table>
-		<div id="search">
-			<form>
+		</table>	
+		<form name="frm">	
+			<div id="search">
 				<span>
 					<select>
 						<option>제목만</option>
@@ -71,10 +77,8 @@
 				</span>
 				<span>
 					<input type="submit" name="submit" value="검색">
-				</span>
-			</form>
-		</div>
-		
-
+				</span>	
+			</div>
+		</form>
 	</body>
 </html>

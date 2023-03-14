@@ -14,7 +14,6 @@
 			th > input{width:862px; height:40px;}
 			td>input, td>textarea{width:862px; height:410px; resize:none;}
 			
-			
 			#submit{margin-top:10px;}
 			#submit input{width:80px;height:30px;}
 			#submit input[type=file]{width:300px;}

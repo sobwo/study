@@ -19,10 +19,6 @@ public class FrontController extends HttpServlet {
 		int projectLength = projectName.length();
 		String str = uri.substring(projectLength);
 		
-		System.out.println("uri : "+uri);
-		System.out.println("contextpath : "+projectName);
-		System.out.println("str :"+str);
-		
 		String[] strArray = str.split("/");
 		String strHub = strArray[1];	
 		
@@ -34,11 +30,9 @@ public class FrontController extends HttpServlet {
 			BoardController bc = new BoardController(str);
 			bc.doGet(request, response);
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		doGet(request, response);
 	}
 
