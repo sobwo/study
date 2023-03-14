@@ -53,6 +53,11 @@ public class BoardController extends HttpServlet {
 			String path = request.getContextPath()+"/board/boardList.do";
 		 	response.sendRedirect(path);
 		}
+		
+		else if(str.equals("/board/boardContents.do")) {
+			String subject = request.getParameter("subject");
+			
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -55,7 +55,7 @@
 				<%for(BoardVo bv : boardList) {%>
 				<tr class="board_col">
 					<td style="text-align:center;"><%= bv.getBidx() %></td>
-					<td style="overflow:hidden"><%= bv.getSubject() %></td>
+					<td style="overflow:hidden"><a href="location.href='<%=request.getContextPath()%>/board/boardContents.do?subject=<%= bv.getSubject() %>'"><%= bv.getSubject() %></a></td>
 					<td><%=bv.getWriter() %></td>
 					<td><%=bv.getWriteday() %></td>
 					<td><%=bv.getDelyn() %></td>
