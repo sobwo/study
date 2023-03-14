@@ -36,8 +36,22 @@ public class BoardController extends HttpServlet {
 		}
 		
 		else if(str.equals("/board/boardWrite.do")) {
-			String path = request.getContextPath()+"/board/boardWrite.jsp";
-			response.sendRedirect(path);
+			System.out.println("boardWrite로 들어옴");
+			RequestDispatcher rd = request.getRequestDispatcher("/board/boardWrite.jsp");
+			rd.forward(request, response);
+		}
+		
+		else if(str.equals("/board/boardData.do")) {
+			System.out.println("boardData로 들어옴");
+			String subject = request.getParameter("subject");
+			String writer = request.getParameter("writer");
+			String contents = request.getParameter("contents");
+			
+			BoardDao bd = new BoardDao();
+			bd.boardInsert(subject, contents, writer,1);
+			
+			String path = request.getContextPath()+"/board/boardList.do";
+		 	response.sendRedirect(path);
 		}
 	}
 

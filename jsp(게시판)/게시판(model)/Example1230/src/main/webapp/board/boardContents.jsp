@@ -23,7 +23,7 @@
 			tbody span:nth-child(4){font-size:12px; color:gray;}
 			
 			#btn{float:right;margin-top:20px;}
-			button{width:80px; height:30px;}
+			input{width:80px; height:30px;}
 			
 		</style>
 	</head>
@@ -54,10 +54,10 @@
 						<td style="border:0;">
 							<form>
 								<div id="btn">
-									<button><a href="boardModify.jsp">수정</a></button>
-									<button><a href="boardDelete.jsp">삭제</a></button>
-									<button><a href="boardReply.jsp">답변</a></button>
-									<button><a href="boardList.jsp">목록</a></button>
+									<input type=button onclick="location.href='boardModify.jsp'" value="수정">
+									<input type=button onclick="location.href='boardDelete.jsp'" value="삭제">
+									<input type=button onclick="location.href='boardReply.jsp'" value="답변">
+									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'" value="목록">
 								</div>
 							</form>
 						</td>

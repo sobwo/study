@@ -20,7 +20,7 @@ public class BoardDao {
 	
 	public ArrayList<BoardVo> boardSelectAll() {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
- 		String sql = "select bidx,subject,contents,writer,ip,midx from board1230 order by midx desc";
+ 		String sql = "select * from board1230 order by bidx desc";
  		
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
@@ -33,10 +33,8 @@ public class BoardDao {
 				BoardVo bv = new BoardVo();	
 				bv.setBidx(rs.getInt("bidx"));
 				bv.setSubject(rs.getString("subject"));
-				bv.setContents(rs.getString("contents"));
 				bv.setWriter(rs.getString("writer"));
-				bv.setIp(rs.getString("ip"));
-				bv.setMidx(rs.getInt("midx"));
+				bv.setWriteday(rs.getString("writeday"));
 				blist.add(bv);
 			}
 			
@@ -56,5 +54,31 @@ public class BoardDao {
  		return blist;
  	}
 
-	 
+	public void boardInsert(String subject, String contents, String writer, int midx){
+		PreparedStatement pstmt = null;
+		
+		String str = "insert into board1230(bidx,subject,contents,writer,midx)"
+				+"values(bidx_seq.nextval,?,?,?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(str);
+			pstmt.setString(1,subject);
+			pstmt.setString(2,contents);
+			pstmt.setString(3,writer);
+			pstmt.setInt(4,midx);
+			pstmt.executeQuery();
+	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

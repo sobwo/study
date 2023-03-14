@@ -52,14 +52,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="board_col">
 				<%for(BoardVo bv : boardList) {%>
-					<td style="text-align:center;"><%= bv.getBidx()%></td>
-					<td style="width:500px;"><%=bv.getSubject() %></td>
+				<tr class="board_col">
+					<td style="text-align:center;"><%= bv.getBidx() %></td>
+					<td style="overflow:hidden"><%= bv.getSubject() %></td>
 					<td><%=bv.getWriter() %></td>
 					<td><%=bv.getWriteday() %></td>
 					<td><%=bv.getDelyn() %></td>
-				<%} %>
+				<%}%>
 				</tr>
 			</tbody>
 		</table>	
