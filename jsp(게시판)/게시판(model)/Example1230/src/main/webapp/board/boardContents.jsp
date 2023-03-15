@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page import = "java.util.*" %>
+<%@ page import = "Example1230.domain.*" %>
+<% BoardVo bv = (BoardVo)request.getAttribute("boardContents"); %>
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -12,15 +14,16 @@
 			body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
 			h1{font-size:30px;}
 			table{border-collapse:collapse; border:0; border-top:2px solid black;}
-			th, td{width:862px; height:40px; border:1px solid #e4e4e4;}
-			th{border-bottom:0; font-size:15px;}
+			th, td{width:400px; height:40px; border:1px solid #e4e4e4;}
+			th{border-bottom:0; font-size:20px;}
 			td{height:410px;}
 			tbody > tr:first-child td{height:40px;}
 			tbody > tr:last-child td{height:40px;}
 			tbody span{width:50px; padding:10px 0 10px 10px;}
-			tbody span:nth-child(1){font-size:15px;font-weight:bold;line-height:30px;}
-			tbody span:nth-child(3){font-size:12px; color:gray;}
-			tbody span:nth-child(4){font-size:12px; color:gray;}
+			tbody span:nth-child(1){font-size:18px;font-weight:bold;line-height:30px;}
+			tbody span:nth-child(4){font-size:13px;}
+			tbody span:nth-child(5){font-size:12px; color:gray;}
+			tbody span:nth-child(6){font-size:12px; color:gray;}
 			
 			#btn{float:right;margin-top:20px;}
 			input{width:80px; height:30px;}
@@ -32,19 +35,19 @@
 		<table>
 				<thead>
 					<tr>
-						<th colspan="2">제목</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td colspan="2" style="border-top:0; height:80px;">
-							<span>작성자</span><br/>
+							<span><%=bv.getSubject()%></span><br/><br/>
+							<span><%=bv.getWriter() %></span>
 							<span>조회수</span>
-							<span>작성날짜</span>
+							<span><%=bv.getWriteday()%></span>	
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">글 내용</td>
+						<td colspan="2"><%=bv.getContents()%></td>
 					</tr>
 					<tr>
 						<td style="border:0; height:40px;">첨부파일</td>
@@ -54,7 +57,7 @@
 						<td style="border:0;">
 							<form>
 								<div id="btn">
-									<input type=button onclick="location.href='boardModify.jsp'" value="수정">
+									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardModify.do?bidx=<%=bv.getBidx()%>'" value="수정">
 									<input type=button onclick="location.href='boardDelete.jsp'" value="삭제">
 									<input type=button onclick="location.href='boardReply.jsp'" value="답변">
 									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'" value="목록">

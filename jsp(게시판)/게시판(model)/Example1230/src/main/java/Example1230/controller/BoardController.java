@@ -1,6 +1,7 @@
 package Example1230.controller;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -46,18 +47,46 @@ public class BoardController extends HttpServlet {
 			String subject = request.getParameter("subject");
 			String writer = request.getParameter("writer");
 			String contents = request.getParameter("contents");
-			
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			int midx = 1;			
+//			String ip = request.getHeader("X-Forwarded-For"); 
+//			if(ip==null) request.getRemoteAddr();
+//			
+
 			BoardDao bd = new BoardDao();
-			bd.boardInsert(subject, contents, writer,1);
+			
+			bd.boardInsert(subject, contents, writer,ip,midx);
 			
 			String path = request.getContextPath()+"/board/boardList.do";
 		 	response.sendRedirect(path);
 		}
 		
 		else if(str.equals("/board/boardContents.do")) {
-			String subject = request.getParameter("subject");
+			int bidx = Integer.parseInt(request.getParameter("bidx"));
+			System.out.println("boardContents로 들어옴");
 			
+			BoardDao bd = new BoardDao();
+			BoardVo bv = bd.boardSelect(bidx);
+			
+			request.setAttribute("boardContents", bv);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/board/boardContents.jsp");
+			rd.forward(request, response);
 		}
+		
+		else if(str.equals("/board/boardModify.do")) {
+			BoardDao bd = new BoardDao();
+			
+			String subject = request.getParameter("subject");
+			String contents = request.getParameter("contents");
+			
+			int bidx = Integer.parseInt(request.getParameter("bidx"));
+			BoardVo bv = bd.boardModify(subject, contents, bidx);
+			
+//			String path = request.getContextPath()+"/board/boardList.do";
+//		 	response.sendRedirect(path);
+		}
+//		else if(str.equals("/board/"))
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

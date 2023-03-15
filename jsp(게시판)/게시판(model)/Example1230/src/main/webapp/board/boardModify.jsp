@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page import="Example1230.domain.*" %>
+<% 
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -24,26 +26,27 @@
 		
 		<script type="text/javascript">
 			function check(){	
-			
+				var isYN = 1;
 				var fm = document.frm;	
 				if (fm.subject.value == "" ){
 					alert("제목을 입력하세요");
 					fm.subject.focus();
+					isYN = 0;
 					
-					return;
-				}
-				if (fm.writer.value == ""){
-					alert("작성자를 입력하세요");
-					fm.writer.focus();
-					
-					return;
 				}
 				
 				if (fm.contents.value == ""){
 					alert("내용을 입력하세요");
 					fm.contents.focus();
-					return;
+					isYN = 0;
 				}
+				
+				if(isYN ==1){
+					fm.action = "<%=request.getContextPath()%>/board/boardModify.do";
+					fm.method = "post";
+					fm.submit();
+				}
+				
 				
 			}
 		</script>
@@ -59,7 +62,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><input style="height:40px;" name="writer" type=text placeholder="작성자를 입력하세요"></td>
+						<td style="height:40px;"></td>
 					</tr>
 					<tr>
 						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
@@ -68,7 +71,7 @@
 			</table>
 			<div id="submit">
 				<span><input type=file></span>
-				<span><input type="button" onclick="check()" value="등록"></span>
+				<span><input type=button onclick="location.href=''" value="등록"></span>
 				<span><input type="reset" value="초기화"></span>
 			</div>
 		</form>

@@ -23,30 +23,29 @@
 		
 		<script type="text/javascript">
 			function check(){	
-			
+				var isYN = 1;
 				var fm = document.frm;	
 				if (fm.subject.value == "" ){
 					alert("제목을 입력하세요");
 					fm.subject.focus();
-					
-					return;
+					isYN = 0;
 				}
 				if (fm.writer.value == ""){
 					alert("작성자를 입력하세요");
 					fm.writer.focus();
-					
-					return;
+					isYN = 0;
 				}
-				
 				if (fm.contents.value == ""){
 					alert("내용을 입력하세요");
 					fm.contents.focus();
-					return;
+					isYN = 0;
 				}
 				
-				fm.action = "<%=request.getContextPath()%>/board/boardData.do";
-				fm.method="post";
-				fm.submit();
+				if(isYN==1){
+					fm.action = "<%=request.getContextPath()%>/board/boardData.do";
+					fm.method="post";
+					fm.submit();
+				}
 			}
 		</script>
 	</head>
@@ -56,7 +55,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th><input type=text name="subject" placeholder="제목을 입력해 주세요."></th>
+						<th><input type="text" name="subject" placeholder="제목을 입력해 주세요."></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -69,7 +68,7 @@
 				</tbody>
 			</table>
 			<div id="submit">
-				<span><input type=file></span>
+				<span><input type="file"></span>
 				<span><input type="button" onclick="check()" value="등록"></span>
 				<span><input type="reset" value="초기화"></span>
 			</div>

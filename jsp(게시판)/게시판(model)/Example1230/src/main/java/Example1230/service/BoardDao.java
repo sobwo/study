@@ -35,6 +35,7 @@ public class BoardDao {
 				bv.setSubject(rs.getString("subject"));
 				bv.setWriter(rs.getString("writer"));
 				bv.setWriteday(rs.getString("writeday"));
+				bv.setMidx(rs.getInt("midx"));
 				blist.add(bv);
 			}
 			
@@ -54,18 +55,19 @@ public class BoardDao {
  		return blist;
  	}
 
-	public void boardInsert(String subject, String contents, String writer, int midx){
+	public void boardInsert(String subject, String contents, String writer, String ip, int midx){
 		PreparedStatement pstmt = null;
 		
-		String str = "insert into board1230(bidx,subject,contents,writer,midx)"
-				+"values(bidx_seq.nextval,?,?,?,?)";
+		String sql = "insert into board1230(bidx,subject,contents,writer,ip,midx)"
+				+"values(bidx_seq.nextval,?,?,?,?,?)";
 		
 		try {
-			pstmt = conn.prepareStatement(str);
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,subject);
 			pstmt.setString(2,contents);
 			pstmt.setString(3,writer);
-			pstmt.setInt(4,midx);
+			pstmt.setString(4,ip);
+			pstmt.setInt(5,midx);
 			pstmt.executeQuery();
 	
 		} catch (SQLException e) {
@@ -80,6 +82,67 @@ public class BoardDao {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public BoardVo boardSelect(int bidx){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardVo bv = new BoardVo();
+		String sql = "select bidx, subject, contents, writer, writeday from board1230 where bidx = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bidx);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()){
+				bv.setBidx(rs.getInt("bidx"));
+				bv.setSubject(rs.getString("subject"));
+				bv.setContents(rs.getString("contents"));
+				bv.setWriter(rs.getString("writer"));
+				bv.setWriteday(rs.getString("writeday"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return bv;
+	}
+	
+	public BoardVo boardModify(String subject, String contents, int bidx){
+		BoardVo bv = new BoardVo();
+		PreparedStatement pstmt = null;
+		
+		String sql = "UPDATE board1230 SET subject = ?,contents=? where bidx=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, subject);
+			pstmt.setString(2, contents);
+			pstmt.setInt(3, bidx);
+			
+			pstmt.executeQuery();
+			
+			bv.setBidx(bidx);
+			bv.setSubject(subject);
+			bv.setContents(contents);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return bv;
+		
 	}
 	
 }
