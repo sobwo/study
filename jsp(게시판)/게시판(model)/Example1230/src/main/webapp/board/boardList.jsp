@@ -86,6 +86,10 @@
 				  height: 35px;
 				}
 				
+				#write input:hover{
+					background-color: gray;
+				}
+				
 				#search {
 				  margin-top: 50px;
 				  display: flex;
