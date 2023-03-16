@@ -36,6 +36,21 @@ public class BoardController extends HttpServlet {
 			rd.forward(request, response);
 		}
 		
+		else if(str.equals("/board/boardSearch.do")) {
+			System.out.println("boardSearch 들어옴");
+			String option = request.getParameter("searchOption");
+			String context = request.getParameter("searchContext");
+			BoardDao bd = new BoardDao();
+			ArrayList<BoardVo> boardList = bd.boardSearch(option, context);
+			System.out.println(" : " + boardList.get(0).getSubject());
+			System.out.println("context : "+context);
+			
+			request.setAttribute("boardList", boardList);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
+			rd.forward(request, response);
+		}
+		
 		else if(str.equals("/board/boardWrite.do")) {
 			System.out.println("boardWrite로 들어옴");
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardWrite.jsp");

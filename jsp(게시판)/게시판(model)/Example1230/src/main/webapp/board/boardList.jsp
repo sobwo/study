@@ -136,6 +136,14 @@
 				  color: black;
 				}
 			</style>
+			<script>
+				function search(){
+					var fm = document.frm;
+					fm.action = "<%=request.getContextPath()%>/board/boardSearch.do"
+					fm.method = "post";
+					fm.submit();
+				}
+			</script>
 		</head>
 	<body>		
 		<h1>게시판 목록</h1>
@@ -169,17 +177,17 @@
 		<form name="frm">	
 			<div id="search">
 				<span>
-					<select>
+					<select name="searchOption">
 						<option>제목만</option>
 						<option>제목+내용</option>
 						<option>글작성자</option>
 					</select>				
 				</span>
 				<span>
-					<input type="text" placeholder="검색어를 입력해주세요.">
+					<input type="text" name="searchContext" placeholder="검색어를 입력해주세요.">
 				</span>
 				<span>
-					<input type="submit" name="submit" value="검색">
+					<input type="submit" name="submit" value="검색" onclick="search()">
 				</span>	
 			</div>
 		</form>

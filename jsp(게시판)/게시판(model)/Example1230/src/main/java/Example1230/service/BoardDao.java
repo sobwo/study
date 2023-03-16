@@ -18,6 +18,105 @@ public class BoardDao {
 		this.conn = dbconn.getConnection();
 	}
 	
+	public ArrayList<BoardVo> boardSearch(String option, String str){
+		ArrayList<BoardVo> blist = new ArrayList<>();
+		String sql = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		System.out.println("option ="+option);
+		if(option.equals( "제목만")) {
+			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(subject,?)>0 order by bidx DESC";
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, str);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					BoardVo bv = new BoardVo();	
+					bv.setBidx(rs.getInt("bidx"));
+					bv.setSubject(rs.getString("subject"));
+					bv.setWriter(rs.getString("writer"));
+					bv.setWriteday(rs.getString("writeday"));
+					bv.setViewCnt(rs.getString("viewcnt"));
+					bv.setMidx(rs.getInt("midx"));
+					blist.add(bv);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(option.equals("제목+내용")) {
+			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(subject,?)>0 or instr(contents,?)>0 order by bidx DESC";
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, str);
+				pstmt.setString(2, str);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					BoardVo bv = new BoardVo();	
+					bv.setBidx(rs.getInt("bidx"));
+					bv.setSubject(rs.getString("subject"));
+					bv.setWriter(rs.getString("writer"));
+					bv.setWriteday(rs.getString("writeday"));
+					bv.setViewCnt(rs.getString("viewcnt"));
+					bv.setMidx(rs.getInt("midx"));
+					blist.add(bv);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(option.equals("글작성자")) {
+			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(writer,?)>0 order by bidx DESC";
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, str);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					BoardVo bv = new BoardVo();	
+					bv.setBidx(rs.getInt("bidx"));
+					bv.setSubject(rs.getString("subject"));
+					bv.setWriter(rs.getString("writer"));
+					bv.setWriteday(rs.getString("writeday"));
+					bv.setViewCnt(rs.getString("viewcnt"));
+					bv.setMidx(rs.getInt("midx"));
+					blist.add(bv);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return blist;
+	}
+	
 	public ArrayList<BoardVo> boardSelectAll() {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
  		String sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by bidx DESC";
@@ -28,7 +127,7 @@ public class BoardDao {
  		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-					
+			
 			while(rs.next()) {
 				BoardVo bv = new BoardVo();	
 				bv.setBidx(rs.getInt("bidx"));
