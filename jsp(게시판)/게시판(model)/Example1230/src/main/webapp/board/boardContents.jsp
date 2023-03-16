@@ -11,24 +11,89 @@
 		<meta charset="UTF-8">
 		<title>글 내용 페이지</title>
 		<style>
-			a:link{text-decoration:none;}
-			*{padding:0, border:0; font-size:13px;font-family:"맑은 고딕";}
-			body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
-			h1{font-size:30px;}
-			table{border-collapse:collapse; border:0; border-top:2px solid black;}
-			th, td{width:400px; height:40px; border:1px solid #e4e4e4;}
-			th{border-bottom:0; font-size:20px;}
-			td{height:410px;}
-			tbody > tr:first-child td{height:40px;}
-			tbody > tr:last-child td{height:40px;}
-			tbody span{width:50px; padding:10px 0 10px 10px;}
-			tbody span:nth-child(1){font-size:18px;font-weight:bold;line-height:30px;}
-			tbody span:nth-child(4){font-size:13px;}
-			tbody span:nth-child(5){font-size:12px; color:gray;}
-			tbody span:nth-child(6){font-size:12px; color:gray;}
+			* {
+			  padding: 0;
+			  border: 0;
+			  font-size: 13px;
+			  font-family: "맑은 고딕";
+			}
 			
-			#btn{float:right;margin-top:20px;}
-			input{width:80px; height:30px;}
+			body {
+			  display: flex;
+			  justify-content: center;
+			  flex-direction: column;
+			  align-items: center;
+			}
+			
+			h1 {
+			  font-size: 30px;
+			}
+			
+			table {
+			  border-collapse: collapse;
+			  border: 0;
+			  border-top: 2px solid black;
+			}
+			
+			th,
+			td {
+			  width: 400px;
+			  height: 40px;
+			  border: 1px solid #e4e4e4;
+			}
+			
+			th {
+			  border-bottom: 0;
+			  font-size: 20px;
+			}
+			
+			td {
+			  height: 410px;
+			}
+			
+			tbody > tr:first-child td {
+			  height: 40px;
+			}
+			
+			tbody > tr:last-child td {
+			  height: 40px;
+			}
+			
+			tbody span {
+			  width: 50px;
+			  padding: 10px 0 10px 10px;
+			}
+			
+			tbody span:nth-child(1) {
+			  font-size: 18px;
+			  font-weight: bold;
+			  line-height: 30px;
+			}
+			
+			tbody span:nth-child(4) {
+			  font-size: 13px;
+			}
+			
+			tbody span:nth-child(5) {
+			  font-size: 12px;
+			  color: gray;
+			}
+			
+			tbody span:nth-child(6) {
+			  font-size: 12px;
+			  color: gray;
+			}
+			
+			#btn {
+			  float: right;
+			  margin-top: 20px;
+			}
+			
+			input {
+			  width: 80px;
+			  height: 30px;
+			}
+
 			
 		</style>
 	</head>

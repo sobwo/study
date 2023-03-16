@@ -9,20 +9,66 @@
 		<meta charset="UTF-8">
 		<title>게시판 작성 페이지</title>
 		<style>
-			*{padding:0, border:0; font-size:13px;font-family:"맑은 고딕";}
-			body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
-			h1{font-size:30px;}
-			table{border-collapse:collapse; border:0; border-top:2px solid black;}
-			th > input{width:862px; height:40px;}
-			td span{display:block;width:867px;height:40px; border:1px solid gray; line-height:40px; font-size:14px; text-indent:5px;}
-			td>input, td>textarea{width:862px; height:410px; resize:none;}
+			*{
+				padding:0;
+				border:0; 
+				font-size:13px;
+				font-family:"맑은 고딕";
+			}
 			
+			body{
+				display:flex; 
+				justify-content:center; 
+				flex-direction: column; 
+				align-items: center;
+			}
+				
+			h1{
+				font-size:30px;
+			}
+				
+			table{
+				border-collapse:collapse; 
+				border:0; 
+				border-top:2px solid black;
+			}
 			
-			#submit{margin-top:10px;}
-			#submit input{width:80px;height:30px;}
-			#submit input[type=file]{width:300px;}
-			#submit span:nth-child(2), #submit span:nth-child(3)
-				{float:right; margin:0 5px;}
+			th > input{
+				width:862px; height:40px;
+			}
+			
+			td span{
+				display:block;
+				width:867px;
+				height:40px;
+				border:1px solid gray;
+				line-height:40px;
+				font-size:14px;
+				text-indent:5px;
+			}
+			
+			td>input, td>textarea{
+				width:862px;
+				height:410px;
+				resize:none;
+			}
+			
+			#submit{
+				margin-top:10px;
+			}
+			
+			#submit input{
+				width:80px;
+				height:30px;
+			}
+			
+			#submit input[type=file]{
+				width:300px;
+			}
+			
+			#submit span:nth-child(2), #submit span:nth-child(3){
+				float:right; margin:0 5px;
+			}
 		</style>
 		
 		<script type="text/javascript">
@@ -33,7 +79,6 @@
 					alert("제목을 입력하세요");
 					fm.subject.focus();
 					isYN = 0;
-					
 				}
 				
 				if (fm.contents.value == ""){
@@ -47,8 +92,6 @@
 					fm.method = "post";
 					fm.submit();
 				}
-				
-				
 			}
 		</script>
 	</head>

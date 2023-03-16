@@ -112,4 +112,5 @@ public class MemberDao {
 		return value;
 	}
  	
+ 	
 }

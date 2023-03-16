@@ -7,18 +7,64 @@
 		<meta charset="UTF-8">
 		<title>게시판 작성 페이지</title>
 		<style>
-			*{padding:0, border:0; font-size:13px;font-family:"맑은 고딕";}
-			body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
-			h1{font-size:30px;}
-			table{border-collapse:collapse; border:0; border-top:2px solid black;}
-			th > input{width:862px; height:40px;}
-			td>input, td>textarea{width:862px; height:410px; resize:none;}
+			* {
+			  padding: 0;
+			  border: 0;
+			  font-size: 13px;
+			  font-family: "맑은 고딕";
+			}
 			
-			#submit{margin-top:10px;}
-			#submit input{width:80px;height:30px;}
-			#submit input[type=file]{width:300px;}
-			#submit span:nth-child(2), #submit span:nth-child(3)
-				{float:right; margin:0 5px;}
+			body {
+			  display: flex;
+			  justify-content: center;
+			  flex-direction: column;
+			  align-items: center;
+			}
+			
+			h1 {
+			  font-size: 30px;
+			}
+			
+			table {
+			  border: 0;
+			  border-top: 2px solid black;
+			}
+			th,td{
+				border: 1px solid #e4e4e4;
+			}
+			 th > input, td > input{
+			  width: 862px;
+			  height: 50px;
+			  text-indent:10px;
+			}
+			
+			td > textarea {
+			  width: 862px;
+			  height: 410px;
+			  text-indent:10px;
+			  line-height:40px;
+			  resize: none;
+			}
+			
+			#submit {
+			  margin-top: 10px;
+			}
+			
+			#submit input {
+			  width: 80px;
+			  height: 30px;
+			}
+			
+			#submit input[type=file] {
+			  width: 300px;
+			}
+			
+			#submit span:nth-child(2),
+			#submit span:nth-child(3) {
+			  float: right;
+			  margin: 0 5px;
+			}
+
 		</style>
 		
 		<script type="text/javascript">
@@ -60,7 +106,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><input style="height:40px;" name="writer" type=text placeholder="작성자를 입력하세요"></td>
+						<td><input type="text" name="writer"  placeholder="작성자를 입력하세요"></td>
 					</tr>
 					<tr>
 						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>

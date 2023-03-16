@@ -10,28 +10,126 @@
 		<head>
 			<meta charset="UTF-8">
 			<title>게시판 목록</title>
-			
 			<style>
-				a:link{text-decoration:none; color:black;}
-				a:visited{text-decoration:none; color:black;}
-				*{padding:0, border:0; font-size:13px;font-family:"맑은 고딕";}
-				body{display:flex; justify-content:center; flex-direction: column; align-items: center;}
-				h1{font-size:30px;}
-				table{border-collapse : collapse; border:0; border-top:2px solid black;}
-					#main_board th{height:45px; border-bottom:1px solid #e4e4e4; }
-					#main_board td{text-align:center; border-bottom:1px solid #e4e4e4;}
-					#main_board th:nth-child(1){width:51px;}
-					#main_board th:nth-child(2){width:434px;}
-					#main_board th:nth-child(3){width:110px;}
-					#main_board th:nth-child(4){width:88px;}
-					#main_board th:nth-child(5){width:88px;}
-					#main_board td{height:37px;}
-					#main_board td:nth-child(2){text-align:left; text-indent:10px;}
-				#write{margin-bottom:5px;margin-left:710px;}
-				#write input{font-size:14px;font-weight:bold;width:70px; height:35px;}
-				#search{margin-top:50px;}
-				#search input[type=text]{width:200px;}
-			
+				* {
+				  padding: 0;
+				  border: 0;
+				  font-size: 13px;
+				  font-family: "맑은 고딕";
+				}
+				
+				body {
+				  display: flex;
+				  justify-content: center;
+				  flex-direction: column;
+				  align-items: center;
+				}
+				
+				h1 {
+				  font-size: 30px;
+				}
+				
+				table {
+				  border-collapse: collapse;
+				  border: 0;
+				  border-top: 2px solid black;
+				}
+				
+				#main_board th {
+				  height: 45px;
+				  border-bottom: 1px solid #e4e4e4;
+				}
+				
+				#main_board td {
+				  text-align: center;
+				  border-bottom: 1px solid #e4e4e4;
+				}
+				
+				#main_board th:nth-child(1) {
+				  width: 51px;
+				}
+				
+				#main_board th:nth-child(2) {
+				  width: 434px;
+				}
+				
+				#main_board th:nth-child(3) {
+				  width: 110px;
+				}
+				
+				#main_board th:nth-child(4) {
+				  width: 88px;
+				}
+				
+				#main_board th:nth-child(5) {
+				  width: 88px;
+				}
+				
+				#main_board td {
+				  height: 37px;
+				}
+				
+				#main_board td:nth-child(2) {
+				  text-align: left;
+				  text-indent: 10px;
+				}
+				
+				#write {
+				  margin-bottom: 5px;
+				  margin-left: 710px;
+				}
+				
+				#write input {
+				  font-size: 14px;
+				  font-weight: bold;
+				  width: 70px;
+				  height: 35px;
+				}
+				
+				#search {
+				  margin-top: 50px;
+				  display: flex;
+				  align-items: center;
+				  justify-content: center;
+				}
+				
+				#search select, #search input[type="text"], #search input[type="submit"] {
+				  height: 40px;
+				  border: 2px solid #d9d9d9;
+				  border-radius: 10px;
+				  padding: 5px 15px;
+				  font-size: 14px;
+				  font-weight: bold;
+				}
+				
+				#search select {
+				  margin-right: 10px;
+				  background-color: #f5f5f5;
+				  outline: none;
+				}
+				
+				#search input[type="text"] {
+				  width: 200px;
+				  height: 30px;
+				  margin-right: 10px;
+				}
+				
+				#search input[type="submit"] {
+				  background-color: #4CAF50;
+				  color: white;
+				  cursor: pointer;
+				}
+				
+				#search input[type="submit"]:hover {
+				  background-color: #3e8e41;
+				}
+
+				
+				a:link,
+				a:visited {
+				  text-decoration: none;
+				  color: black;
+				}
 			</style>
 		</head>
 	<body>		
