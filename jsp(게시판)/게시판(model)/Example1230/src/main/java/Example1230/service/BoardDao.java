@@ -20,7 +20,7 @@ public class BoardDao {
 	
 	public ArrayList<BoardVo> boardSelectAll() {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
- 		String sql = "select * from board1230 order by bidx desc";
+ 		String sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by bidx DESC";
  		
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
@@ -35,6 +35,7 @@ public class BoardDao {
 				bv.setSubject(rs.getString("subject"));
 				bv.setWriter(rs.getString("writer"));
 				bv.setWriteday(rs.getString("writeday"));
+				bv.setViewCnt(rs.getString("viewcnt"));
 				bv.setMidx(rs.getInt("midx"));
 				blist.add(bv);
 			}
@@ -84,11 +85,11 @@ public class BoardDao {
 		}
 	}
 	
-	public BoardVo boardSelect(int bidx){
+	public BoardVo boardSelectOne(int bidx){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		BoardVo bv = new BoardVo();
-		String sql = "select bidx, subject, contents, writer, writeday from board1230 where bidx = ?";
+		String sql = "select bidx, subject, contents, writer, viewcnt, writeday from board1230 where bidx = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -100,6 +101,7 @@ public class BoardDao {
 				bv.setSubject(rs.getString("subject"));
 				bv.setContents(rs.getString("contents"));
 				bv.setWriter(rs.getString("writer"));
+				bv.setViewCnt(rs.getString("viewcnt"));
 				bv.setWriteday(rs.getString("writeday"));
 			}
 		} catch (SQLException e) {
@@ -119,11 +121,33 @@ public class BoardDao {
 		return bv;
 	}
 	
-	public BoardVo boardModify(String subject, String contents, int bidx){
+	public void boardViewCnt(int bidx) {
+		String sql = "update board1230 set viewcnt = NVL(viewcnt,0)+1 where bidx = ?";
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt= conn.prepareStatement(sql);
+			pstmt.setInt(1, bidx);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+//				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void boardModify(String subject, String contents, int bidx){
 		BoardVo bv = new BoardVo();
 		PreparedStatement pstmt = null;
 		
-		String sql = "UPDATE board1230 SET subject = ?,contents=? where bidx=?";
+		String sql = "UPDATE board1230 SET subject = ?,contents=?,viewcnt=viewcnt-1 where bidx=?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, subject);
@@ -132,17 +156,14 @@ public class BoardDao {
 			
 			pstmt.executeQuery();
 			
-			bv.setBidx(bidx);
-			bv.setSubject(subject);
-			bv.setContents(contents);
-			
+//			bv.setBidx(bidx);
+//			bv.setSubject(subject);
+//			bv.setContents(contents);
+//			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return bv;
-		
 	}
 	
 }

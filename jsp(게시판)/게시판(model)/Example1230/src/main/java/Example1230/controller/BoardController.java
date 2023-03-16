@@ -62,31 +62,44 @@ public class BoardController extends HttpServlet {
 		}
 		
 		else if(str.equals("/board/boardContents.do")) {
-			int bidx = Integer.parseInt(request.getParameter("bidx"));
 			System.out.println("boardContents로 들어옴");
-			
+			int bidx = Integer.parseInt(request.getParameter("bidx"));
+
 			BoardDao bd = new BoardDao();
-			BoardVo bv = bd.boardSelect(bidx);
+			bd.boardViewCnt(bidx);
+			BoardVo bv = bd.boardSelectOne(bidx);
 			
 			request.setAttribute("boardContents", bv);
-			
+
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardContents.jsp");
 			rd.forward(request, response);
 		}
 		
 		else if(str.equals("/board/boardModify.do")) {
-			BoardDao bd = new BoardDao();
+			System.out.println("boardModify로 들어옴");
+			int bidx = Integer.parseInt(request.getParameter("bidx"));  
 			
+			BoardDao bd = new BoardDao();
+			BoardVo bv = bd.boardSelectOne(bidx);
+			
+			request.setAttribute("boardContents", bv);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/board/boardModify.jsp");
+			rd.forward(request, response);
+		}
+		
+		else if(str.equals("/board/boardModifyData.do")) {
+			System.out.println("boardModifyData 들어옴");
 			String subject = request.getParameter("subject");
 			String contents = request.getParameter("contents");
-			
 			int bidx = Integer.parseInt(request.getParameter("bidx"));
-			BoardVo bv = bd.boardModify(subject, contents, bidx);
+
+			BoardDao bd = new BoardDao();
+			bd.boardModify(subject, contents, bidx);
 			
-//			String path = request.getContextPath()+"/board/boardList.do";
-//		 	response.sendRedirect(path);
+			String path = request.getContextPath()+"/board/boardContents.do?bidx="+bidx;
+		 	response.sendRedirect(path);
 		}
-//		else if(str.equals("/board/"))
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="Example1230.domain.*" %>
-<% 
+<% BoardVo bv = (BoardVo)request.getAttribute("boardContents");
 %>
 <!DOCTYPE html>
 <html>
@@ -14,6 +14,7 @@
 			h1{font-size:30px;}
 			table{border-collapse:collapse; border:0; border-top:2px solid black;}
 			th > input{width:862px; height:40px;}
+			td span{display:block;width:867px;height:40px; border:1px solid gray; line-height:40px; font-size:14px; text-indent:5px;}
 			td>input, td>textarea{width:862px; height:410px; resize:none;}
 			
 			
@@ -42,7 +43,7 @@
 				}
 				
 				if(isYN ==1){
-					fm.action = "<%=request.getContextPath()%>/board/boardModify.do";
+					fm.action = "<%=request.getContextPath()%>/board/boardModifyData.do?bidx=<%=bv.getBidx()%>";
 					fm.method = "post";
 					fm.submit();
 				}
@@ -57,21 +58,21 @@
 			<table>
 				<thead>
 					<tr>
-						<th><input type=text name="subject" placeholder="제목을 입력해 주세요."></th>
+						<th><input type=text name="subject" value="<%=bv.getSubject() %>"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td style="height:40px;"></td>
+						<td><span><%=bv.getWriter() %></span></td>
 					</tr>
 					<tr>
-						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
+						<td><textarea style="vertical-align:top;" name="contents"><%=bv.getContents()%></textarea></td>
 					</tr>
 				</tbody>
 			</table>
 			<div id="submit">
 				<span><input type=file></span>
-				<span><input type=button onclick="location.href=''" value="등록"></span>
+				<span><input type=button onclick="check()" value="등록"></span>
 				<span><input type="reset" value="초기화"></span>
 			</div>
 		</form>

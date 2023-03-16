@@ -2,7 +2,7 @@ package Example1230.domain;
 
 public class BoardVo {
 	private int bidx, midx;
-	private String subject, contents, writer, delyn, writeday, ip;
+	private String subject, contents, writer, delyn, writeday, ip, viewCnt;
 	
 	public int getBidx() {
 		return bidx;
@@ -51,5 +51,11 @@ public class BoardVo {
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	public String getViewCnt() {
+		return viewCnt;
+	}
+	public void setViewCnt(String viewCnt) {
+		this.viewCnt = viewCnt;
 	}
 }

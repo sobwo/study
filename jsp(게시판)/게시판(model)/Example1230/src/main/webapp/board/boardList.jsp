@@ -58,7 +58,7 @@
 					<td style="overflow:hidden"><a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx()%>" ><%= bv.getSubject() %></a></td>
 					<td><%=bv.getWriter() %></td>
 					<td><%=bv.getWriteday() %></td>
-					<td><%=bv.getDelyn() %></td>
+					<td><%=bv.getViewCnt() %></td>
 				<%}%>
 				</tr>
 			</tbody>

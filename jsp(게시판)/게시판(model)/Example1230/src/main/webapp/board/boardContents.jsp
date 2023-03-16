@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*" %>
 <%@ page import = "Example1230.domain.*" %>
-<% BoardVo bv = (BoardVo)request.getAttribute("boardContents"); %>
+<% 
+	BoardVo bv = (BoardVo)request.getAttribute("boardContents");
+%>
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -42,7 +44,7 @@
 						<td colspan="2" style="border-top:0; height:80px;">
 							<span><%=bv.getSubject()%></span><br/><br/>
 							<span><%=bv.getWriter() %></span>
-							<span>조회수</span>
+							<span><%=bv.getViewCnt() %></span>
 							<span><%=bv.getWriteday()%></span>	
 						</td>
 					</tr>
