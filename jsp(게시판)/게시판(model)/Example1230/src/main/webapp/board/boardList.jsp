@@ -84,6 +84,7 @@
 				  font-weight: bold;
 				  width: 70px;
 				  height: 35px;
+				  cursor: pointer;
 				}
 				
 				#write input:hover{
