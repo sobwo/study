@@ -3,7 +3,8 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "Example1230.domain.*" %>
 <% 
-	ArrayList<BoardVo> boardList = (ArrayList<BoardVo>)request.getAttribute("boardList"); 
+	ArrayList<BoardVo> boardList = (ArrayList<BoardVo>)request.getAttribute("boardList");
+	int midx = Integer.parseInt( request.getParameter("midx"));
 %>
 <!DOCTYPE html>
 	<html>
@@ -149,7 +150,7 @@
 		<h1>게시판 목록</h1>
 		<div id="top_menu">
 			<div id="write">
-				<input type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardWrite.do'" value="글쓰기">
+				<input type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardWrite.do?midx=<%=midx%>'" value="글쓰기">
 			</div>
 		</div>
 		<table id="main_board">
@@ -166,7 +167,7 @@
 				<%for(BoardVo bv : boardList) {%>
 				<tr class="board_col">
 					<td style="text-align:center;"><%= bv.getBidx() %></td>
-					<td style="overflow:hidden"><a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx()%>" ><%= bv.getSubject() %></a></td>
+					<td style="overflow:hidden"><a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx()%>&midx=<%=midx%>" ><%= bv.getSubject() %></a></td>
 					<td><%=bv.getWriter() %></td>
 					<td><%=bv.getWriteday() %></td>
 					<td><%=bv.getViewCnt() %></td>

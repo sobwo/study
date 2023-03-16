@@ -12,18 +12,17 @@ import Example1230.domain.MemberVo;
 
 public class BoardDao {
 	private Connection conn;
-
 	public BoardDao(){
 		Dbconn dbconn = new Dbconn();
 		this.conn = dbconn.getConnection();
 	}
-	
+
 	public ArrayList<BoardVo> boardSearch(String option, String str){
 		ArrayList<BoardVo> blist = new ArrayList<>();
 		String sql = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		
 		if(option.equals( "제목만")) {
 			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(subject,?)>0 order by bidx DESC";
 			try {
@@ -263,6 +262,30 @@ public class BoardDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public int boardDelete(int bidx, String memberPw) {
+		String sql = "delete from board1230 a WHERE EXISTS(SELECT 1 FROM member1230 b WHERE b.MEMBERPW='?' AND a.BIDX=?)";
+		PreparedStatement pstmt = null;
+		int value = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberPw);
+			pstmt.setInt(2, bidx);
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return value;
 	}
 	
 }

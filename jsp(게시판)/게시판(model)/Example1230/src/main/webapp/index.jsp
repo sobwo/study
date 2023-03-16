@@ -68,15 +68,23 @@
 			  color: #000;
 			}
 		</style>
+		<script>
+			function login(){
+				var fm = document.frm;
+				fm.action="<%=request.getContextPath()%>/member/memberLogin.do";
+				fm.method="post";
+				fm.submit();
+			}
+		</script>
 	</head>
 	<body>
 		<div class="container">
 	    <h1>Login</h1>
-	    <form>
+	    <form name = "frm">
 	    	<label for="memberId">ID</label>
 	        <input type="text" id="memberId" name="memberId">
-	        <label for="password">Password</label>
-	        <input type="password" id="password" name="password">
+	        <label for="memberPw">memberPw</label>
+	        <input type="password" id="memberPw" name="memberPw">
 	        <input type="submit" value="Login" onclick="login()">
 	      </form>
 	    </div>

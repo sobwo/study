@@ -129,7 +129,7 @@
 							<form>
 								<div id="btn">
 									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardModify.do?bidx=<%=bv.getBidx()%>'" value="수정">
-									<input type=button onclick="location.href='boardDelete.jsp'" value="삭제">
+									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardDelete.do?bidx=<%=bv.getBidx()%>'" value="삭제">
 									<input type=button onclick="location.href='boardReply.jsp'" value="답변">
 									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'" value="목록">
 								</div>

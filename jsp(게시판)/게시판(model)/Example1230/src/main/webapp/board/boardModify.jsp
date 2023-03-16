@@ -74,8 +74,8 @@
 		</style>
 		
 		<script type="text/javascript">
-			var fm = document.frm;
-			function check(){		
+			function check(){	
+				var fm = document.frm;
 				var isYN = 1;
 				if (fm.subject.value == "" ){
 					alert("제목을 입력하세요");
@@ -90,14 +90,11 @@
 				}
 				
 				if(isYN ==1){
+					alert();
 					fm.action = "<%=request.getContextPath()%>/board/boardModifyData.do?bidx=<%=bv.getBidx()%>";
 					fm.method = "post";
 					fm.submit();
 				}
-			}
-			function reset(){
-				alert("클릭");
-
 			}
 		</script>
 	</head>
@@ -122,7 +119,7 @@
 			<div id="submit">
 				<span><input type="file"></span>
 				<span><input type="button" onclick="check()" value="등록"></span>
-				<span><input type="button" value="초기화" onclick="reset()"></span>
+				<span><input type="button" value="초기화"></span>
 			</div>
 		</form>
 	</body>

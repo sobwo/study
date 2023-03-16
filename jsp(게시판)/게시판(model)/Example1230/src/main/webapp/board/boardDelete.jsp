@@ -53,31 +53,33 @@
 	    </style>
 		<script type="text/javascript">
 			function check(){	
-			
+				
 				var fm = document.frm;	
-				if (fm.password.value == "" ){
+				if (fm.memberPw.value == ""){
 					alert("비밀번호를 입력하세요");
 					fm.password.focus();
 				}
+				alert("");
 				
 				fm.action = "<%=request.getContextPath()%>/board/boardDeleteAction.do";
 				fm.method="post";
 				fm.submit();
-	
 			}
 	
 	</script>
 	
 	</head>
 	<body>
-		<table border=1 style="width:500px;">
-			<tr>
-				<td>비밀번호</td>
-				<td><input type="password" name="password"></td>
-			</tr>
-				<tr><td colspan=2>
-				<input type="button" name="btn"  value="확인" onclick="check();">
-			</td></tr>
-		</table>
+		<form name = "frm">
+			<table border=1 style="width:500px;">
+				<tr>
+					<td>비밀번호</td>
+					<td><input type="password" name="memberPw"></td>
+				</tr>
+					<tr><td colspan=2>
+					<input type="button" value="확인" onclick="check()">
+				</td></tr>
+			</table>
+		</form>
 	</body>
 </html>

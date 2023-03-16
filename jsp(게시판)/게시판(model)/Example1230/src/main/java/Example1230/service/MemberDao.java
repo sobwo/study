@@ -112,5 +112,29 @@ public class MemberDao {
 		return value;
 	}
  	
+ 	public int memberLogin(String memberId, String memberPw) {
+ 		int value=0;
+ 		String sql = "select midx from member1230 where memberId = ? and memberpw = ?";
+ 		PreparedStatement pstmt = null;
+ 		ResultSet rs = null;
+ 		
+ 		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,memberId);
+			pstmt.setString(2,memberPw);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				value = rs.getInt("midx");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		
+ 		return value;
+ 		
+ 	}
  	
 }

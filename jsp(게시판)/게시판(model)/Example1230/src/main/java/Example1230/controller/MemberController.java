@@ -17,7 +17,6 @@ import Example1230.domain.MemberVo;
 @WebServlet("/MemberController")
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
 	String str;
 	
 	public MemberController(String path) {
@@ -90,6 +89,28 @@ public class MemberController extends HttpServlet {
 			 out.println("{\"value\": \""+value+"\"}");
 		}
 		
+		else if(str.equals("/member/memberLogin.do")) {
+			System.out.println("memberLogin 들어옴");
+			String memberId = request.getParameter("memberId");
+			String memberPw = request.getParameter("memberPw");
+			MemberDao md = new MemberDao();
+			int midx = md.memberLogin(memberId,memberPw);
+			
+			System.out.println("midx="+midx);
+					
+			if(midx==0) {
+				response.setContentType("text/html; charset=UTF-8");
+			    PrintWriter out = response.getWriter();
+			    out.println("<script>alert('패스워드가 일치하지 않습니다.');history.go(-1);</script>");
+			    out.flush();
+			    return;
+			}
+			
+			else {
+				RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.do?midx="+midx);
+				rd.forward(request, response);
+			}
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
