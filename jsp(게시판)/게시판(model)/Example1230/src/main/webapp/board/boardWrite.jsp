@@ -64,13 +64,23 @@
 			  float: right;
 			  margin: 0 5px;
 			}
+			
+			#submit input[type=button], #submit input[type=reset]{
+				width: 80px;
+			  	height: 30px;
+			  	border: 1px solid #a4a4a4;
+			  	border-radius: 10px;
+			  	font-size:14px;
+			  	cursor:pointer;
+			}
 
 		</style>
 		
 		<script type="text/javascript">
 			function check(){	
-				var isYN = 1;
 				var fm = document.frm;	
+				var isYN = 1;
+
 				if (fm.subject.value == "" ){
 					alert("제목을 입력하세요");
 					fm.subject.focus();

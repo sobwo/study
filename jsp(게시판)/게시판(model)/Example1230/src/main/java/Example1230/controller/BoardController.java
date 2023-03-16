@@ -42,9 +42,6 @@ public class BoardController extends HttpServlet {
 			String context = request.getParameter("searchContext");
 			BoardDao bd = new BoardDao();
 			ArrayList<BoardVo> boardList = bd.boardSearch(option, context);
-			System.out.println(" : " + boardList.get(0).getSubject());
-			System.out.println("context : "+context);
-			
 			request.setAttribute("boardList", boardList);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");

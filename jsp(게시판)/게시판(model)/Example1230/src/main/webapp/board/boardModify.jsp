@@ -27,25 +27,18 @@
 				font-size:30px;
 			}
 				
-			table{
-				border-collapse:collapse; 
+			table{ 
 				border:0; 
 				border-top:2px solid black;
 			}
-			
+			th,td{
+				height:40px;
+				border: 1px solid #e4e4e4;
+			}
 			th > input{
 				width:862px; height:40px;
 			}
 			
-			td span{
-				display:block;
-				width:867px;
-				height:40px;
-				border:1px solid gray;
-				line-height:40px;
-				font-size:14px;
-				text-indent:5px;
-			}
 			
 			td>input, td>textarea{
 				width:862px;
@@ -69,12 +62,21 @@
 			#submit span:nth-child(2), #submit span:nth-child(3){
 				float:right; margin:0 5px;
 			}
+			#submit input[type=button], #submit input[type=reset]{
+				width: 80px;
+			  	height: 30px;
+			  	border: 1px solid #a4a4a4;
+			  	border-radius: 10px;
+			  	font-size:14px;
+			  	cursor:pointer;
+			}
+
 		</style>
 		
 		<script type="text/javascript">
-			function check(){	
+			var fm = document.frm;
+			function check(){		
 				var isYN = 1;
-				var fm = document.frm;	
 				if (fm.subject.value == "" ){
 					alert("제목을 입력하세요");
 					fm.subject.focus();
@@ -92,6 +94,10 @@
 					fm.method = "post";
 					fm.submit();
 				}
+			}
+			function reset(){
+				alert("클릭");
+
 			}
 		</script>
 	</head>
@@ -114,9 +120,9 @@
 				</tbody>
 			</table>
 			<div id="submit">
-				<span><input type=file></span>
-				<span><input type=button onclick="check()" value="등록"></span>
-				<span><input type="reset" value="초기화"></span>
+				<span><input type="file"></span>
+				<span><input type="button" onclick="check()" value="등록"></span>
+				<span><input type="button" value="초기화" onclick="reset()"></span>
 			</div>
 		</form>
 	</body>

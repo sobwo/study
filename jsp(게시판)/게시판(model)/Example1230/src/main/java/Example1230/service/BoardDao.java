@@ -23,7 +23,7 @@ public class BoardDao {
 		String sql = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		System.out.println("option ="+option);
+
 		if(option.equals( "제목만")) {
 			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(subject,?)>0 order by bidx DESC";
 			try {

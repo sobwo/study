@@ -92,6 +92,10 @@
 			input {
 			  width: 80px;
 			  height: 30px;
+			  border: 1px solid #a4a4a4;
+			  border-radius: 10px;
+			  font-size:14px;
+			  cursor:pointer;
 			}
 
 			
