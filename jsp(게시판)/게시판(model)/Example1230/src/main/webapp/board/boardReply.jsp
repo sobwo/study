@@ -26,6 +26,10 @@
 			  font-size: 30px;
 			}
 			
+			h1 a{
+				font-size:30px;
+			}
+			
 			table {
 			  border-collapse: collapse;
 			  border: 0;
@@ -69,6 +73,11 @@
 			  	font-size:14px;
 			  	cursor:pointer;
 			}
+			
+			a:link, a:visited {
+				  text-decoration: none;
+				  color: black;
+			}
 
 		</style>
 		
@@ -107,6 +116,7 @@
 		</script>
 	</head>
 	<body>
+		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>
 		<h1>글 답변</h1>
 		<form name="frm">
 			<input type="hidden" name ="bidx" value="<%=bv.getBidx()%>">

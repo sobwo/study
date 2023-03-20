@@ -29,6 +29,10 @@
 				  font-size: 30px;
 				}
 				
+				h1 a{
+				  font-size: 30px;
+				}
+				
 				table {
 				  border-collapse: collapse;
 				  border: 0;
@@ -91,14 +95,20 @@
 					background-color: gray;
 				}
 				
-				#search {
+				#search,#paging {
 				  margin-top: 50px;
 				  display: flex;
 				  align-items: center;
 				  justify-content: center;
 				}
 				
-				#search select, #search input[type="text"], #search input[type="submit"] {
+				.pagingNum a{
+					font-size:15px;
+					margin-left:20px;
+				}
+				
+				#search select, #search input[type="text"], #search input[type="submit"], 
+				#paging select{
 				  height: 40px;
 				  border: 2px solid #d9d9d9;
 				  border-radius: 10px;
@@ -143,9 +153,18 @@
 					fm.method = "post";
 					fm.submit();
 				}
+				
+				function changePage(){
+					alert();
+					var fm = document.frm;
+					fm.action = "<%=request.getContextPath()%>/board/boardList.do"
+					fm.method = "post";
+					fm.submit();
+				} 
 			</script>
 		</head>
 	<body>		
+		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>
 		<h1>게시판 목록</h1>
 		<div id="top_menu">
 			<div id="write">
@@ -183,6 +202,20 @@
 			</tbody>
 		</table>	
 		<form name="frm">	
+			<div id="paging">
+				<span>
+					<select id="dataPerPage" name="dataPerPage" onchange="changePage()">
+        				<option value="10">10개씩보기</option>
+        				<option value="15">15개씩보기</option>
+        				<option value="20">20개씩보기</option>
+					</select>
+				</span>
+				<span class = "pagingNum">
+					<a href="<%=request.getContextPath()%>/board/boardList.do?value=1">1</a>
+					<a href="<%=request.getContextPath()%>/board/boardList.do?value=2">2</a>
+					<a href="<%=request.getContextPath()%>/board/boardList.do?value=3">3</a>
+				</span>
+			</div>
 			<div id="search">
 				<span>
 					<select name="searchOption">
@@ -198,6 +231,7 @@
 					<input type="submit" name="submit" value="검색" onclick="search()">
 				</span>	
 			</div>
+
 		</form>
 	</body>
 </html>

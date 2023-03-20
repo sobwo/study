@@ -31,8 +31,10 @@ public class BoardController extends HttpServlet {
 		if(str.equals("/board/boardList.do")) {
 			System.out.println("boardList로 들어옴");
 			BoardDao bd = new BoardDao();
+//			int num1 = Integer.parseInt(request.getParameter("dataPerPage"));
+			int value = Integer.parseInt(request.getParameter("value"));
+			ArrayList<BoardVo> boardList = bd.boardSelectAll(value,10);
 			
-			ArrayList<BoardVo> boardList = bd.boardSelectAll();
 			request.setAttribute("boardList", boardList);
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
 			rd.forward(request, response);
@@ -60,6 +62,7 @@ public class BoardController extends HttpServlet {
 		
 		else if(str.equals("/board/boardData.do")) {
 			System.out.println("boardData로 들어옴");
+			int value = 0;
 			String subject = request.getParameter("subject");
 			String writer = request.getParameter("writer");
 			String contents = request.getParameter("contents");
@@ -71,10 +74,11 @@ public class BoardController extends HttpServlet {
 			int midx =(int)session.getAttribute("midx");
 			BoardDao bd = new BoardDao();
 			
-			bd.boardInsert(subject, contents, writer,ip,midx,pwd);
-			
-			String path = request.getContextPath()+"/board/boardList.do";
-		 	response.sendRedirect(path);
+			value = bd.boardInsert(subject, contents, writer,ip,midx,pwd);
+			if(value==1) {
+				String path = request.getContextPath()+"/board/boardList.do";
+				response.sendRedirect(path);
+			}
 		}
 		
 		else if(str.equals("/board/boardContents.do")) {
@@ -107,16 +111,18 @@ public class BoardController extends HttpServlet {
 		}
 		
 		else if(str.equals("/board/boardModifyData.do")) {
+			int value = 0;
 			System.out.println("boardModifyData 들어옴");
 			String subject = request.getParameter("subject");
 			String contents = request.getParameter("contents");
 			int bidx = Integer.parseInt(request.getParameter("bidx"));
 
 			BoardDao bd = new BoardDao();
-			bd.boardModify(subject, contents, bidx);
-			
-			String path = request.getContextPath()+"/board/boardContents.do?bidx="+bidx;
-		 	response.sendRedirect(path);
+			value = bd.boardModify(subject, contents, bidx);
+			if(value ==1) {
+				String path = request.getContextPath()+"/board/boardContents.do?bidx="+bidx;
+		 		response.sendRedirect(path);
+			}
 		}
 		
 		else if(str.equals("/board/boardDelete.do")) {
