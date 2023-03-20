@@ -6,92 +6,92 @@
 	<head>
   		<meta charset="UTF-8">
     	<title>Login</title>
-    	<style>
-	    	body {
-			  background-color: #f2f2f2;
-			  font-family: Arial, sans-serif;
+		<style>
+			/* Reset default styles */
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
 			}
-			
-			.container {
-			  background-color: #fff;
-			  width: 450px;
-			  margin: 0 auto;
-			  padding: 20px;
-			  border-radius: 5px;
-			  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-			}
-			
-			h1 {
-			  text-align: center;
-			  margin-bottom: 20px;
-			}
-			
-			label {
-			  display: block;
-			  margin-bottom: 5px;
-			}
-			
-			input[type="text"],
-			input[type="password"] {
-			  width: 90%;
-			  padding: 10px;
-			  border-radius: 3px;
-			  border: 1px solid #ccc;
-			  margin-bottom: 10px;
-			}
-			
-			input[type="submit"] {
-			  background: #A4A4A4;
-			  color: white;
-			  padding: 10px 20px;
-			  border: none;
-			  border-radius: 3px;
-			  cursor: pointer;
-			  margin-top: 10px;
-			}
-			
-			input[type="submit"]:hover {
-			  background: #000;
+
+			body {
+				background-color: #f2f2f2;
+				font-family: Arial, sans-serif;
+				font-size: 16px;
+				line-height: 1.5;
+				color: #333;
 			}
 			
 			.links {
-			  margin-top: 10px;
-			  text-align: center;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-top: 20px;
 			}
 			
 			.links a {
-			  color: #999;
-			  margin: 0 10px;
+				color: #999;
+				margin: 0 20px;
+				font-size: 20px;
+				font-weight: 400;
+				text-decoration: none;
+				transition: color 0.3s ease-in-out;
 			}
 			
 			.links a:hover {
-			  color: #000;
+				color: #000;
+			}
+			
+			.member-info {
+				display: flex;
+				align-items: center;
+				margin-left: 20px;
+			}
+
+			.member-info span {
+				margin-right: 10px;
+				font-size: 18px;
+				font-weight: 400;
+				color: #555;
+			}
+
+			.member-info a {
+				color: #999;
+				font-size: 18px;
+				font-weight: 400;
+				text-decoration: none;
+				transition: color 0.3s ease-in-out;
+				padding: 10px;
+				border-radius: 5px;
+				border: 1px solid #999;
+				margin-left: 20px;
+			}
+
+			.member-info a:hover {
+				color: #000;
+				background-color: #fff;
+				border-color: #000;
 			}
 		</style>
-		<script>
-			function login(){
-				var fm = document.frm;
-				fm.action="<%=request.getContextPath()%>/member/memberLogin.do";
-				fm.method="post";
-				fm.submit();
-			}
-		</script>
 	</head>
 	<body>
-		<div class="container">
-	    <h1>Login</h1>
-	    <form name = "frm">
-	    	<label for="memberId">ID</label>
-	        <input type="text" id="memberId" name="memberId">
-	        <label for="memberPw">memberPw</label>
-	        <input type="password" id="memberPw" name="memberPw">
-	        <input type="submit" value="Login" onclick="login()">
-	      </form>
-	    </div>
-	    
 	   	<div class="links">
-	        <a href="<%=request.getContextPath()%>/member/memberJoin.do">회원 가입</a>
-	        <a href="<%=request.getContextPath()%>/board/boardList.do">게시판 목록</a>
+	        <a href="<%=request.getContextPath()%>/board/boardList.do?value=0">게시판 목록</a>
+			<a href="<%=request.getContextPath()%>/member/memberLogin.do">로그인</a>
+			<a href="<%=request.getContextPath()%>/member/memberJoin.do">회원 가입</a>
+			<% if (session.getAttribute("midx") != null){
+				int midx = (int)session.getAttribute("midx");
+				String memberName = (String)session.getAttribute("memberName"); %>	
+				<div class="member-info">
+					<span>회원번호:</span>
+					<span><%=midx%></span>
+				</div>
+				<div class="member-info">
+					<span>회원이름:</span>
+					<span><%=memberName%></span>
+				</div>
+				<a href="<%=request.getContextPath()%>/member/memberLogOut.do">로그아웃</a>	
+			<%}%>
 	    </div>
 	</body>
 </html>

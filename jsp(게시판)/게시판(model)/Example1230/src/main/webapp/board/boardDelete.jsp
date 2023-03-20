@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% int bidx = Integer.parseInt(request.getParameter("bidx")); %>
  <!DOCTYPE html>
 <html>
 	<head>
@@ -59,9 +60,8 @@
 					alert("비밀번호를 입력하세요");
 					fm.password.focus();
 				}
-				alert("");
 				
-				fm.action = "<%=request.getContextPath()%>/board/boardDeleteAction.do";
+				fm.action = "<%=request.getContextPath()%>/board/boardDeleteAction.do?bidx=<%=bidx%>";
 				fm.method="post";
 				fm.submit();
 			}

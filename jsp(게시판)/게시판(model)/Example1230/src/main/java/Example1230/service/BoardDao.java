@@ -118,7 +118,7 @@ public class BoardDao {
 	
 	public ArrayList<BoardVo> boardSelectAll() {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
- 		String sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by bidx DESC";
+ 		String sql = "select bidx,originbidx,depth,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc";
  		
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
@@ -154,11 +154,11 @@ public class BoardDao {
  		return blist;
  	}
 
-	public void boardInsert(String subject, String contents, String writer, String ip, int midx){
+	public void boardInsert(String subject, String contents, String writer, String ip, int midx,String pwd){
 		PreparedStatement pstmt = null;
 		
-		String sql = "insert into board1230(bidx,subject,contents,writer,ip,midx)"
-				+"values(bidx_seq.nextval,?,?,?,?,?)";
+		String sql = "insert into board1230(bidx,originbidx,depth,level_,subject,contents,writer,ip,midx,pwd)"
+				+"values(bidx_seq.nextval,bidx_seq.nextval,0,0,?,?,?,?,?,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -167,6 +167,7 @@ public class BoardDao {
 			pstmt.setString(3,writer);
 			pstmt.setString(4,ip);
 			pstmt.setInt(5,midx);
+			pstmt.setString(6, pwd);
 			pstmt.executeQuery();
 	
 		} catch (SQLException e) {
@@ -187,7 +188,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		BoardVo bv = new BoardVo();
-		String sql = "select bidx, subject, contents, writer, viewcnt, writeday from board1230 where bidx = ?";
+		String sql = "select * from board1230 where bidx = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -196,11 +197,16 @@ public class BoardDao {
 
 			while(rs.next()){
 				bv.setBidx(rs.getInt("bidx"));
+				bv.setOriginbidx(rs.getInt("originbidx"));
+				bv.setDepth(rs.getInt("depth"));
+				bv.setLevel_(rs.getInt("level_"));
 				bv.setSubject(rs.getString("subject"));
 				bv.setContents(rs.getString("contents"));
 				bv.setWriter(rs.getString("writer"));
 				bv.setViewCnt(rs.getString("viewcnt"));
 				bv.setWriteday(rs.getString("writeday"));
+				
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -265,13 +271,13 @@ public class BoardDao {
 	}
 	
 	public int boardDelete(int bidx, String memberPw) {
-		String sql = "delete from board1230 a WHERE EXISTS(SELECT 1 FROM member1230 b WHERE b.MEMBERPW='?' AND a.BIDX=?)";
+		String sql = "update board1230 set delyn='Y' where bidx=? and pwd=?";
 		PreparedStatement pstmt = null;
 		int value = 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberPw);
-			pstmt.setInt(2, bidx);
+			pstmt.setInt(1, bidx);
+			pstmt.setString(2, memberPw);
 			value = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -284,6 +290,42 @@ public class BoardDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		return value;
+	}
+	
+	public int boardReply(int originbidx, String subject, String contents, String writer, String ip, String pwd) {
+		int value = 0;
+		String sql = "UPDATE board1230 SET depth = depth+1 WHERE originbidx = ? AND depth>0";
+		String sql2 = "INSERT INTO board1230(bidx, ORiGINBIDX, depth, level_, subject, CONTENTS, writer, ip, midx,pwd)"
+				+ "VALUES(bidx_seq.nextval,?,1,1,?,?,?,?,'1',?)";
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, originbidx);
+			pstmt.executeUpdate();
+			
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setInt(1, originbidx);
+			pstmt.setString(2,subject);
+			pstmt.setString(3, contents);
+			pstmt.setString(4, writer);
+			pstmt.setString(5, ip);
+			pstmt.setString(6, pwd);
+			value = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 		return value;
 	}

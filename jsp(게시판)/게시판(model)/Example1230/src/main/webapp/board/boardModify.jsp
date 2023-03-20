@@ -91,7 +91,7 @@
 				
 				if(isYN ==1){
 					alert();
-					fm.action = "<%=request.getContextPath()%>/board/boardModifyData.do?bidx=<%=bv.getBidx()%>";
+					fm.action = "<%=request.getContextPath()%>/board/boardModifyAction.do?bidx=<%=bv.getBidx()%>";
 					fm.method = "post";
 					fm.submit();
 				}

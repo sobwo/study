@@ -112,9 +112,10 @@ public class MemberDao {
 		return value;
 	}
  	
- 	public int memberLogin(String memberId, String memberPw) {
- 		int value=0;
- 		String sql = "select midx from member1230 where memberId = ? and memberpw = ?";
+ 	public MemberVo memberLogin(String memberId, String memberPw) {
+
+ 		MemberVo mv = null;
+ 		String sql = "select * from member1230 where memberId = ? and memberpw = ?";
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
  		
@@ -124,8 +125,10 @@ public class MemberDao {
 			pstmt.setString(2,memberPw);
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
-				value = rs.getInt("midx");
+			if(rs.next()) {
+				mv = new MemberVo();
+				mv.setMidx(rs.getInt("midx"));
+				mv.setMemberName(rs.getString("memberName"));
 			}
 			
 		} catch (SQLException e) {
@@ -133,7 +136,7 @@ public class MemberDao {
 			e.printStackTrace();
 		}
  		
- 		return value;
+ 		return mv;
  		
  	}
  	

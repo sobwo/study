@@ -130,8 +130,8 @@
 								<div id="btn">
 									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardModify.do?bidx=<%=bv.getBidx()%>'" value="수정">
 									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardDelete.do?bidx=<%=bv.getBidx()%>'" value="삭제">
-									<input type=button onclick="location.href='boardReply.jsp'" value="답변">
-									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'" value="목록">
+									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardReply.do?bidx=<%=bv.getBidx()%>&originbidx=<%=bv.getOriginbidx()%>&depth=<%=bv.getDepth()%>&level_=<%=bv.getLevel_()%>'" value="답변">
+									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardList.do?bidx=<%=bv.getBidx() %>'" value="목록">
 								</div>
 							</form>
 						</td>

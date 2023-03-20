@@ -1,7 +1,7 @@
 package Example1230.domain;
 
 public class BoardVo {
-	private int bidx, midx;
+	private int bidx, midx, originbidx,depth,level_;
 	private String subject, contents, writer, delyn, writeday, ip, viewCnt;
 	
 	public int getBidx() {
@@ -16,6 +16,26 @@ public class BoardVo {
 	public void setMidx(int midx) {
 		this.midx = midx;
 	}
+	
+	public int getOriginbidx() {
+		return originbidx;
+	}
+	public void setOriginbidx(int originbidx) {
+		this.originbidx = originbidx;
+	}
+	public int getDepth() {
+		return depth;
+	}
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+	public int getLevel_() {
+		return level_;
+	}
+	public void setLevel_(int level_) {
+		this.level_ = level_;
+	}
+	
 	public String getSubject() {
 		return subject;
 	}

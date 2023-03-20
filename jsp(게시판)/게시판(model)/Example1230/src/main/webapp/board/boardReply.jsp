@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page import = "Example1230.domain.*"%>
+<% BoardVo bv = (BoardVo)request.getAttribute("bv"); %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -63,37 +64,46 @@
 		</style>
 		
 		<script type="text/javascript">
-			function check(){	
+		function check(){	
+			var fm = document.frm;	
+			var isYN = 1;
+
+			if (fm.subject.value == "" ){
+				alert("제목을 입력하세요");
+				fm.subject.focus();
+				isYN = 0;
+			}
+			if (fm.writer.value == ""){
+				alert("작성자를 입력하세요");
+				fm.writer.focus();
+				isYN = 0;
+			}
+			if (fm.contents.value == ""){
+				alert("내용을 입력하세요");
+				fm.contents.focus();
+				isYN = 0;
+			}
+			if (fm.pwd.value == ""){
+				alert("비밀번호을 입력하세요");
+				fm.pwd.focus();
+				isYN = 0;
+			}
 			
-				var fm = document.frm;	
-				if (fm.subject.value == "" ){
-					alert("제목을 입력하세요");
-					fm.subject.focus();
-					
-					return;
-				}
-				if (fm.writer.value == ""){
-					alert("작성자를 입력하세요");
-					fm.writer.focus();
-					
-					return;
-				}
-				
-				if (fm.contents.value == ""){
-					alert("내용을 입력하세요");
-					fm.contents.focus();
-					return;
-				}
-				
-				fm.action = "<%=request.getContextPath()%>/board/boardWriteAction.do";
+			if(isYN==1){
+				fm.action ="<%=request.getContextPath()%>/board/boardReplyAction.do";
 				fm.method="post";
 				fm.submit();
 			}
+		}
 		</script>
 	</head>
 	<body>
 		<h1>글 작성</h1>
 		<form name="frm">
+			<input type="hidden" name ="bidx" value="<%=bv.getBidx()%>">
+			<input type="hidden" name ="originBidx" value="<%=bv.getOriginbidx()%>">
+			<input type="hidden" name ="depth" value="<%=bv.getDepth()%>">
+			<input type="hidden" name ="level_" value="<%=bv.getLevel_()%>">
 			<table>
 				<thead>
 					<tr>
@@ -106,6 +116,9 @@
 					</tr>
 					<tr>
 						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
+					</tr>
+					<tr>
+						<td><input type="password" style="height:30px;" name="pwd" placeholder="비밀번호를 입력하세요."></td>
 					</tr>
 				</tbody>
 			</table>

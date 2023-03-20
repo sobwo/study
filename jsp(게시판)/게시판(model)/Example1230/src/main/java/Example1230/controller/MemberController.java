@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Example1230.service.MemberDao;
 import Example1230.domain.MemberVo;
@@ -90,27 +91,48 @@ public class MemberController extends HttpServlet {
 		}
 		
 		else if(str.equals("/member/memberLogin.do")) {
+			System.out.println("memberLogin.do 들어옴");
+			RequestDispatcher rd = request.getRequestDispatcher("/member/memberLogin.jsp");
+			rd.forward(request, response);
+		}
+		
+		else if(str.equals("/member/memberLoginAction.do")) {
 			System.out.println("memberLogin 들어옴");
 			String memberId = request.getParameter("memberId");
 			String memberPw = request.getParameter("memberPw");
 			MemberDao md = new MemberDao();
-			int midx = md.memberLogin(memberId,memberPw);
-			
-			System.out.println("midx="+midx);
+			MemberVo mv = md.memberLogin(memberId,memberPw);
 					
-			if(midx==0) {
+			if(mv==null) {
 				response.setContentType("text/html; charset=UTF-8");
 			    PrintWriter out = response.getWriter();
 			    out.println("<script>alert('패스워드가 일치하지 않습니다.');history.go(-1);</script>");
 			    out.flush();
 			    return;
+
 			}
 			
 			else {
-				RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.do?midx="+midx);
-				rd.forward(request, response);
+				int midx = mv.getMidx();
+				String memberName = mv.getMemberName();			
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("midx", midx);
+				session.setAttribute("memberName", memberName);
+				
+				response.sendRedirect(request.getContextPath()+"/");
 			}
 		}
+		
+		else if (str.equals("/member/memberLogOut.do")) {
+			HttpSession session = request.getSession();
+			session.removeAttribute("midx");
+			session.removeAttribute("memberName");
+			session.invalidate();
+				
+			response.sendRedirect(request.getContextPath()+"/");
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

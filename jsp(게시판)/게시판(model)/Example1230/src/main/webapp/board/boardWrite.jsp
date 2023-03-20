@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%
+	if (session.getAttribute("midx") == null){	
+		out.println("<script>alert('로그인 하셔야 합니다.'); history.back(-1);</script>");
+}
+%>  
 <!DOCTYPE html>
 <html>
 	<head>
@@ -96,6 +100,11 @@
 					fm.contents.focus();
 					isYN = 0;
 				}
+				if (fm.pwd.value == ""){
+					alert("내용을 입력하세요");
+					fm.pwd.focus();
+					isYN = 0;
+				}
 				
 				if(isYN==1){
 					fm.action = "<%=request.getContextPath()%>/board/boardData.do";
@@ -120,6 +129,9 @@
 					</tr>
 					<tr>
 						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
+					</tr>
+					<tr>
+						<td><input type="password" style="height:30px;" name="pwd" placeholder="비밀번호를 입력하세요."></td>
 					</tr>
 				</tbody>
 			</table>

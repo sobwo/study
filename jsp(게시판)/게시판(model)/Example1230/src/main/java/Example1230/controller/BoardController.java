@@ -29,13 +29,11 @@ public class BoardController extends HttpServlet {
 
 		if(str.equals("/board/boardList.do")) {
 			System.out.println("boardList로 들어옴");
-			int midx = Integer.parseInt(request.getParameter("midx"));
 			BoardDao bd = new BoardDao();
 			
 			ArrayList<BoardVo> boardList = bd.boardSelectAll();
 			request.setAttribute("boardList", boardList);
-			request.setAttribute("midx", midx);
-			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp?midx="+midx);
+			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
 			rd.forward(request, response);
 		}
 		
@@ -64,13 +62,14 @@ public class BoardController extends HttpServlet {
 			String subject = request.getParameter("subject");
 			String writer = request.getParameter("writer");
 			String contents = request.getParameter("contents");
+			String pwd = request.getParameter("pwd");
 			String ip = InetAddress.getLocalHost().getHostAddress();			
 //			String ip = request.getHeader("X-Forwarded-For"); 
 //			if(ip==null) request.getRemoteAddr();		
 			int midx = 1;
 			BoardDao bd = new BoardDao();
 			
-			bd.boardInsert(subject, contents, writer,ip,midx);
+			bd.boardInsert(subject, contents, writer,ip,midx,pwd);
 			
 			String path = request.getContextPath()+"/board/boardList.do";
 		 	response.sendRedirect(path);
@@ -85,7 +84,9 @@ public class BoardController extends HttpServlet {
 			BoardVo bv = bd.boardSelectOne(bidx);
 			
 			request.setAttribute("boardContents", bv);
-
+			
+			System.out.println("originbidx="+bv.getOriginbidx());
+			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardContents.jsp");
 			rd.forward(request, response);
 		}
@@ -143,6 +144,47 @@ public class BoardController extends HttpServlet {
 			}
 		}
 		
+		else if(str.equals("/board/boardReply.do")) {
+			System.out.println("boardReply 들어옴");
+			int bidx = Integer.parseInt(request.getParameter("bidx"));
+			int originbidx = Integer.parseInt(request.getParameter("originbidx"));
+			int depth = Integer.parseInt(request.getParameter("depth"));
+			int level_ = Integer.parseInt(request.getParameter("level_"));
+			
+			BoardVo bv = new BoardVo();
+			bv.setBidx(bidx);
+			bv.setOriginbidx(originbidx);
+			bv.setDepth(depth);
+			bv.setLevel_(level_);
+			
+			request.setAttribute("bv", bv);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/board/boardReply.jsp");
+			rd.forward(request, response);
+		}
+		
+		else if(str.equals("/board/boardReplyAction.do")) {
+			System.out.println("boardReplyAction 들어옴");
+			int value = 0;
+			int bidx = Integer.parseInt(request.getParameter("bidx"));
+			int originbidx = Integer.parseInt(request.getParameter("originBidx"));
+			System.out.println("originbidx : "+originbidx);
+			int depth = Integer.parseInt(request.getParameter("depth"));
+			int level_ = Integer.parseInt(request.getParameter("level_"));
+			String subject = request.getParameter("subject");
+			String writer = request.getParameter("writer");
+			String contents = request.getParameter("contents");
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			String pwd = request.getParameter("pwd");
+			
+			BoardDao bd = new BoardDao();
+			value = bd.boardReply(originbidx, subject, contents, writer, ip, pwd);
+			
+			response.sendRedirect(request.getContextPath()+"/board/boardList.do");
+			if(value==1) {
+				response.sendRedirect(request.getContextPath()+"/board/boardList.do?value="+value);
+			}
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

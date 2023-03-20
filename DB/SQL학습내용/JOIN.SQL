@@ -91,6 +91,7 @@
 	DELETE FROM board1230;
 	DELETE FROM member1230;
 	DROP SEQUENCE midx_seq;
+	DROP SEQUENCE bidx_seq;
 	COMMIT;
 
 	INSERT INTO member1230(midx,memberId,memberPw,memberName,memberEmail,memberGender,memberAddr,memberBirth,ip)
