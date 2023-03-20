@@ -2,8 +2,14 @@ package Example1230.domain;
 
 public class BoardVo {
 	private int bidx, midx, originbidx,depth,level_;
-	private String subject, contents, writer, delyn, writeday, ip, viewCnt;
+	private String subject, contents, writer, delyn, writeday, ip, viewCnt,pwd;
 	
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 	public int getBidx() {
 		return bidx;
 	}

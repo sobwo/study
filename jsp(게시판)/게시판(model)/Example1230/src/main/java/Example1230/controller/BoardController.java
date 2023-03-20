@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Example1230.domain.BoardVo;
 import Example1230.service.BoardDao;
@@ -65,8 +66,9 @@ public class BoardController extends HttpServlet {
 			String pwd = request.getParameter("pwd");
 			String ip = InetAddress.getLocalHost().getHostAddress();			
 //			String ip = request.getHeader("X-Forwarded-For"); 
-//			if(ip==null) request.getRemoteAddr();		
-			int midx = 1;
+//			if(ip==null) request.getRemoteAddr();
+			HttpSession session = request.getSession();
+			int midx =(int)session.getAttribute("midx");
 			BoardDao bd = new BoardDao();
 			
 			bd.boardInsert(subject, contents, writer,ip,midx,pwd);
@@ -157,6 +159,9 @@ public class BoardController extends HttpServlet {
 			bv.setDepth(depth);
 			bv.setLevel_(level_);
 			
+			System.out.println("depth:"+depth);
+			System.out.println("level:"+level_);
+			
 			request.setAttribute("bv", bv);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardReply.jsp");
@@ -166,7 +171,6 @@ public class BoardController extends HttpServlet {
 		else if(str.equals("/board/boardReplyAction.do")) {
 			System.out.println("boardReplyAction 들어옴");
 			int value = 0;
-			int bidx = Integer.parseInt(request.getParameter("bidx"));
 			int originbidx = Integer.parseInt(request.getParameter("originBidx"));
 			System.out.println("originbidx : "+originbidx);
 			int depth = Integer.parseInt(request.getParameter("depth"));
@@ -176,13 +180,25 @@ public class BoardController extends HttpServlet {
 			String contents = request.getParameter("contents");
 			String ip = InetAddress.getLocalHost().getHostAddress();
 			String pwd = request.getParameter("pwd");
+			HttpSession session = request.getSession();
+			int midx = (int)session.getAttribute("midx");
+			
+			BoardVo bv = new BoardVo();
+			bv.setOriginbidx(originbidx);
+			bv.setDepth(depth);
+			bv.setLevel_(level_);
+			bv.setSubject(subject);
+			bv.setContents(contents);
+			bv.setWriter(writer);
+			bv.setIp(ip);
+			bv.setPwd(pwd);
+			bv.setMidx(midx);
 			
 			BoardDao bd = new BoardDao();
-			value = bd.boardReply(originbidx, subject, contents, writer, ip, pwd);
+			value = bd.boardReply(bv);
 			
-			response.sendRedirect(request.getContextPath()+"/board/boardList.do");
 			if(value==1) {
-				response.sendRedirect(request.getContextPath()+"/board/boardList.do?value="+value);
+				response.sendRedirect(request.getContextPath()+"/board/boardList.do");
 			}
 		}
 	}

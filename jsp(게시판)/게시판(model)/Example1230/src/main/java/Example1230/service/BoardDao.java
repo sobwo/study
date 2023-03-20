@@ -118,7 +118,7 @@ public class BoardDao {
 	
 	public ArrayList<BoardVo> boardSelectAll() {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
- 		String sql = "select bidx,originbidx,depth,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc";
+ 		String sql = "select bidx,depth,level_,subject,writer,TO_CHAR(writeday,'yyyy.mm.dd') AS writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc,level_ asc";
  		
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
@@ -130,6 +130,8 @@ public class BoardDao {
 			while(rs.next()) {
 				BoardVo bv = new BoardVo();	
 				bv.setBidx(rs.getInt("bidx"));
+				bv.setDepth(rs.getInt("depth"));
+				bv.setLevel_(rs.getInt("level_"));
 				bv.setSubject(rs.getString("subject"));
 				bv.setWriter(rs.getString("writer"));
 				bv.setWriteday(rs.getString("writeday"));
@@ -154,7 +156,7 @@ public class BoardDao {
  		return blist;
  	}
 
-	public void boardInsert(String subject, String contents, String writer, String ip, int midx,String pwd){
+	public void boardInsert(String subject, String contents, String writer, String ip, int midx, String pwd){
 		PreparedStatement pstmt = null;
 		
 		String sql = "insert into board1230(bidx,originbidx,depth,level_,subject,contents,writer,ip,midx,pwd)"
@@ -204,9 +206,7 @@ public class BoardDao {
 				bv.setContents(rs.getString("contents"));
 				bv.setWriter(rs.getString("writer"));
 				bv.setViewCnt(rs.getString("viewcnt"));
-				bv.setWriteday(rs.getString("writeday"));
-				
-				
+				bv.setWriteday(rs.getString("writeday"));			
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -294,28 +294,41 @@ public class BoardDao {
 		return value;
 	}
 	
-	public int boardReply(int originbidx, String subject, String contents, String writer, String ip, String pwd) {
+	public int boardReply(BoardVo bv) {
 		int value = 0;
+		
 		String sql = "UPDATE board1230 SET depth = depth+1 WHERE originbidx = ? AND depth>0";
 		String sql2 = "INSERT INTO board1230(bidx, ORiGINBIDX, depth, level_, subject, CONTENTS, writer, ip, midx,pwd)"
-				+ "VALUES(bidx_seq.nextval,?,1,1,?,?,?,?,'1',?)";
+				+ "VALUES(bidx_seq.nextval,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		
 		try {
+			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, originbidx);
+			pstmt.setInt(1, bv.getOriginbidx());
 			pstmt.executeUpdate();
+			pstmt.close();
 			
 			pstmt = conn.prepareStatement(sql2);
-			pstmt.setInt(1, originbidx);
-			pstmt.setString(2,subject);
-			pstmt.setString(3, contents);
-			pstmt.setString(4, writer);
-			pstmt.setString(5, ip);
-			pstmt.setString(6, pwd);
+			pstmt.setInt(1, bv.getOriginbidx());
+			pstmt.setInt(2, bv.getDepth()+1);
+			pstmt.setInt(3, bv.getLevel_()+1);
+			pstmt.setString(4,bv.getSubject());
+			pstmt.setString(5, bv.getContents());
+			pstmt.setString(6, bv.getWriter());
+			pstmt.setString(7, bv.getIp());
+			pstmt.setInt(8, bv.getMidx());
+			pstmt.setString(9, bv.getPwd());
 			value = pstmt.executeUpdate();
+			conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}finally {
 			try {

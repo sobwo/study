@@ -14,7 +14,7 @@
 				* {
 				  padding: 0;
 				  border: 0;
-				  font-size: 13px;
+				  font-size: 14px;
 				  font-family: "맑은 고딕";
 				}
 				
@@ -167,7 +167,14 @@
 				<tr class="board_col">
 					<td style="text-align:center;"><%= bv.getBidx() %></td>
 					<td style="overflow:hidden">
-						<a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx()%>"><%= bv.getSubject() %></a></td>
+						<% for(int i=1;i<=bv.getLevel_();i++) {
+								out.println("&nbsp;");
+								if(i==bv.getLevel_()){
+									out.println("&#8618;");
+									}
+								}%>
+						<a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx()%>"><%= bv.getSubject() %></a>
+					</td>		
 					<td><%=bv.getWriter() %></td>
 					<td><%=bv.getWriteday() %></td>
 					<td><%=bv.getViewCnt() %></td>

@@ -1,76 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
-
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
   		<meta charset="UTF-8">
     	<title>Login</title>
 		<style>
-			/* Reset default styles */
-			* {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-			}
-
 			body {
 				background-color: #f2f2f2;
 				font-family: Arial, sans-serif;
-				font-size: 16px;
-				line-height: 1.5;
-				color: #333;
 			}
 			
 			.links {
 				display: flex;
-				justify-content: center;
+				justify-content: space-between;
 				align-items: center;
-				margin-top: 20px;
+				padding: 10px;
+				background-color: #fff;
+				border-bottom: 1px solid #ccc;
 			}
 			
 			.links a {
-				color: #999;
-				margin: 0 20px;
-				font-size: 20px;
-				font-weight: 400;
+				color: #333;
 				text-decoration: none;
-				transition: color 0.3s ease-in-out;
+				font-size: 16px;
+				padding: 10px;
+				border-radius: 5px;
+				background-color: #f2f2f2;
+				transition: background-color 0.3s ease;
 			}
 			
 			.links a:hover {
-				color: #000;
+				background-color: #ddd;
+			}
+			
+			.login_info {
+				margin: 50px auto;
+				max-width: 500px;
+				background-color: #fff;
+				border-radius: 5px;
+				padding: 20px;
+				box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.2);
 			}
 			
 			.member-info {
 				display: flex;
-				align-items: center;
-				margin-left: 20px;
+				margin-bottom: 10px;
 			}
-
+			
 			.member-info span {
+				font-weight: bold;
 				margin-right: 10px;
-				font-size: 18px;
-				font-weight: 400;
-				color: #555;
 			}
-
-			.member-info a {
-				color: #999;
-				font-size: 18px;
-				font-weight: 400;
-				text-decoration: none;
-				transition: color 0.3s ease-in-out;
+			
+			.logout-btn {
+				background-color: #333;
+				color: #fff;
 				padding: 10px;
+				border: none;
 				border-radius: 5px;
-				border: 1px solid #999;
-				margin-left: 20px;
+				cursor: pointer;
+				transition: background-color 0.3s ease;
 			}
-
-			.member-info a:hover {
-				color: #000;
-				background-color: #fff;
-				border-color: #000;
+			
+			.logout-btn:hover {
+				background-color: #666;
 			}
 		</style>
 	</head>
@@ -79,6 +72,8 @@
 	        <a href="<%=request.getContextPath()%>/board/boardList.do?value=0">게시판 목록</a>
 			<a href="<%=request.getContextPath()%>/member/memberLogin.do">로그인</a>
 			<a href="<%=request.getContextPath()%>/member/memberJoin.do">회원 가입</a>
+		</div>
+		<div class="login_info">
 			<% if (session.getAttribute("midx") != null){
 				int midx = (int)session.getAttribute("midx");
 				String memberName = (String)session.getAttribute("memberName"); %>	
@@ -90,7 +85,7 @@
 					<span>회원이름:</span>
 					<span><%=memberName%></span>
 				</div>
-				<a href="<%=request.getContextPath()%>/member/memberLogOut.do">로그아웃</a>	
+				<button class="logout-btn" onclick="location.href='<%=request.getContextPath()%>/member/memberLogOut.do'">로그아웃</button>	
 			<%}%>
 	    </div>
 	</body>

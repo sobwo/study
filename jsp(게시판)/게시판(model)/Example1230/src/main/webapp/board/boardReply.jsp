@@ -60,6 +60,15 @@
 			  float: right;
 			  margin: 0 5px;
 			}
+			
+			#submit input[type=button], #submit input[type=reset]{
+				width: 80px;
+			  	height: 30px;
+			  	border: 1px solid #a4a4a4;
+			  	border-radius: 10px;
+			  	font-size:14px;
+			  	cursor:pointer;
+			}
 
 		</style>
 		
@@ -98,7 +107,7 @@
 		</script>
 	</head>
 	<body>
-		<h1>글 작성</h1>
+		<h1>글 답변</h1>
 		<form name="frm">
 			<input type="hidden" name ="bidx" value="<%=bv.getBidx()%>">
 			<input type="hidden" name ="originBidx" value="<%=bv.getOriginbidx()%>">
