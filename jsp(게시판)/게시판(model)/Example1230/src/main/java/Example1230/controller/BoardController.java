@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Example1230.domain.BoardVo;
+import Example1230.domain.Criteria;
+import Example1230.domain.PageMaker;
 import Example1230.service.BoardDao;
 
 
@@ -31,10 +33,30 @@ public class BoardController extends HttpServlet {
 		if(str.equals("/board/boardList.do")) {
 			System.out.println("boardList로 들어옴");
 			BoardDao bd = new BoardDao();
-//			int num1 = Integer.parseInt(request.getParameter("dataPerPage"));
-			int value = Integer.parseInt(request.getParameter("value"));
-			ArrayList<BoardVo> boardList = bd.boardSelectAll(value,10);
+			int dataPerPage = 0, page = 0, cnt=0;
 			
+			if(request.getParameter("dataPerPage")==null) dataPerPage=10;
+			else dataPerPage = Integer.parseInt(request.getParameter("dataPerPage"));
+			
+			if(request.getParameter("page")==null) page = 1;
+			else page = Integer.parseInt(request.getParameter("page"));
+			ArrayList<BoardVo> boardList = bd.boardSelectAll(page,dataPerPage);
+			
+			System.out.println("page="+page);
+			
+			Criteria cri = new Criteria();
+			cri.setPage(page);
+			cri.setPagePerNum(dataPerPage);
+			
+			cnt = bd.boardTotal();
+			
+			PageMaker pm = new PageMaker();
+			pm.setCri(cri);
+			pm.setTotalCount(cnt);
+			pm.calData();
+			
+			request.setAttribute("dataPerPage", dataPerPage);
+			request.setAttribute("pm", pm);
 			request.setAttribute("boardList", boardList);
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
 			rd.forward(request, response);

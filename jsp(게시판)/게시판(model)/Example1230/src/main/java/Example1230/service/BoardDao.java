@@ -17,18 +17,17 @@ public class BoardDao {
 		this.conn = dbconn.getConnection();
 	}
 	
-	public ArrayList<BoardVo> boardSelectAll(int num1, int num2) {
+	public ArrayList<BoardVo> boardSelectAll(int page, int datePerPage) {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
 // 		String sql = "select bidx,depth,level_,subject,writer,TO_CHAR(writeday,'yyyy.mm.dd') AS writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc,level_ asc";
  		String sql = "SELECT * FROM(SELECT ROWNUM AS rnum, A.* FROM (select bidx,depth,level_,subject,writer,TO_CHAR(writeday,'yyyy.mm.dd') AS writeday,NVL(viewcnt,0) AS viewcnt,midx "
  				+ "from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc,level_ ASC)A)B WHERE B.rnum BETWEEN ? AND ?";
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
- 		int cnt = 0;
  		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, (num1-1)*num2+1);
-			pstmt.setInt(2, num1*num2);
+			pstmt.setInt(1, (page-1)*datePerPage+1);
+			pstmt.setInt(2, page*datePerPage);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -42,7 +41,6 @@ public class BoardDao {
 				bv.setViewCnt(rs.getString("viewcnt"));
 				bv.setMidx(rs.getInt("midx"));
 				blist.add(bv);
-				cnt++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,7 +48,7 @@ public class BoardDao {
 				try {
 					rs.close();
 					pstmt.close();
-					conn.close();
+//					conn.close();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -349,6 +347,38 @@ public class BoardDao {
 			}
 
 		}
+		return value;
+	}
+	
+	public int boardTotal() {
+		int value = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT count(*) as cnt from board1230 where delyn='N'";
+	
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				value = rs.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
 		return value;
 	}
 	

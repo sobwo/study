@@ -4,6 +4,11 @@
 <%@ page import = "Example1230.domain.*" %>
 <% 
 	ArrayList<BoardVo> boardList = (ArrayList<BoardVo>)request.getAttribute("boardList");
+	PageMaker pm = (PageMaker)request.getAttribute("pm");
+	int dataPerPage = (int)request.getAttribute("dataPerPage");
+	out.println("dataPerPage"+dataPerPage);
+	out.println("start:"+pm.getStartPage());
+	out.println("end:"+pm.getEndPage());
 %>
 <!DOCTYPE html>
 	<html>
@@ -146,6 +151,7 @@
 				  color: black;
 				}
 			</style>
+			<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 			<script>
 				function search(){
 					var fm = document.frm;
@@ -155,11 +161,23 @@
 				}
 				
 				function changePage(){
-					alert();
-					var fm = document.frm;
-					fm.action = "<%=request.getContextPath()%>/board/boardList.do"
-					fm.method = "post";
-					fm.submit();
+					var dataPerPage = $("#dataPerPage").val();
+					
+					var fm2 = document.frm2;
+					fm2.action = "<%=request.getContextPath()%>/board/boardList.do?dataPerPage="+dataPerPage;
+					fm2.method = "post";
+					fm2.submit();
+					
+					alert(dataPerPage);
+					if(<%=dataPerPage%>==10){
+						$("#dataPerPage").val("10").prop("selected", true);
+					}
+					else if(<%=dataPerPage%>==15){
+						$("#dataPerPage").val("15").prop("selected", true);
+					}
+					else if(<%=dataPerPage%>==20){
+						$("#dataPerPage").val("20").prop("selected", true);
+					}
 				} 
 			</script>
 		</head>
@@ -201,21 +219,30 @@
 				</tr>
 			</tbody>
 		</table>	
-		<form name="frm">	
+		<form name="frm2">	
 			<div id="paging">
 				<span>
 					<select id="dataPerPage" name="dataPerPage" onchange="changePage()">
-        				<option value="10">10개씩보기</option>
-        				<option value="15">15개씩보기</option>
-        				<option value="20">20개씩보기</option>
+						<option value="">N개씩 보기</option>
+        				<option value="10" >10개씩보기</option>
+        				<option value="15" >15개씩보기</option>
+        				<option value="20" >20개씩보기</option>
 					</select>
 				</span>
 				<span class = "pagingNum">
-					<a href="<%=request.getContextPath()%>/board/boardList.do?value=1">1</a>
-					<a href="<%=request.getContextPath()%>/board/boardList.do?value=2">2</a>
-					<a href="<%=request.getContextPath()%>/board/boardList.do?value=3">3</a>
+					<% if(pm.isPrev()){ %>
+						<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getStartPage()-1%>&dataPerPage=<%=dataPerPage%>">◀</a>
+					<%} %>
+					<%for (int i=pm.getStartPage(); i<=pm.getEndPage();i++) {%>
+						<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=i%>&dataPerPage=<%=dataPerPage%>"><%=i%></a>
+					<%} %>
+					<% if(pm.isNext() && pm.getEndPage()>0){%>
+						<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getEndPage()+1%>&dataPerPage=<%=dataPerPage%>">▶</a>
+					<%} %>
 				</span>
 			</div>
+		</form>
+		<form name = "frm">
 			<div id="search">
 				<span>
 					<select name="searchOption">
@@ -231,7 +258,6 @@
 					<input type="submit" name="submit" value="검색" onclick="search()">
 				</span>	
 			</div>
-
 		</form>
 	</body>
 </html>

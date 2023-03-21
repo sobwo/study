@@ -69,7 +69,7 @@
 	</head>
 	<body>
 	   	<div class="links">
-	        <a href="<%=request.getContextPath()%>/board/boardList.do?value=0">게시판 목록</a>
+	        <a href="<%=request.getContextPath()%>/board/boardList.do?">게시판 목록</a>
 			<a href="<%=request.getContextPath()%>/member/memberLogin.do">로그인</a>
 			<a href="<%=request.getContextPath()%>/member/memberJoin.do">회원 가입</a>
 		</div>
