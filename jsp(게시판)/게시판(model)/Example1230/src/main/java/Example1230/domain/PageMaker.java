@@ -1,5 +1,8 @@
 package Example1230.domain;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class PageMaker {
 	//페이지 네비게이션을 사용하기 위한 기능이 담긴 클래스
 	private int displayPageNum = 5;
@@ -9,14 +12,14 @@ public class PageMaker {
 	
 	private boolean prev;
 	private boolean next;
-	private Criteria cri;
+	private SearchCriteria scri;
 	
-	public Criteria getCri() {
-		return cri;
+	public SearchCriteria getScri() {
+		return scri;
 	}
 
-	public void setCri(Criteria cri) {
-		this.cri = cri;
+	public void setScri(SearchCriteria scri) {
+		this.scri = scri;
 	}
 	public int getDisplayPageNum() {
 		return displayPageNum;
@@ -69,20 +72,27 @@ public class PageMaker {
 	public void calData() {
 		//시작페이지 번호
 		//끝페이지 번호
-		System.out.println(cri.getPage());
-		endPage = (int)(Math.ceil(cri.getPage()/(double)displayPageNum)*displayPageNum);
+		endPage = (int)(Math.ceil(scri.getPage()/(double)displayPageNum)*displayPageNum);
 		startPage = (endPage - displayPageNum)+1;
 		
 		//실제페이지
-		int tempEndPage = (int)(Math.ceil(totalCount/(double)cri.getPagePerNum()));
+		int tempEndPage = (int)(Math.ceil(totalCount/(double)scri.getPagePerNum()));
 		
 		if(endPage>tempEndPage) endPage = tempEndPage;
 		
 		prev = (startPage == 1 ? false : true);
-		next = (endPage*cri.getPagePerNum()>= totalCount ? false : true);
-		
-		
+		next = (endPage*scri.getPagePerNum()>= totalCount ? false : true);	
 	}
-
+	
+	public String encoding(String keyword) {
+		String str= keyword;
+		try {
+			URLEncoder.encode(str,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+	}
 	
 }

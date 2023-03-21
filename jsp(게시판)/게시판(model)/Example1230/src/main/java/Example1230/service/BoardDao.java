@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import Example1230.dbconn.Dbconn;
 import Example1230.domain.BoardVo;
-import Example1230.domain.MemberVo;
+import Example1230.domain.SearchCriteria;
 
 public class BoardDao {
 	private Connection conn;
@@ -17,17 +17,33 @@ public class BoardDao {
 		this.conn = dbconn.getConnection();
 	}
 	
-	public ArrayList<BoardVo> boardSelectAll(int page, int datePerPage) {
+	public ArrayList<BoardVo> boardSelectAll(SearchCriteria scri) {
  		ArrayList<BoardVo> blist = new ArrayList<BoardVo>();
-// 		String sql = "select bidx,depth,level_,subject,writer,TO_CHAR(writeday,'yyyy.mm.dd') AS writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc,level_ asc";
+ 		String str = null;
+ 		if(scri.getSearchOption().equals("제목만")) str = "and subject like ?";
+ 		else if(scri.getSearchOption().equals("제목과내용")) str = "and subject like ? or contents like ?";
+ 		else if(scri.getSearchOption().equals("글작성자")) str = "and writer like ?";
  		String sql = "SELECT * FROM(SELECT ROWNUM AS rnum, A.* FROM (select bidx,depth,level_,subject,writer,TO_CHAR(writeday,'yyyy.mm.dd') AS writeday,NVL(viewcnt,0) AS viewcnt,midx "
- 				+ "from board1230 WHERE DELYN = 'N' order by originbidx DESC,depth asc,level_ ASC)A)B WHERE B.rnum BETWEEN ? AND ?";
+ 				+ "from board1230 WHERE DELYN = 'N'"+str+" order by originbidx DESC,depth asc,level_ ASC)A)B WHERE B.rnum BETWEEN ? AND ?";
  		PreparedStatement pstmt = null;
  		ResultSet rs = null;
+ 		
  		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, (page-1)*datePerPage+1);
-			pstmt.setInt(2, page*datePerPage);
+ 			
+			if(countChar(str, '?')==1) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+scri.getSearchContext()+"%");
+				pstmt.setInt(2, (scri.getPage()-1)*scri.getPagePerNum()+1);
+				pstmt.setInt(3, scri.getPage()*scri.getPagePerNum());
+				}
+			else if(countChar(str, '?')==2) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+scri.getSearchContext()+"%");
+				pstmt.setString(2, "%"+scri.getSearchContext()+"%");
+				pstmt.setInt(3, (scri.getPage()-1)*scri.getPagePerNum()+1);
+				pstmt.setInt(4, scri.getPage()*scri.getPagePerNum());
+			}
+			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -58,106 +74,6 @@ public class BoardDao {
  		return blist;
  	}
 	
-	public ArrayList<BoardVo> boardSearch(String option, String str){
-		ArrayList<BoardVo> blist = new ArrayList<>();
-		String sql = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		if(option.equals( "제목만")) {
-			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(subject,?)>0 order by bidx DESC";
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, str);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					BoardVo bv = new BoardVo();	
-					bv.setBidx(rs.getInt("bidx"));
-					bv.setSubject(rs.getString("subject"));
-					bv.setWriter(rs.getString("writer"));
-					bv.setWriteday(rs.getString("writeday"));
-					bv.setViewCnt(rs.getString("viewcnt"));
-					bv.setMidx(rs.getInt("midx"));
-					blist.add(bv);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					rs.close();
-					pstmt.close();
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		else if(option.equals("제목+내용")) {
-			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(subject,?)>0 or instr(contents,?)>0 order by bidx DESC";
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, str);
-				pstmt.setString(2, str);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					BoardVo bv = new BoardVo();	
-					bv.setBidx(rs.getInt("bidx"));
-					bv.setSubject(rs.getString("subject"));
-					bv.setWriter(rs.getString("writer"));
-					bv.setWriteday(rs.getString("writeday"));
-					bv.setViewCnt(rs.getString("viewcnt"));
-					bv.setMidx(rs.getInt("midx"));
-					blist.add(bv);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					rs.close();
-					pstmt.close();
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		else if(option.equals("글작성자")) {
-			sql = "select bidx,subject,writer,writeday,NVL(viewcnt,0) AS viewcnt,midx from board1230 WHERE DELYN = 'N' and instr(writer,?)>0 order by bidx DESC";
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, str);
-				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					BoardVo bv = new BoardVo();	
-					bv.setBidx(rs.getInt("bidx"));
-					bv.setSubject(rs.getString("subject"));
-					bv.setWriter(rs.getString("writer"));
-					bv.setWriteday(rs.getString("writeday"));
-					bv.setViewCnt(rs.getString("viewcnt"));
-					bv.setMidx(rs.getInt("midx"));
-					blist.add(bv);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					rs.close();
-					pstmt.close();
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return blist;
-	}
-
 	public int boardInsert(String subject, String contents, String writer, String ip, int midx, String pwd){
 		PreparedStatement pstmt = null;
 		int value = 0;
@@ -350,15 +266,25 @@ public class BoardDao {
 		return value;
 	}
 	
-	public int boardTotal() {
+	public int boardTotal(SearchCriteria scri) {
 		int value = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String str = null;
+		if(scri.getSearchOption().equals("제목만")) str = "and subject like ?";
+ 		else if(scri.getSearchOption().equals("제목과내용")) str = "and subject like ? or contents like ?";
+ 		else if(scri.getSearchOption().equals("글작성자")) str = "and writer like ?";
 		
-		String sql = "SELECT count(*) as cnt from board1230 where delyn='N'";
-	
+		String sql = "SELECT count(*) as cnt from board1230 where delyn='N'"+str;
+
 		try {
 			pstmt = conn.prepareStatement(sql);
+			if(countChar(str, '?')==1) 
+				pstmt.setString(1, "%"+scri.getSearchContext()+"%");
+			else if(countChar(str, '?')==2) {
+				pstmt.setString(1, "%"+scri.getSearchContext()+"%");
+				pstmt.setString(2, "%"+scri.getSearchContext()+"%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -378,8 +304,12 @@ public class BoardDao {
 			}
 			
 		}
-		
 		return value;
 	}
 	
+	public int countChar(String str, char c) {
+		return str.length() - str.replace(String.valueOf(c), "").length();
+	}
 }
+	
+

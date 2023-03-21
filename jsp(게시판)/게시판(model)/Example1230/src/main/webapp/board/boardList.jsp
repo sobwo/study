@@ -6,9 +6,6 @@
 	ArrayList<BoardVo> boardList = (ArrayList<BoardVo>)request.getAttribute("boardList");
 	PageMaker pm = (PageMaker)request.getAttribute("pm");
 	int dataPerPage = (int)request.getAttribute("dataPerPage");
-	out.println("dataPerPage"+dataPerPage);
-	out.println("start:"+pm.getStartPage());
-	out.println("end:"+pm.getEndPage());
 %>
 <!DOCTYPE html>
 	<html>
@@ -100,16 +97,35 @@
 					background-color: gray;
 				}
 				
+				
+				#bottom_wrap{					
+					margin-top:20px;
+					width:771px;
+					background:#e9e9e9;
+				}
+				
 				#search,#paging {
-				  margin-top: 50px;
+				  margin:20px;
 				  display: flex;
 				  align-items: center;
 				  justify-content: center;
 				}
 				
+				#dataPerPage{
+					width:150px;
+				}
+				
+				.pagingNum{
+					width:335px;
+				}
+				
 				.pagingNum a{
 					font-size:15px;
 					margin-left:20px;
+				}
+				
+				#search{
+					margin-top:20px;
 				}
 				
 				#search select, #search input[type="text"], #search input[type="submit"], 
@@ -124,7 +140,6 @@
 				
 				#search select {
 				  margin-right: 10px;
-				  background-color: #f5f5f5;
 				  outline: none;
 				}
 				
@@ -143,42 +158,39 @@
 				#search input[type="submit"]:hover {
 				  background-color: #3e8e41;
 				}
-
 				
 				a:link,
 				a:visited {
 				  text-decoration: none;
 				  color: black;
+				  cursor:pointer;
 				}
 			</style>
 			<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 			<script>
+				$(document).ready(function(){
+					if(<%=dataPerPage%>==10)
+						$("#dataPerPage").val("10").prop("selected",true);
+					else if(<%=dataPerPage%>==15)
+						$("#dataPerPage").val("15").prop("selected",true);
+					else if(<%=dataPerPage%>==20)
+						$("#dataPerPage").val("20").prop("selected",true);
+				});
 				function search(){
 					var fm = document.frm;
-					fm.action = "<%=request.getContextPath()%>/board/boardSearch.do"
+					fm.action = "<%=request.getContextPath()%>/board/boardList.do";
 					fm.method = "post";
 					fm.submit();
 				}
 				
 				function changePage(){
 					var dataPerPage = $("#dataPerPage").val();
-					
 					var fm2 = document.frm2;
-					fm2.action = "<%=request.getContextPath()%>/board/boardList.do?dataPerPage="+dataPerPage;
+					fm2.action = "<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getScri().getPage()%>&dataPerPage="+dataPerPage+"&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>";
 					fm2.method = "post";
 					fm2.submit();
-					
-					alert(dataPerPage);
-					if(<%=dataPerPage%>==10){
-						$("#dataPerPage").val("10").prop("selected", true);
-					}
-					else if(<%=dataPerPage%>==15){
-						$("#dataPerPage").val("15").prop("selected", true);
-					}
-					else if(<%=dataPerPage%>==20){
-						$("#dataPerPage").val("20").prop("selected", true);
-					}
 				} 
+
 			</script>
 		</head>
 	<body>		
@@ -218,46 +230,47 @@
 				<%} %>
 				</tr>
 			</tbody>
-		</table>	
-		<form name="frm2">	
-			<div id="paging">
-				<span>
-					<select id="dataPerPage" name="dataPerPage" onchange="changePage()">
-						<option value="">N개씩 보기</option>
-        				<option value="10" >10개씩보기</option>
-        				<option value="15" >15개씩보기</option>
-        				<option value="20" >20개씩보기</option>
-					</select>
-				</span>
-				<span class = "pagingNum">
-					<% if(pm.isPrev()){ %>
-						<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getStartPage()-1%>&dataPerPage=<%=dataPerPage%>">◀</a>
-					<%} %>
-					<%for (int i=pm.getStartPage(); i<=pm.getEndPage();i++) {%>
-						<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=i%>&dataPerPage=<%=dataPerPage%>"><%=i%></a>
-					<%} %>
-					<% if(pm.isNext() && pm.getEndPage()>0){%>
-						<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getEndPage()+1%>&dataPerPage=<%=dataPerPage%>">▶</a>
-					<%} %>
-				</span>
-			</div>
-		</form>
-		<form name = "frm">
-			<div id="search">
-				<span>
-					<select name="searchOption">
-						<option>제목만</option>
-						<option>제목+내용</option>
-						<option>글작성자</option>
-					</select>				
-				</span>
-				<span>
-					<input type="text" name="searchContext" placeholder="검색어를 입력해주세요.">
-				</span>
-				<span>
-					<input type="submit" name="submit" value="검색" onclick="search()">
-				</span>	
-			</div>
-		</form>
+		</table>
+		<div id="bottom_wrap">	
+			<form name="frm2">	
+				<div id="paging">
+					<span>
+						<select id="dataPerPage" name="dataPerPage" onchange="changePage()">
+	        				<option value="10" id="10">10개씩보기</option>
+	        				<option value="15" id="15">15개씩보기</option>
+	        				<option value="20" id="20">20개씩보기</option>
+						</select>
+					</span>
+					<span class = "pagingNum">
+						<% if(pm.isPrev()){ %>
+							<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getStartPage()-1%>&dataPerPage=<%=dataPerPage%>&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>">◁이전</a>
+						<%} %>
+						<%for (int i=pm.getStartPage(); i<=pm.getEndPage();i++) {%>
+							<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=i%>&dataPerPage=<%=dataPerPage%>&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>"><%=i%></a>
+						<%} %>
+						<% if(pm.isNext() && pm.getEndPage()>0){%>
+							<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getEndPage()+1%>&dataPerPage=<%=dataPerPage%>&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>">다음▷</a>
+						<%} %>
+					</span>
+				</div>
+			</form>
+			<form name = "frm">
+				<div id="search">
+					<span>
+						<select name="searchOption">
+							<option>제목만</option>
+							<option>제목과내용</option>
+							<option>글작성자</option>
+						</select>				
+					</span>
+					<span>
+						<input type="text" name="searchContext" placeholder="검색어를 입력해주세요.">
+					</span>
+					<span>
+						<input type="submit" name="submit" value="검색" onclick="search()">
+					</span>	
+				</div>
+			</form>
+		</div>
 	</body>
 </html>

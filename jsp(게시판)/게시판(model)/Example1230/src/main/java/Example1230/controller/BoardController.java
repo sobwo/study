@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import Example1230.domain.BoardVo;
 import Example1230.domain.Criteria;
 import Example1230.domain.PageMaker;
+import Example1230.domain.SearchCriteria;
 import Example1230.service.BoardDao;
 
 
@@ -33,6 +34,7 @@ public class BoardController extends HttpServlet {
 		if(str.equals("/board/boardList.do")) {
 			System.out.println("boardList로 들어옴");
 			BoardDao bd = new BoardDao();
+			
 			int dataPerPage = 0, page = 0, cnt=0;
 			
 			if(request.getParameter("dataPerPage")==null) dataPerPage=10;
@@ -40,37 +42,31 @@ public class BoardController extends HttpServlet {
 			
 			if(request.getParameter("page")==null) page = 1;
 			else page = Integer.parseInt(request.getParameter("page"));
-			ArrayList<BoardVo> boardList = bd.boardSelectAll(page,dataPerPage);
 			
-			System.out.println("page="+page);
+			//검색시 사용하는 값들을 추가로 등록
+			String searchOption = request.getParameter("searchOption");
+			if(searchOption==null) searchOption = "제목만";
+			String searchContext = request.getParameter("searchContext");
 			
-			Criteria cri = new Criteria();
-			cri.setPage(page);
-			cri.setPagePerNum(dataPerPage);
+			if(searchContext==null) searchContext = "";
 			
-			cnt = bd.boardTotal();
+			SearchCriteria scri = new SearchCriteria();
+			scri.setSearchOption(searchOption);
+			scri.setSearchContext(searchContext);
+			scri.setPage(page);
+			scri.setPagePerNum(dataPerPage);
+			ArrayList<BoardVo> boardList = bd.boardSelectAll(scri);
+			
+			cnt = bd.boardTotal(scri);
 			
 			PageMaker pm = new PageMaker();
-			pm.setCri(cri);
+			pm.setScri(scri);
 			pm.setTotalCount(cnt);
 			pm.calData();
 			
 			request.setAttribute("dataPerPage", dataPerPage);
 			request.setAttribute("pm", pm);
 			request.setAttribute("boardList", boardList);
-			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
-			rd.forward(request, response);
-		}
-		
-		else if(str.equals("/board/boardSearch.do")) {
-			System.out.println("boardSearch 들어옴");
-			
-			String option = request.getParameter("searchOption");
-			String context = request.getParameter("searchContext");
-			BoardDao bd = new BoardDao();
-			ArrayList<BoardVo> boardList = bd.boardSearch(option, context);
-			request.setAttribute("boardList", boardList);
-			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardList.jsp");
 			rd.forward(request, response);
 		}
@@ -112,8 +108,6 @@ public class BoardController extends HttpServlet {
 			BoardVo bv = bd.boardSelectOne(bidx);
 			
 			request.setAttribute("boardContents", bv);
-			
-			System.out.println("originbidx="+bv.getOriginbidx());
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardContents.jsp");
 			rd.forward(request, response);
@@ -187,9 +181,6 @@ public class BoardController extends HttpServlet {
 			bv.setDepth(depth);
 			bv.setLevel_(level_);
 			
-			System.out.println("depth:"+depth);
-			System.out.println("level:"+level_);
-			
 			request.setAttribute("bv", bv);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/boardReply.jsp");
@@ -200,7 +191,6 @@ public class BoardController extends HttpServlet {
 			System.out.println("boardReplyAction 들어옴");
 			int value = 0;
 			int originbidx = Integer.parseInt(request.getParameter("originBidx"));
-			System.out.println("originbidx : "+originbidx);
 			int depth = Integer.parseInt(request.getParameter("depth"));
 			int level_ = Integer.parseInt(request.getParameter("level_"));
 			String subject = request.getParameter("subject");
