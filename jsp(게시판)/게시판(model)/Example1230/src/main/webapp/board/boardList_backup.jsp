@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import = "java.util.*" %>
+<%@ page import = "Example1230.domain.*" %>
+<% 
+	ArrayList<BoardVo> boardList = (ArrayList<BoardVo>)request.getAttribute("boardList");
+	PageMaker pm = (PageMaker)request.getAttribute("pm");
+	int dataPerPage = (int)request.getAttribute("dataPerPage");
+%>
 <!DOCTYPE html>
 	<html>
 		<head>
@@ -163,16 +169,16 @@
 			<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 			<script>
 				$(document).ready(function(){
-					if(${dataPerPage}==10)
+					if(<%=dataPerPage%>==10)
 						$("#dataPerPage").val("10").prop("selected",true);
-					else if(${dataPerPage}==15)
+					else if(<%=dataPerPage%>==15)
 						$("#dataPerPage").val("15").prop("selected",true);
-					else if(${dataPerPage}==20)
+					else if(<%=dataPerPage%>==20)
 						$("#dataPerPage").val("20").prop("selected",true);
 				});
 				function search(){
 					var fm = document.frm;
-					fm.action = "${pageContext.request.contextPath}/board/boardList.do";
+					fm.action = "<%=request.getContextPath()%>/board/boardList.do";
 					fm.method = "post";
 					fm.submit();
 				}
@@ -180,7 +186,7 @@
 				function changePage(){
 					var dataPerPage = $("#dataPerPage").val();
 					var fm2 = document.frm2;
-					fm2.action = "${pageContext.request.contextPath}/board/boardList.do?page=${pm.getScri().getPage()}&dataPerPage="+dataPerPage+"&searchOption=${pm.scri.searchOption}&searchContext=${pm.encoding(pm.scri.searchContext)}";
+					fm2.action = "<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getScri().getPage()%>&dataPerPage="+dataPerPage+"&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>";
 					fm2.method = "post";
 					fm2.submit();
 				} 
@@ -188,11 +194,11 @@
 			</script>
 		</head>
 	<body>		
-		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
+		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>
 		<h1>게시판 목록</h1>
 		<div id="top_menu">
 			<div id="write">
-				<input type="button" onclick="location.href='${pageContext.request.contextPath}/board/boardWrite.do'" value="글쓰기">
+				<input type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardWrite.do'" value="글쓰기">
 			</div>
 		</div>
 		<table id="main_board">
@@ -206,23 +212,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="bv" items="${boardList}">
+				<%for(BoardVo bv : boardList) {%>
 				<tr class="board_col">
-					<td style="text-align:center;">${bv.bidx}</td>
+					<td style="text-align:center;"><%= bv.getBidx() %></td>
 					<td style="overflow:hidden">
-						<c:forEach var="i" begin="1" end="${bv.level_}" step="1">
-							out.println("&nbsp;");
-							<c:if test="${i==bv.level_}">
-								out.println("&#8618;");
-							</c:if>
-						</c:forEach>
-						<a href="${pageContext.request.contextPath}/board/boardContents.do?bidx=${bv.bidx}">${bv.subject}</a>
+						<% for(int i=1;i<=bv.getLevel_();i++) {
+								out.println("&nbsp;");
+								if(i==bv.getLevel_()){
+									out.println("&#8618;");
+									}
+								}%>
+						<a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx()%>"><%= bv.getSubject() %></a>
 					</td>		
-					<td>${bv.writer}</td>
-					<td>${bv.writeday}</td>
-					<td>${bv.viewCnt}</td>
+					<td><%=bv.getWriter() %></td>
+					<td><%=bv.getWriteday() %></td>
+					<td><%=bv.getViewCnt() %></td>
+				<%} %>
 				</tr>
-				</c:forEach>
 			</tbody>
 		</table>
 		<div id="bottom_wrap">	
@@ -236,15 +242,15 @@
 						</select>
 					</span>
 					<span class = "pagingNum">
-						<c:if test="${pm.prev==true}">
-							<a href="${pageContext.request.contextPath}/board/boardList.do?page=${pm.startPage-1}&dataPerPage=${dataPerPage}&searchOption=${pm.scri.searchOption}&searchContext=${pm.encoding(pm.scri.searchContext)}">◁이전</a>
-						</c:if>
-						<c:forEach var="i" begin="${pm.startPage}" end="${pm.endPage}" step="1">
-							<a href="${pageContext.request.contextPath}/board/boardList.do?page=${i}&dataPerPage=${dataPerPage}&searchOption=${pm.scri.searchOption}&searchContext=${pm.encoding(pm.scri.searchContext)}">${i}</a>
-						</c:forEach>
-						<c:if test="${pm.next && pm.endPage>0}">
-							<a href="${pageContext.request.contextPath}/board/boardList.do?page=${pm.endPage+1}&dataPerPage=${dataPerPage}&searchOption=${pm.scri.searchOption}&searchContext=${pm.encoding(pm.scri.searchContext)}">다음▷</a>
-						</c:if>
+						<% if(pm.isPrev()){ %>
+							<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getStartPage()-1%>&dataPerPage=<%=dataPerPage%>&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>">◁이전</a>
+						<%} %>
+						<%for (int i=pm.getStartPage(); i<=pm.getEndPage();i++) {%>
+							<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=i%>&dataPerPage=<%=dataPerPage%>&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>"><%=i%></a>
+						<%} %>
+						<% if(pm.isNext() && pm.getEndPage()>0){%>
+							<a href="<%=request.getContextPath()%>/board/boardList.do?page=<%=pm.getEndPage()+1%>&dataPerPage=<%=dataPerPage%>&searchOption=<%=pm.getScri().getSearchOption()%>&searchContext=<%=pm.encoding(pm.getScri().getSearchContext())%>">다음▷</a>
+						<%} %>
 					</span>
 				</div>
 			</form>
