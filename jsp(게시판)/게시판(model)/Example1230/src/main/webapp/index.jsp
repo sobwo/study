@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -69,24 +70,22 @@
 	</head>
 	<body>
 	   	<div class="links">
-	        <a href="<%=request.getContextPath()%>/board/boardList.do?">게시판 목록</a>
-			<a href="<%=request.getContextPath()%>/member/memberLogin.do">로그인</a>
-			<a href="<%=request.getContextPath()%>/member/memberJoin.do">회원 가입</a>
+	        <a href="${pageContext.request.contextPath}/board/boardList.do?">게시판 목록</a>
+			<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
+			<a href="${pageContext.request.contextPath}/member/memberJoin.do">회원 가입</a>
 		</div>
 		<div class="login_info">
-			<% if (session.getAttribute("midx") != null){
-				int midx = (int)session.getAttribute("midx");
-				String memberName = (String)session.getAttribute("memberName"); %>	
+			<c:if test="${sessionScope.midx != null}">
 				<div class="member-info">
 					<span>회원번호:</span>
-					<span><%=midx%></span>
+					<span>${sessionScope.midx}</span>
 				</div>
 				<div class="member-info">
 					<span>회원이름:</span>
-					<span><%=memberName%></span>
+					<span>${sessionScope.memberName}</span>
 				</div>
-				<button class="logout-btn" onclick="location.href='<%=request.getContextPath()%>/member/memberLogOut.do'">로그아웃</button>	
-			<%}%>
+				<button class="logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/memberLogOut.do'">로그아웃</button>	
+			</c:if>
 	    </div>
 	</body>
 </html>

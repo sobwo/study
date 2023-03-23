@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% int bidx = Integer.parseInt(request.getParameter("bidx")); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <!DOCTYPE html>
 <html>
 	<head>
@@ -61,7 +61,7 @@
 					fm.password.focus();
 				}
 				
-				fm.action = "<%=request.getContextPath()%>/board/boardDeleteAction.do?bidx=<%=bidx%>";
+				fm.action = "${pageContext.request.contextPath}/board/boardDeleteAction.do?bidx=${bidx}";
 				fm.method="post";
 				fm.submit();
 			}

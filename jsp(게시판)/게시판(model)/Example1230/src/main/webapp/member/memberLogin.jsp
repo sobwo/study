@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 	<head>
@@ -70,7 +70,7 @@
 				}
 				
 				var fm = document.frm;
-				fm.action="<%=request.getContextPath()%>/member/memberLoginAction.do";
+				fm.action="${pageContext.request.contextPath}/member/memberLoginAction.do";
 				fm.method="post";
 				fm.submit();
 			}
@@ -80,7 +80,7 @@
 				let memberId = $("#memberId").val();
 				
 				$.ajax({
-					url: "<%=request.getContextPath()%>/member/memberIdCheck.do",		
+					url: "${pageContext.request.contextPath}/member/memberIdCheck.do",		
 					method: "POST",
 					data: {"memberId": memberId },
 					dataType: "json",

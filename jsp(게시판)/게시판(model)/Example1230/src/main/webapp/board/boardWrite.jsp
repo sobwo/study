@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	if (session.getAttribute("midx") == null){	
 		out.println("<script>alert('로그인 하셔야 합니다.'); history.back(-1);</script>");
@@ -115,7 +116,7 @@
 				}
 				
 				if(isYN==1){
-					fm.action = "<%=request.getContextPath()%>/board/boardData.do";
+					fm.action = "${pageContext.request.contextPath}/board/boardData.do";
 					fm.method="post";
 					fm.submit();
 				}
@@ -123,7 +124,7 @@
 		</script>
 	</head>
 	<body>
-		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>	
+		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>	
 		<h1>글 작성</h1>
 		<form name="frm">
 			<table>

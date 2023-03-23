@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "java.util.*" %>
-<%@ page import = "Example1230.domain.*" %>
-<% 
-	BoardVo bv = (BoardVo)request.getAttribute("boardContents");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -109,7 +105,7 @@
 		</style>
 	</head>
 	<body>
-		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
 		<h1>글 내용</h1>
 		<table>
 				<thead>
@@ -119,14 +115,14 @@
 				<tbody>
 					<tr>
 						<td colspan="2" style="border-top:0; height:80px;">
-							<span><%=bv.getSubject()%></span><br/><br/>
-							<span><%=bv.getWriter() %></span>
-							<span><%=bv.getViewCnt() %></span>
-							<span><%=bv.getWriteday()%></span>	
+							<span>${boardContents.subject}</span><br/><br/>
+							<span>${boardContents.writer}</span>
+							<span>${boardContents.viewCnt}</span>
+							<span>${boardContents.writeday}</span>	
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><%=bv.getContents()%></td>
+						<td colspan="2">${boardContents.contents}</td>
 					</tr>
 					<tr>
 						<td style="border:0; height:40px;">첨부파일</td>
@@ -136,10 +132,10 @@
 						<td style="border:0;">
 							<form>
 								<div id="btn">
-									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardModify.do?bidx=<%=bv.getBidx()%>'" value="수정">
-									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardDelete.do?bidx=<%=bv.getBidx()%>'" value="삭제">
-									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardReply.do?bidx=<%=bv.getBidx()%>&originbidx=<%=bv.getOriginbidx()%>&depth=<%=bv.getDepth()%>&level_=<%=bv.getLevel_()%>'" value="답변">
-									<input type=button onclick="location.href='<%=request.getContextPath()%>/board/boardList.do?bidx=<%=bv.getBidx() %>'" value="목록">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardModify.do?bidx=${boardContents.bidx}'" value="수정">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardDelete.do?bidx=${boardContents.bidx}'" value="삭제">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardReply.do?bidx=${boardContents.bidx}&originbidx=${boardContents.originbidx}&depth=${boardContents.depth}&level_=${boardContents.level_}'" value="답변">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardList.do?bidx=${boardContents.bidx}'" value="목록">
 								</div>
 							</form>
 						</td>

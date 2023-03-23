@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
-<%@ page import = "Example1230.domain.*" %>
-<%@ page import = "java.util.*" %>
-<%
-	ArrayList<MemberVo> memberList = (ArrayList<MemberVo>)request.getAttribute("memberList");
-%>      
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 	<head>
@@ -81,15 +77,15 @@
 				<th>가입일</th>
 			</tr>
 		<thead>
-		<% for(MemberVo mv : memberList) {%>
+		<c:forEach var="mv" items="memberList">
 		<tr>
-			<td><%= mv.getMidx() %></td>
-			<td><%= mv.getMemberId() %></td>
-			<td><%= mv.getMemberName() %></td>
-			<td><%= mv.getDelyn() %></td>
-			<td><%= mv.getWriteDay() %></td>
-		<%} %>
+			<td>${mv.midx}</td>
+			<td>${mv.memberId}</td>
+			<td>${mv.memberName}</td>
+			<td>${mv.delyn}</td>
+			<td>${mv.writeDay}</td>
 		</tr>
+		</c:forEach>
 	</table>
 	
 	</body>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -230,7 +230,7 @@
 				if(isYN == 1){
 					alert("회원가입 완료");
 					
-					fm.action ="<%=request.getContextPath()%>/member/memberData.do";
+					fm.action ="${pageContext.request.contextPath}/member/memberData.do";
 					fm.method = "post";
 					fm.submit();
 					fm.reset();
@@ -241,7 +241,7 @@
  			let memberId = $("#memberId").val();
  			
  			$.ajax({
- 				url: "<%= request.getContextPath() %>/member/memberIdCheck.do",		
+ 				url: "${pageContext.request.contextPath}/member/memberIdCheck.do",		
  				method: "POST",
  				data: {"memberId": memberId },
  				dataType: "json",

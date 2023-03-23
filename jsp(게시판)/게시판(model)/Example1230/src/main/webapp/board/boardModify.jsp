@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Example1230.domain.*" %>
-<% BoardVo bv = (BoardVo)request.getAttribute("boardContents");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -101,7 +99,7 @@
 				
 				if(isYN ==1){
 					alert();
-					fm.action = "<%=request.getContextPath()%>/board/boardModifyAction.do?bidx=<%=bv.getBidx()%>";
+					fm.action = "${pageContext.request.contextPath}/board/boardModifyAction.do?bidx=${boardContents.bidx}";
 					fm.method = "post";
 					fm.submit();
 				}
@@ -109,21 +107,21 @@
 		</script>
 	</head>
 	<body>
-		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
 		<h1>글 작성</h1>
 		<form name="frm">
 			<table>
 				<thead>
 					<tr>
-						<th><input type=text name="subject" value="<%=bv.getSubject() %>"></th>
+						<th><input type=text name="subject" value="${boardContents.subject}"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><span><%=bv.getWriter() %></span></td>
+						<td><span>${boardContents.writer}</span></td>
 					</tr>
 					<tr>
-						<td><textarea style="vertical-align:top;" name="contents"><%=bv.getContents()%></textarea></td>
+						<td><textarea style="vertical-align:top;" name="contents">${boardContents.contents}</textarea></td>
 					</tr>
 				</tbody>
 			</table>

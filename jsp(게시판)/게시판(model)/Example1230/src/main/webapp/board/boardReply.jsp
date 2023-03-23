@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "Example1230.domain.*"%>
-<% BoardVo bv = (BoardVo)request.getAttribute("bv"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -108,7 +107,7 @@
 			}
 			
 			if(isYN==1){
-				fm.action ="<%=request.getContextPath()%>/board/boardReplyAction.do";
+				fm.action ="${pageContext.request.contextPath}/board/boardReplyAction.do";
 				fm.method="post";
 				fm.submit();
 			}
@@ -116,13 +115,13 @@
 		</script>
 	</head>
 	<body>
-		<h1><a href="<%=request.getContextPath()%>/index.jsp">홈 바로가기</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
 		<h1>글 답변</h1>
 		<form name="frm">
-			<input type="hidden" name ="bidx" value="<%=bv.getBidx()%>">
-			<input type="hidden" name ="originBidx" value="<%=bv.getOriginbidx()%>">
-			<input type="hidden" name ="depth" value="<%=bv.getDepth()%>">
-			<input type="hidden" name ="level_" value="<%=bv.getLevel_()%>">
+			<input type="hidden" name ="bidx" value="${bv.bidx}">
+			<input type="hidden" name ="originBidx" value="${bv.originbidx}">
+			<input type="hidden" name ="depth" value="${bv.depth}">
+			<input type="hidden" name ="level_" value="${bv.level_}">
 			<table>
 				<thead>
 					<tr>
