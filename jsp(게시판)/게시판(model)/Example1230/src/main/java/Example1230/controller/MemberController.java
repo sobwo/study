@@ -109,7 +109,6 @@ public class MemberController extends HttpServlet {
 			    out.println("<script>alert('패스워드가 일치하지 않습니다.');history.go(-1);</script>");
 			    out.flush();
 			    return;
-
 			}
 			
 			else {
