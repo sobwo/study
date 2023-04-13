@@ -230,7 +230,7 @@
 				if(isYN == 1){
 					alert("회원가입 완료");
 					
-					fm.action ="${pageContext.request.contextPath}/member/memberData.do";
+					fm.action ="${pageContext.request.contextPath}/member/memberJoinAction.do";
 					fm.method = "post";
 					fm.submit();
 					fm.reset();

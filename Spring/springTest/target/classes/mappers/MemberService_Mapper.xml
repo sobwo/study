@@ -4,6 +4,20 @@
 
 <mapper namespace="com.myezen.myapp.persistance.MemberService_Mapper">
 
+	<insert id="memberInsert" parameterType="mv">
+		INSERT INTO member1230(midx,memberId,memberPw,memberName,memberPhone,memberEmail,memberGender, memberAddr,memberBirth)
+		VALUES(midx_seq.nextval,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{memberGender},#{memberAddr},#{memberBirth})
+	</insert>
+	
+	<select id="memberList" resultType="mv">
+		select midx, memberId, memberName, delYn, writeDay from member1230 order by midx desc
+	</select>
+	
+	<select id="memberIdCheck" parameterType="String" resultType="int">
+		select count(*) as cnt from member1230 where memberId=#{memberId}
+	</select>
 
-
+	<select id="memberLogin" parameterType="String" resultType="mv">
+		select * from member1230 where delYn='N' and memberId=#{memberId}
+	</select>
 </mapper>

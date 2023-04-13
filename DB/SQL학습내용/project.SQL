@@ -170,3 +170,4 @@ FROM ROOM r, roomprice p
 WHERE r.roomNo = p.roomNo and r.roomNo NOT IN (SELECT roomNo FROM roomprice WHERE DATE_ BETWEEN '2023-04-09' AND '2023-04-29' AND RESERVYN='I' GROUP BY ROOMNO)
 ORDER BY r.roomNo ASC;
 
+

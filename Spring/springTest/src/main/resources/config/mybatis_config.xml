@@ -3,6 +3,8 @@
  
 <configuration> 
 <typeAliases>
- <typeAlias alias="mv" type="com.myezen.myapp.domain.MemberVo"/>
+	<typeAlias alias="mv" type="com.myezen.myapp.domain.MemberVo"/>
+	<typeAlias alias="bv" type="com.myezen.myapp.domain.BoardVo"/>
+	<typeAlias alias="scri" type="com.myezen.myapp.domain.SearchCriteria"/>
 </typeAliases>
 </configuration>

@@ -76,17 +76,17 @@
 			
 		</div>
 		<div class="login_info">
-<%-- 			<c:if test="${sessionScope.midx != null}"> --%>
-<!-- 				<div class="member-info"> -->
-<!-- 					<span>회원번호:</span> -->
-<%-- 					<span>${sessionScope.midx}</span> --%>
-<!-- 				</div> -->
-<!-- 				<div class="member-info"> -->
-<!-- 					<span>회원이름:</span> -->
-<%-- 					<span>${sessionScope.memberName}</span> --%>
-<!-- 				</div> -->
-<%-- 				<button class="logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/memberLogOut.do'">로그아웃</button>	 --%>
-<%-- 			</c:if> --%>
+			<c:if test="${sessionScope.midx != null}">
+				<div class="member-info">
+					<span>회원번호:</span>
+					<span>${sessionScope.midx}</span>
+				</div>
+				<div class="member-info">
+					<span>회원이름:</span>
+					<span>${sessionScope.memberName}</span>
+				</div>
+				<button class="logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/memberLogOut.do'">로그아웃</button>	
+			</c:if>
 	    </div>
 	</body>
 </html>

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String msg = "";
+	if(request.getAttribute("msg")!=null) 
+		msg = (String)request.getAttribute("msg");
+%>    
 <!DOCTYPE html>
 <html>
 	<head>
@@ -58,6 +63,9 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
+				var msg = "<%=msg%>";
+				if(msg != "") alert(msg);
+				
 			});
 			function login(){
 				if ($("#memberId").val() == ""){
@@ -73,29 +81,6 @@
 				fm.action="${pageContext.request.contextPath}/member/memberLoginAction.do";
 				fm.method="post";
 				fm.submit();
-			}
-			
-			function idCheck(){
-//				alert("아이디 체크창입니다.");	
-				let memberId = $("#memberId").val();
-				
-				$.ajax({
-					url: "${pageContext.request.contextPath}/member/memberIdCheck.do",		
-					method: "POST",
-					data: {"memberId": memberId },
-					dataType: "json",
-					success : function(data){	
-						if (data.value =="0"){
-							alert("사용가능한 아이디입니다.");
-							$("#memberIdCheck").val("Y");
-						}else{
-							alert("사용불가한 아이디 입니다");
-						}	
-					},
-					error : function(request,status,error){
-						alert("다시 시도하시기 바랍니다.");		
-					}		
-				});	
 			}
 			
 		</script>

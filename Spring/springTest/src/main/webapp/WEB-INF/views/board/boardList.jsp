@@ -163,11 +163,12 @@
 			<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 			<script>
 				$(document).ready(function(){
-					if(${dataPerPage}==10)
+					var dataPerPage = ${dataPerPage};
+					if(dataPerPage==10)
 						$("#dataPerPage").val("10").prop("selected",true);
-					else if(${dataPerPage}==15)
+					else if(dataPerPage==15)
 						$("#dataPerPage").val("15").prop("selected",true);
-					else if(${dataPerPage}==20)
+					else if(dataPerPage==20)
 						$("#dataPerPage").val("20").prop("selected",true);
 				});
 				function search(){

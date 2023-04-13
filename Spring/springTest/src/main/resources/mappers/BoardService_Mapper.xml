@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myezen.myapp.persistance.BoardService_Mapper">
+	<select id="boardSelectAll" parameterType="scri" resultType="bv">
+		SELECT * FROM (
+    	SELECT ROWNUM AS rnum, A.* FROM (
+      	SELECT bidx, depth, level_, subject, writer, TO_CHAR(writeday, 'yyyy.mm.dd') AS writeday, NVL(viewcnt, 0) AS viewcnt, midx
+      	FROM board1230
+      	WHERE DELYN = 'N'
+      	<choose>
+        	<when test="searchOption == '제목만'">
+          		AND subject LIKE #{searchContext}
+        	</when>
+        	<when test="searchOption == '제목과내용'">
+          		AND (subject LIKE #{searchContext} OR contents LIKE #{searchContext})
+        	</when>
+        	<when test="searchOption == '글작성자'">
+          		AND writer LIKE #{searchContext}
+        	</when>
+      	</choose>
+      	ORDER BY originbidx DESC, depth ASC, level_ ASC) A) B
+  		WHERE B.rnum BETWEEN #{page}-1*#{pagePerNum}+1 AND #{page}*#{pagePerNum}
+	</select>
+	<select id="boardTotal" parameterType="scri" resultType="int">
+		SELECT count(*) as cnt from board1230 where delyn='N'
+		<choose>
+        	<when test="searchOption == '제목만'">
+          		AND subject LIKE #{searchContext}
+        	</when>
+        	<when test="searchOption == '제목과내용'">
+          		AND (subject LIKE #{searchContext} OR contents LIKE #{searchContext})
+        	</when>
+        	<when test="searchOption == '글작성자'">
+          		AND writer LIKE #{searchContext}
+        	</when>
+		</choose>
+	</select>
+</mapper>
