@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String msg = "";
+	if(request.getAttribute("msg")!=null) 
+		msg = (String)request.getAttribute("msg");
+%>   
  <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>글 삭제</title>
 		<style>
 	      body {
 	        font-family: Arial, sans-serif;
@@ -52,34 +57,40 @@
 	        background-color: #0062cc;
 	      }
 	    </style>
-		<script type="text/javascript">
-			function check(){	
-				
-				var fm = document.frm;	
-				if (fm.memberPw.value == ""){
-					alert("비밀번호를 입력하세요");
-					fm.password.focus();
-				}
-				
-				fm.action = "${pageContext.request.contextPath}/board/boardDeleteAction.do?bidx=${bidx}";
-				fm.method="post";
-				fm.submit();
-			}
-	
-	</script>
-	
 	</head>
 	<body>
 		<form name = "frm">
+			<input type="hidden" name="bidx" value="${param.bidx}">
 			<table border=1 style="width:500px;">
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="password" name="memberPw"></td>
+					<td><input type="password" name="pwd"></td>
 				</tr>
 					<tr><td colspan=2>
 					<input type="button" value="확인" onclick="check()">
 				</td></tr>
 			</table>
 		</form>
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var msg = "<%=msg%>";
+				if(msg != "") alert(msg);
+			});
+			function check(){	
+				
+				var fm = document.frm;
+				if (fm.pwd.value == ""){
+					alert("비밀번호를 입력하세요");
+					fm.password.focus();
+				}
+				
+				fm.action = "${pageContext.request.contextPath}/board/boardDeleteAction.do";
+				fm.method="post";
+				fm.submit();
+			}
+	
+		</script>
 	</body>
 </html>

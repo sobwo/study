@@ -79,7 +79,41 @@
 			}
 
 		</style>
+	</head>
+	<body>
+		<h1><a href="${pageContext.request.contextPath}/">홈 바로가기</a></h1>
+		<h1>글 답변</h1>
+		<form name="frm">
+			<input type="hidden" name ="bidx" value="${bv.bidx}">
+			<input type="hidden" name ="originBidx" value="${bv.originbidx}">
+			<input type="hidden" name ="depth" value="${bv.depth}">
+			<input type="hidden" name ="level_" value="${bv.level_}">
+			<table>
+				<thead>
+					<tr>
+						<th><input type=text name="subject" placeholder="제목을 입력해 주세요."></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input style="height:40px;" name="writer" type=text placeholder="작성자를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
+					</tr>
+					<tr>
+						<td><input type="password" style="height:30px;" name="pwd" placeholder="비밀번호를 입력하세요."></td>
+					</tr>
+				</tbody>
+			</table>
+			<div id="submit">
+				<span><input type=file></span>
+				<span><input type="button" onclick="check()" value="등록"></span>
+				<span><input type="reset" value="초기화"></span>
+			</div>
+		</form>
 		
+				
 		<script type="text/javascript">
 		function check(){	
 			var fm = document.frm;	
@@ -113,38 +147,5 @@
 			}
 		}
 		</script>
-	</head>
-	<body>
-		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
-		<h1>글 답변</h1>
-		<form name="frm">
-			<input type="hidden" name ="bidx" value="${bv.bidx}">
-			<input type="hidden" name ="originBidx" value="${bv.originbidx}">
-			<input type="hidden" name ="depth" value="${bv.depth}">
-			<input type="hidden" name ="level_" value="${bv.level_}">
-			<table>
-				<thead>
-					<tr>
-						<th><input type=text name="subject" placeholder="제목을 입력해 주세요."></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input style="height:40px;" name="writer" type=text placeholder="작성자를 입력하세요"></td>
-					</tr>
-					<tr>
-						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
-					</tr>
-					<tr>
-						<td><input type="password" style="height:30px;" name="pwd" placeholder="비밀번호를 입력하세요."></td>
-					</tr>
-				</tbody>
-			</table>
-			<div id="submit">
-				<span><input type=file></span>
-				<span><input type="button" onclick="check()" value="등록"></span>
-				<span><input type="reset" value="초기화"></span>
-			</div>
-		</form>
 	</body>
 </html>

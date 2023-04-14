@@ -3,6 +3,9 @@ package com.myezen.myapp.domain;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PageMaker {
 	private int displayPageNum = 5;
 	private int startPage;

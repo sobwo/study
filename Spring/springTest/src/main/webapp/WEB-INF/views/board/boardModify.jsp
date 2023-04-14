@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>게시판 작성 페이지</title>
+		<title>게시판 수정 페이지</title>
 		<style>
 			*{
 				padding:0;
@@ -80,6 +80,33 @@
 				}
 
 		</style>
+	</head>
+	<body>
+		<h1><a href="${pageContext.request.contextPath}/">홈 바로가기</a></h1>
+		<h1>글 수정</h1>
+		<form name="frm">
+			<input type="hidden" name="bidx" value="${bv.bidx}"/>
+			<table>
+				<thead>
+					<tr>
+						<th><input type=text name="subject" value="${bv.subject}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span>${bv.writer}</span></td>
+					</tr>
+					<tr>
+						<td><textarea style="vertical-align:top;" name="contents">${bv.contents}</textarea></td>
+					</tr>
+				</tbody>
+			</table>
+			<div id="submit">
+				<span><input type="file"></span>
+				<span><input type="button" onclick="check()" value="등록"></span>
+				<span><input type="button" value="초기화"></span>
+			</div>
+		</form>
 		
 		<script type="text/javascript">
 			function check(){	
@@ -98,38 +125,11 @@
 				}
 				
 				if(isYN ==1){
-					alert();
-					fm.action = "${pageContext.request.contextPath}/board/boardModifyAction.do?bidx=${boardContents.bidx}";
+					fm.action = "${pageContext.request.contextPath}/board/boardModifyAction.do";
 					fm.method = "post";
 					fm.submit();
 				}
 			}
 		</script>
-	</head>
-	<body>
-		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
-		<h1>글 작성</h1>
-		<form name="frm">
-			<table>
-				<thead>
-					<tr>
-						<th><input type=text name="subject" value="${boardContents.subject}"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><span>${boardContents.writer}</span></td>
-					</tr>
-					<tr>
-						<td><textarea style="vertical-align:top;" name="contents">${boardContents.contents}</textarea></td>
-					</tr>
-				</tbody>
-			</table>
-			<div id="submit">
-				<span><input type="file"></span>
-				<span><input type="button" onclick="check()" value="등록"></span>
-				<span><input type="button" value="초기화"></span>
-			</div>
-		</form>
 	</body>
 </html>

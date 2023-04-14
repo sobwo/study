@@ -51,12 +51,15 @@ public class MemberController {
 		String memberBirth = birth_yy + birth_mm + birth_dd;
 		//받은 pwd를 암호화
 		String memberPw2 = bcryptPasswordEncoder.encode(memberPw);
-
+		
 		int value = ms.memberInsert(memberId, memberPw2, memberName, memberPhone, memberEmail, memberGender, memberAddr, memberBirth);	
 		System.out.println(memberPw);
 		
-		//redirect = java 의 sendredirect와 같음	
-		return "redirect:/";
+		//redirect = java 의 sendredirect와 같음
+		if(value==1)
+			return "redirect:/";
+		
+		return null;
 	}
 	
 	@RequestMapping(value="/memberList.do")

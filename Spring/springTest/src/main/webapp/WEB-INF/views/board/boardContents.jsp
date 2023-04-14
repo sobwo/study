@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String msg = "";
+	if(request.getAttribute("msg")!=null) 
+		msg = (String)request.getAttribute("msg");
+%> 
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -105,7 +110,7 @@
 		</style>
 	</head>
 	<body>
-		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>
+		<h1><a href="${pageContext.request.contextPath}/">홈 바로가기</a></h1>
 		<h1>글 내용</h1>
 		<table id="contents_board">
 				<thead>
@@ -115,29 +120,37 @@
 				<tbody>
 					<tr>
 						<td colspan="2" style="border-top:0; height:80px;">
-							<span>${boardContents.subject}</span><br/><br/>
-							<span>${boardContents.writer}</span>
-							<span>${boardContents.viewCnt}</span>
-							<span>${boardContents.writeday}</span>	
+							<span>${bv.subject}</span><br/><br/>
+							<span>${bv.writer}</span>
+							<span>${bv.viewCnt}</span>
+							<span>${bv.writeday}</span>	
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">${boardContents.contents}</td>
+						<td colspan="2">${bv.contents}</td>
 					</tr>
 					<tr>
 						<td style="width:400px; border:0;"></td>
 						<td style="border:0;">
 							<form>
 								<div id="btn">
-									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardModify.do?bidx=${boardContents.bidx}'" value="수정">
-									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardDelete.do?bidx=${boardContents.bidx}'" value="삭제">
-									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardReply.do?bidx=${boardContents.bidx}&originbidx=${boardContents.originbidx}&depth=${boardContents.depth}&level_=${boardContents.level_}'" value="답변">
-									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardList.do?bidx=${boardContents.bidx}'" value="목록">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardModify.do?bidx=${bv.bidx}'" value="수정">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardDelete.do?bidx=${bv.bidx}'" value="삭제">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardReply.do?bidx=${bv.bidx}&originbidx=${bv.originbidx}&depth=${bv.depth}&level_=${bv.level_}'" value="답변">
+									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardList.do'" value="목록">
 								</div>
 							</form>
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var msg = "<%=msg%>";
+				if(msg != "") alert(msg);
+			});
+		</script>
 	</body>
 </html>

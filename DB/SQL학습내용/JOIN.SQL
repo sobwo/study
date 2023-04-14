@@ -115,15 +115,17 @@
 	INSERT INTO member1230(midx,memberId,memberPw,memberName,memberEmail,memberGender,memberAddr,memberBirth,ip)
 	  VALUES(midx_seq.nextval,'test10','1010','h','h@a.a','man','전주','20080101','127.0.0.10');
 
-	INSERT INTO board(bidx,subject,contents,writer,memberNo) VALUES(bidx_seq.nextval,'첫번째글입니다','첫번째내용입니다.','김연수',1,'F');
-	INSERT INTO board(bidx,subject,contents,writer,memberNo) VALUES(bidx_seq.nextval,'첫번째글입니다','첫번째내용입니다.','김연수',1);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'두번째글입니다','두번째내용입니다.','행인','222.222.333.444',2);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'세번째글입니다','세번째내용입니다.','아이언맨','222.222.333.555',1);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'네번째글입니다','네번째내용입니다.','토르',NULL,3);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'다섯번째글입니다','다섯번째내용입니다.','스파이더맨',NULL,4);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'여섯번째글입니다','여섯번째내용입니다.','슈퍼맨',NULL,3);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'일곱번째글입니다','일곱번째내용입니다.','원더우먼',NULL,5);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'여덜번째글입니다','여덜번째내용입니다.','배트맨',NULL,6);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'아홉번째글입니다','아홉번째내용입니다.','이순신',NULL,1);
-	INSERT INTO board1230(bidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,'열번째글입니다','열번째내용입니다.','김순자',NULL,9);
+	INSERT INTO board(bidx,originbidx,subject,contents,writer,memberNo,boardCheck) VALUES(bidx_seq.nextval,bidx_seq.nextval,'첫번째FAQ입니다','첫번째내용입니다.','관리자',1,'F');
+	INSERT INTO board(bidx,originbidx,subject,contents,writer,memberNo,boardCheck) VALUES(bidx_seq.nextval,bidx_seq.nextval,'첫번째FAQ입니다','첫번째내용입니다.','관리자',1,'F');
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'두번째글입니다','두번째내용입니다.','행인','222.222.333.444',15);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'세번째글입니다','세번째내용입니다.','아이언맨','222.222.333.555',15);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'네번째글입니다','네번째내용입니다.','토르',NULL,1);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'다섯번째글입니다','다섯번째내용입니다.','스파이더맨',NULL,1);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'여섯번째글입니다','여섯번째내용입니다.','슈퍼맨',NULL,1);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'일곱번째글입니다','일곱번째내용입니다.','원더우먼',NULL,1);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'여덜번째글입니다','여덜번째내용입니다.','배트맨',NULL,1);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'아홉번째글입니다','아홉번째내용입니다.','이순신',NULL,1);
+	INSERT INTO board1230(bidx,originbidx,subject,contents,writer,ip,midx) VALUES(bidx_seq.nextval,bidx_seq.nextval,'열번째글입니다','열번째내용입니다.','김순자',NULL,1);
 	COMMIT;
+
+ALTER TABLE board1230 MODIFY pwd VARCHAR2(80);

@@ -32,4 +32,28 @@ public class BoardServiceImpl implements BoardService{
 		return value;
 	}
 
+	@Override
+	public int boardInsert(BoardVo bv) {
+		int value = bsm.boardInsert(bv);
+		return value;
+	}
+
+	@Override
+	public BoardVo boardSelectOne(int bidx) {
+		BoardVo bv = bsm.boardSelectOne(bidx);
+		return bv;
+	}
+
+	@Override
+	public int boardModify(BoardVo bv) {
+		int value = bsm.boardModify(bv);
+		return value;
+	}
+	
+	@Override
+	public int boardDelete(int bidx) {
+		int value = bsm.boardDelete(bidx);
+		return value;
+	}
+
 }

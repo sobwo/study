@@ -88,6 +88,35 @@
 				  color: black;
 				}
 		</style>
+	</head>
+	<body>
+		<h1><a href="${pageContext.request.contextPath}/">홈 바로가기</a></h1>	
+		<h1>글 작성</h1>
+		<form name="frm">
+			<table>
+				<thead>
+					<tr>
+						<th><input type="text" name="subject" placeholder="제목을 입력해 주세요."></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" name="writer"  placeholder="작성자를 입력하세요"></td>
+					</tr>
+					<tr>
+						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
+					</tr>
+					<tr>
+						<td><input type="password" style="height:30px;" name="pwd" placeholder="비밀번호를 입력하세요."></td>
+					</tr>
+				</tbody>
+			</table>
+			<div id="submit">
+				<span><input type="file"></span>
+				<span><input type="button" onclick="check()" value="등록"></span>
+				<span><input type="reset" value="초기화"></span>
+			</div>
+		</form>
 		
 		<script type="text/javascript">
 			function check(){	
@@ -116,40 +145,11 @@
 				}
 				
 				if(isYN==1){
-					fm.action = "${pageContext.request.contextPath}/board/boardData.do";
+					fm.action = "${pageContext.request.contextPath}/board/boardWriteAction.do";
 					fm.method="post";
 					fm.submit();
 				}
 			}
 		</script>
-	</head>
-	<body>
-		<h1><a href="${pageContext.request.contextPath}/index.jsp">홈 바로가기</a></h1>	
-		<h1>글 작성</h1>
-		<form name="frm">
-			<table>
-				<thead>
-					<tr>
-						<th><input type="text" name="subject" placeholder="제목을 입력해 주세요."></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="writer"  placeholder="작성자를 입력하세요"></td>
-					</tr>
-					<tr>
-						<td><textarea style="vertical-align:top;" name="contents" placeholder="내용을 입력하세요."></textarea></td>
-					</tr>
-					<tr>
-						<td><input type="password" style="height:30px;" name="pwd" placeholder="비밀번호를 입력하세요."></td>
-					</tr>
-				</tbody>
-			</table>
-			<div id="submit">
-				<span><input type="file"></span>
-				<span><input type="button" onclick="check()" value="등록"></span>
-				<span><input type="reset" value="초기화"></span>
-			</div>
-		</form>
 	</body>
 </html>

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String msg = "";
+	if(request.getAttribute("msg")!=null) 
+		msg = (String)request.getAttribute("msg");
+%> 
 <!DOCTYPE html>
 	<html>
 		<head>
@@ -160,33 +165,6 @@
 				  cursor:pointer;
 				}
 			</style>
-			<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-			<script>
-				$(document).ready(function(){
-					var dataPerPage = ${dataPerPage};
-					if(dataPerPage==10)
-						$("#dataPerPage").val("10").prop("selected",true);
-					else if(dataPerPage==15)
-						$("#dataPerPage").val("15").prop("selected",true);
-					else if(dataPerPage==20)
-						$("#dataPerPage").val("20").prop("selected",true);
-				});
-				function search(){
-					var fm = document.frm;
-					fm.action = "${pageContext.request.contextPath}/board/boardList.do";
-					fm.method = "post";
-					fm.submit();
-				}
-				
-				function changePage(){
-					var dataPerPage = $("#dataPerPage").val();
-					var fm2 = document.frm2;
-					fm2.action = "${pageContext.request.contextPath}/board/boardList.do?page=${pm.getScri().getPage()}&dataPerPage="+dataPerPage+"&searchOption=${pm.scri.searchOption}&searchContext=${pm.encoding(pm.scri.searchContext)}";
-					fm2.method = "post";
-					fm2.submit();
-				} 
-
-			</script>
 		</head>
 	<body>		
 		<h1><a href="${pageContext.request.contextPath}/">홈 바로가기</a></h1>
@@ -267,5 +245,35 @@
 				</div>
 			</form>
 		</div>
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script>
+			$(document).ready(function(){
+				var msg = <%=msg%>
+				if(msg!="") alert(msg)
+				var dataPerPage = ${dataPerPage};
+				if(dataPerPage==10)
+					$("#dataPerPage").val("10").prop("selected",true);
+				else if(dataPerPage==15)
+					$("#dataPerPage").val("15").prop("selected",true);
+				else if(dataPerPage==20)
+					$("#dataPerPage").val("20").prop("selected",true);
+			});
+			function search(){
+				var fm = document.frm;
+				fm.action = "${pageContext.request.contextPath}/board/boardList.do";
+				fm.method = "post";
+				fm.submit();
+			}
+			
+			function changePage(){
+				var dataPerPage = $("#dataPerPage").val();
+				var fm2 = document.frm2;
+				fm2.action = "${pageContext.request.contextPath}/board/boardList.do?page=${pm.getScri().getPage()}&dataPerPage="+dataPerPage+"&searchOption=${pm.scri.searchOption}&searchContext=${pm.encoding(pm.scri.searchContext)}";
+				fm2.method = "post";
+				fm2.submit();
+			} 
+
+		</script>
 	</body>
 </html>
