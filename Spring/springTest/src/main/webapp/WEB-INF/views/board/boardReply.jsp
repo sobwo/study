@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	if (session.getAttribute("midx") == null){	
+		out.println("<script>alert('로그인 하셔야 합니다.'); history.back(-1);</script>");
+}
+%>  
 <!DOCTYPE html>
 <html>
 	<head>
@@ -85,7 +90,7 @@
 		<h1>글 답변</h1>
 		<form name="frm">
 			<input type="hidden" name ="bidx" value="${bv.bidx}">
-			<input type="hidden" name ="originBidx" value="${bv.originbidx}">
+			<input type="hidden" name ="originbidx" value="${bv.originbidx}">
 			<input type="hidden" name ="depth" value="${bv.depth}">
 			<input type="hidden" name ="level_" value="${bv.level_}">
 			<table>
@@ -107,7 +112,7 @@
 				</tbody>
 			</table>
 			<div id="submit">
-				<span><input type=file></span>
+				<span><input type="file" name="fileName"></span>
 				<span><input type="button" onclick="check()" value="등록"></span>
 				<span><input type="reset" value="초기화"></span>
 			</div>
@@ -142,6 +147,7 @@
 			
 			if(isYN==1){
 				fm.action ="${pageContext.request.contextPath}/board/boardReplyAction.do";
+				fm.enctype ="multipart/form-data";
 				fm.method="post";
 				fm.submit();
 			}

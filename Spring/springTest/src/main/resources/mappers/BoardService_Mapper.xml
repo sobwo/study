@@ -49,4 +49,11 @@
 	<delete id="boardDelete" parameterType="int">
 		DELETE FROM BOARD1230 WHERE BIDX=#{bidx}
 	</delete>
+	<update id="boardReplyUpdate" parameterType="HashMap">
+		UPDATE board1230 SET depth = depth+1 WHERE originbidx = #{originbidx} AND depth>#{depth}
+	</update>
+	<insert id="boardReplyInsert" parameterType="bv">
+		INSERT INTO board1230(bidx, originbidx, depth, level_, subject, CONTENTS, writer, ip,pwd,fileName,midx)
+		VALUES(bidx_seq.nextval,#{originbidx},#{depth}+1,#{level_}+1,#{subject},#{contents},#{writer},#{ip},#{pwd},#{fileName},#{midx})
+	</insert>
 </mapper>

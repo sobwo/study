@@ -190,9 +190,9 @@
 					<td style="text-align:center;">${bv.bidx}</td>
 					<td style="overflow:hidden">
 						<c:forEach var="i" begin="1" end="${bv.level_}" step="1">
-							out.println("&nbsp;");
+							&nbsp;
 							<c:if test="${i==bv.level_}">
-								out.println("&#8618;");
+								&#8618;
 							</c:if>
 						</c:forEach>
 						<a href="${pageContext.request.contextPath}/board/boardContents.do?bidx=${bv.bidx}">${bv.subject}</a>
@@ -249,8 +249,8 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script>
 			$(document).ready(function(){
-				var msg = <%=msg%>
-				if(msg!="") alert(msg)
+				var msg = <%=msg%>;
+				if(msg!="") alert(msg);
 				var dataPerPage = ${dataPerPage};
 				if(dataPerPage==10)
 					$("#dataPerPage").val("10").prop("selected",true);

@@ -13,4 +13,5 @@ public interface BoardService {
 	public BoardVo boardSelectOne(int bidx);
 	public int boardModify(BoardVo bv);
 	public int boardDelete(int bidx);
+	public int boardReply(BoardVo bv);
 }

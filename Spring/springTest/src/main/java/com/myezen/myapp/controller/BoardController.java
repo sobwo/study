@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
@@ -52,12 +53,8 @@ public class BoardController {
 	public String boardList(Model model, 
 							@RequestParam(value="dataPerPage", defaultValue="10") int dataPerPage,
 							@RequestParam(value="page", defaultValue="1") int page,
-							@RequestParam(value="searchOption", defaultValue="Á¦¸ñ¸¸") String searchOption,
-							@RequestParam(value="searchContext", defaultValue="") String searchContext) {
-		
-		SearchCriteria scri = new SearchCriteria();
-		scri.setSearchOption(searchOption);
-		scri.setSearchContext(searchContext);
+							SearchCriteria scri) {
+
 		scri.setPage(page);
 		scri.setPagePerNum(dataPerPage);
 		
@@ -125,8 +122,7 @@ public class BoardController {
 	public String boardContents(
 			Model model,
 			@RequestParam("bidx") int bidx) {
-		
-		
+			
 		BoardVo bv = bs.boardSelectOne(bidx);
 		
 		model.addAttribute("bv", bv);
@@ -217,10 +213,70 @@ public class BoardController {
 		
 	
 	@RequestMapping(value="/boardReply.do")
-	public String boardReply() {
+	public String boardReply(
+			@RequestParam("bidx") int bidx,
+			@RequestParam("originbidx") int originbidx,
+			@RequestParam("depth") int depth,
+			@RequestParam("level_") int level_,
+			Model model) {
 		
+		BoardVo bv = new BoardVo();
+		bv.setBidx(bidx);
+		bv.setOriginbidx(originbidx);
+		bv.setDepth(depth);
+		bv.setLevel_(level_);
+		
+		model.addAttribute("bv", bv);
 		
 		return "board/boardReply";
+	}
+	
+	@RequestMapping(value="/boardReplyAction.do")
+	public String boardReplyAction(
+			@RequestParam("bidx") int bidx,
+			@RequestParam("originbidx") int originbidx,
+			@RequestParam("depth") int depth,
+			@RequestParam("level_") int level_,
+			@RequestParam("subject") String subject,
+			@RequestParam("contents") String contents,
+			@RequestParam("writer") String writer,
+			@RequestParam("pwd") String pwd,
+			@RequestParam("fileName") MultipartFile fileName,
+			@SessionAttribute("midx") int midx,
+			Model model) throws Exception {
+		
+		MultipartFile file = fileName;
+		
+		String uploadedFileName="";
+		if (!file.getOriginalFilename().equals("")) {
+			uploadedFileName = UploadFileUtiles.uploadFile(
+					uploadPath, 
+					file.getOriginalFilename(), 
+					file.getBytes());				
+		}
+		
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		String pwd2 = bcryptPasswordEncoder.encode(pwd);
+		
+		BoardVo bv = new BoardVo();
+		bv.setOriginbidx(originbidx);
+		bv.setDepth(depth);
+		bv.setLevel_(level_);
+		bv.setSubject(subject);
+		bv.setContents(contents);
+		bv.setWriter(writer);
+		bv.setIp(ip);
+		bv.setPwd(pwd2);
+		bv.setFileName(uploadedFileName);
+		bv.setMidx(midx);
+		
+		int value = bs.boardReply(bv);
+		
+		
+		if(value==1)
+			return "redirect:/board/boardContents.do?bidx="+bidx;
+		else
+			return "redirect:/board/boardReply.do";
 	}
 	
 	@ResponseBody

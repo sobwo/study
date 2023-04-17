@@ -1,10 +1,12 @@
 package com.myezen.myapp.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myezen.myapp.domain.BoardVo;
 import com.myezen.myapp.domain.SearchCriteria;
@@ -53,6 +55,17 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int boardDelete(int bidx) {
 		int value = bsm.boardDelete(bidx);
+		return value;
+	}
+
+	@Transactional
+	@Override
+	public int boardReply(BoardVo bv) {
+		HashMap<String,Integer> hm = new HashMap<String,Integer>();
+		hm.put("originbidx", bv.getOriginbidx());
+		hm.put("depth",bv.getDepth());
+		bsm.boardReplyUpdate(hm);
+		int value = bsm.boardReplyInsert(bv);
 		return value;
 	}
 
