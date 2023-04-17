@@ -11,6 +11,7 @@ import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class UploadFileUtiles {
@@ -25,26 +26,16 @@ public class UploadFileUtiles {
 		UUID uid = UUID.randomUUID();
 		String savedName = uid.toString() +"_"+originalName;
 		
-//		String path = UploadFileUtiles.class.getResource("").getPath();
-//		System.out.println("현재클래스path:"+path);
-		
-//  	실행되는 시스템 위치	
-//		System.out.println(System.getProperty("user.dir"));
-       
-//        String realpath = request.getSession().getServletContext().getRealPath(uploadPath);
-//		System.out.println("realpath:"+realpath);
         
 		String savedPath = calcPath(uploadPath);
 		
 		File target = new File(uploadPath+savedPath,savedName);
-//  	등록한 파일 상대경로
-//		String loc = target.getCanonicalPath();
 
 		FileCopyUtils.copy(fileData,target);
 		
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		System.out.println("formatName:"+formatName);
-		String uploadedFileName = null;
+		MultipartFile uploadedFileName = null;
 		
 		if(MediaUtils.getMediaType(formatName) != null){
 			uploadedFileName = makeThumbnail(uploadPath,savedPath, savedName);
@@ -101,7 +92,7 @@ public class UploadFileUtiles {
 		}
 	}
 	
-	private static String makeThumbnail(String uploadPath,
+	private static MultipartFile makeThumbnail(String uploadPath,
 			String path,
 			String fileName) throws Exception{
 		

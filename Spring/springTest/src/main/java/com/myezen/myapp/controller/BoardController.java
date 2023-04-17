@@ -1,10 +1,8 @@
 package com.myezen.myapp.controller;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
@@ -18,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,16 +81,12 @@ public class BoardController {
 	
 	@RequestMapping(value="/boardWriteAction.do")
 	public String boardWriteAction(
-			@RequestParam("subject") String subject,
-			@RequestParam("contents") String contents,
-			@RequestParam("writer") String writer,
-			@RequestParam("pwd") String pwd,
-			@RequestParam("fileName") MultipartFile fileName,
+			@ModelAttribute BoardVo bv,
 			@SessionAttribute("midx") int midx) throws Exception {
 			
-		MultipartFile file = fileName;
+		MultipartFile file = bv.getFileName();
 	
-		String uploadedFileName="";
+		MultipartFile uploadedFileName;
 		if (!file.getOriginalFilename().equals("")) {
 			uploadedFileName = UploadFileUtiles.uploadFile(
 					uploadPath, 
@@ -99,12 +95,8 @@ public class BoardController {
 		}
 		
 		String ip = InetAddress.getLocalHost().getHostAddress();
-		String pwd2 = bcryptPasswordEncoder.encode(pwd);
-		//IP ≥÷¿ª∞Õ
-		BoardVo bv = new BoardVo();
-		bv.setSubject(subject);
-		bv.setContents(contents);
-		bv.setWriter(writer);
+		String pwd2 = bcryptPasswordEncoder.encode(bv.getPwd());
+
 		bv.setPwd(pwd2);
 		bv.setIp(ip);
 		bv.setFileName(uploadedFileName);

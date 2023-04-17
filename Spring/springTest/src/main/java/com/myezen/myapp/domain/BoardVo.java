@@ -1,14 +1,16 @@
 package com.myezen.myapp.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardVo {
 	private int bidx, midx, originbidx,depth,level_;
 	private String subject, contents, writer, delyn, writeday, ip, viewCnt,pwd;
-	private String fileName;
+	private MultipartFile fileName;
 	
-	public String getFileName() {
+	public MultipartFile getFileName() {
 		return fileName;
 	}
-	public void setFileName(String filename) {
+	public void setFileName(MultipartFile filename) {
 		this.fileName = filename;
 	}
 	public String getPwd() {
