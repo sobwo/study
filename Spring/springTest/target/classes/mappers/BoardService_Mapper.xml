@@ -43,7 +43,7 @@
 	</insert>
 	
 	<update id="boardModify" parameterType="bv">
-		UPDATE board1230 SET SUBJECT=#{subject}, CONTENTS=#{contents} WHERE BIDX=#{bidx} 
+		UPDATE board1230 SET SUBJECT=#{subject}, CONTENTS=#{contents}, fileName=#{fileName} WHERE BIDX=#{bidx} 
 	</update>
 	
 	<delete id="boardDelete" parameterType="int">

@@ -1,6 +1,7 @@
 package com.myezen.myapp.controller;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -91,7 +92,6 @@ public class BoardController {
 			@SessionAttribute("midx") int midx) throws Exception {
 			
 		MultipartFile file = fileName;
-		System.out.println("원본파일이름"+file.getOriginalFilename());
 	
 		String uploadedFileName="";
 		if (!file.getOriginalFilename().equals("")) {
@@ -100,7 +100,6 @@ public class BoardController {
 					file.getOriginalFilename(), 
 					file.getBytes());				
 		}
-		System.out.println("uploadedFileName"+uploadedFileName);
 		
 		String ip = InetAddress.getLocalHost().getHostAddress();
 		String pwd2 = bcryptPasswordEncoder.encode(pwd);
@@ -151,12 +150,24 @@ public class BoardController {
 			Model model,
 			@RequestParam("bidx") int bidx,
 			@RequestParam("subject") String subject,
-			@RequestParam("contents") String contents) {
+			@RequestParam("contents") String contents,
+			@RequestParam("fileName") MultipartFile fileName) throws Exception {
+		
+		MultipartFile file = fileName;
+		
+		String uploadedFileName="";
+		if (!file.getOriginalFilename().equals("")) {
+			uploadedFileName = UploadFileUtiles.uploadFile(
+					uploadPath, 
+					file.getOriginalFilename(), 
+					file.getBytes());				
+		}
 		
 		BoardVo bv = new BoardVo();
 		bv.setBidx(bidx);
 		bv.setSubject(subject);
 		bv.setContents(contents);
+		bv.setFileName(uploadedFileName);
 		int value = bs.boardModify(bv);
 		
 		model.addAttribute("bidx", bidx);

@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.myezen.myapp.domain.BoardVo" %>  
+<%
+	if (session.getAttribute("midx") == null){	
+		out.println("<script>alert('로그인 하셔야 합니다.'); history.back(-1);</script>");
+}
+%>  
+<% BoardVo bv   = (BoardVo)request.getAttribute("bv"); %>   
 <!DOCTYPE html>
 <html>
 	<head>
@@ -99,16 +106,50 @@
 					<tr>
 						<td><textarea style="vertical-align:top;" name="contents">${bv.contents}</textarea></td>
 					</tr>
+					<tr>
+						<td id="download" colspan="2" style="height:30px;"></td>
+					</tr>
+					<tr>
+						<td colspan="2" style="height:400px;">
+							<%
+								if (bv.getFileName() ==null){
+								}else{
+								String exp =  bv.getFileName().substring(bv.getFileName().length()-3, bv.getFileName().length());
+								
+								if (exp.equals("jpg") || exp.equals("gif") || exp.equals("png")   ) { %>
+								<img src="<%=request.getContextPath()%>/board/displayFile.do?fileName=<%=bv.getFileName()%>"  width="800px" height="100px">
+						</td>
+							<%} }%>
+					</tr>
 				</tbody>
 			</table>
 			<div id="submit">
-				<span><input type="file"></span>
 				<span><input type="button" onclick="check()" value="등록"></span>
 				<span><input type="button" value="초기화"></span>
 			</div>
 		</form>
-		
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script type="text/javascript">
+			$(document).ready(function() {
+			    var originalFileName = getOriginalFileName("<%=bv.getFileName()%>");
+			    var inputElement = $("<input type='file' name='fileName' style='overflow:hidden;width:75px'/>");
+			    var divElement = $("<div>" + originalFileName + "     </div>").append(inputElement);
+			    $("#download").html(divElement);
+			    
+			    $("#download").on("change", "input[name=fileName]", function() {
+			        // 파일 이름이 변경될 때마다 출력을 업데이트합니다.
+			        var fileName = $(this).val().split('\\').pop();
+			        divElement.html(fileName).append(inputElement);
+			    });
+			});
+
+			
+			function getOriginalFileName(fileName) {
+			  var idx = fileName.lastIndexOf("_") + 1;
+			  return fileName.substr(idx);
+			}
+
+			
 			function check(){	
 				var fm = document.frm;
 				var isYN = 1;
@@ -126,6 +167,7 @@
 				
 				if(isYN ==1){
 					fm.action = "${pageContext.request.contextPath}/board/boardModifyAction.do";
+					fm.enctype ="multipart/form-data";
 					fm.method = "post";
 					fm.submit();
 				}
