@@ -3,7 +3,14 @@ package com.myezen.myapp.domain;
 public class BoardVo {
 	private int bidx, midx, originbidx,depth,level_;
 	private String subject, contents, writer, delyn, writeday, ip, viewCnt,pwd;
+	private String fileName;
 	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String filename) {
+		this.fileName = filename;
+	}
 	public String getPwd() {
 		return pwd;
 	}

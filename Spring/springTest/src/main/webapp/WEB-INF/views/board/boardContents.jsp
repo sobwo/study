@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.myezen.myapp.domain.BoardVo" %>   
 <%
 	String msg = "";
 	if(request.getAttribute("msg")!=null) 
 		msg = (String)request.getAttribute("msg");
 %> 
+<% BoardVo bv   = (BoardVo)request.getAttribute("bv"); %>   
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -130,6 +132,21 @@
 						<td colspan="2">${bv.contents}</td>
 					</tr>
 					<tr>
+						<td id="download" colspan="2" style="height:30px;"></td>
+					</tr>
+					<tr>
+						<td colspan="2" style="height:400px;">
+							<%
+								if (bv.getFileName() ==null){
+								}else{
+								String exp =  bv.getFileName().substring(bv.getFileName().length()-3, bv.getFileName().length());
+								
+								if (exp.equals("jpg") || exp.equals("gif") || exp.equals("png")   ) { %>
+								<img src="<%=request.getContextPath()%>/board/displayFile.do?fileName=<%=bv.getFileName()%>"  width="800px" height="100px">
+						</td>
+							<%} }%>
+					</tr>
+					<tr>
 						<td style="width:400px; border:0;"></td>
 						<td style="border:0;">
 							<form>
@@ -144,13 +161,44 @@
 					</tr>
 				</tbody>
 			</table>
-			
 		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var msg = "<%=msg%>";
 				if(msg != "") alert(msg);
+				var originalFileName = getOriginalFileName("<%=bv.getFileName()%>");
+				
+				var str2= getImageLink("<%=bv.getFileName()%>");
+				
+				var str="";
+				str = "<div><a href='<%=request.getContextPath()%>/board/displayFile.do?fileName="+str2+"'>"+originalFileName+"</a></div>";
+				
+				$("#download").html(str);
 			});
+			function getOriginalFileName(fileName){
+				var idx = fileName.lastIndexOf("_")+1;
+					
+				return fileName.substr(idx);	
+			}
+			
+			function getImageLink(fileName){
+				
+				if(!checkImageType(fileName)){
+					return fileName;
+				}
+				
+				var front = fileName.substr(0,12);
+				var end = fileName.substr(14);
+				
+				return front+end;
+			}
+			
+			function checkImageType(fileName){
+				var pattern  = /jpg$|gif$|png$|jpeg$/i;
+				
+				return fileName.match(pattern);
+			}
+			
 		</script>
 	</body>
 </html>

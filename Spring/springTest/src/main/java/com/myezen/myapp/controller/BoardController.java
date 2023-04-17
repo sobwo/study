@@ -1,20 +1,35 @@
 package com.myezen.myapp.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myezen.myapp.domain.BoardVo;
 import com.myezen.myapp.domain.PageMaker;
 import com.myezen.myapp.domain.SearchCriteria;
 import com.myezen.myapp.service.BoardService;
+import com.myezen.myapp.util.MediaUtils;
+import com.myezen.myapp.util.UploadFileUtiles;
 
 @Controller
 @RequestMapping(value="/board")
@@ -28,6 +43,9 @@ public class BoardController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	@RequestMapping(value="/boardList.do")
 	public String boardList(Model model, 
@@ -69,8 +87,22 @@ public class BoardController {
 			@RequestParam("contents") String contents,
 			@RequestParam("writer") String writer,
 			@RequestParam("pwd") String pwd,
-			@SessionAttribute("midx") int midx) {
+			@RequestParam("fileName") MultipartFile fileName,
+			@SessionAttribute("midx") int midx) throws Exception {
+			
+		MultipartFile file = fileName;
+		System.out.println("원본파일이름"+file.getOriginalFilename());
+	
+		String uploadedFileName="";
+		if (!file.getOriginalFilename().equals("")) {
+			uploadedFileName = UploadFileUtiles.uploadFile(
+					uploadPath, 
+					file.getOriginalFilename(), 
+					file.getBytes());				
+		}
+		System.out.println("uploadedFileName"+uploadedFileName);
 		
+		String ip = InetAddress.getLocalHost().getHostAddress();
 		String pwd2 = bcryptPasswordEncoder.encode(pwd);
 		//IP 넣을것
 		BoardVo bv = new BoardVo();
@@ -78,6 +110,8 @@ public class BoardController {
 		bv.setContents(contents);
 		bv.setWriter(writer);
 		bv.setPwd(pwd2);
+		bv.setIp(ip);
+		bv.setFileName(uploadedFileName);
 		bv.setMidx(midx);
 		
 		int value = bs.boardInsert(bv);
@@ -177,5 +211,58 @@ public class BoardController {
 		
 		return "board/boardReply";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/displayFile.do", method=RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(String fileName,@RequestParam(value="down",defaultValue="0" ) int down ) throws Exception{
+		
+	//	System.out.println("fileName:"+fileName);
+		
+		InputStream in = null;		
+		ResponseEntity<byte[]> entity = null;
+		
+	//	logger.info("FILE NAME :"+fileName);
+		
+		try{
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+			MediaType mType = MediaUtils.getMediaType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();		
+			 
+			in = new FileInputStream(uploadPath+fileName);
+			
+			
+			if(mType != null){
+				
+				if (down==1) {
+					fileName = fileName.substring(fileName.indexOf("_")+1);
+					headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+					headers.add("Content-Disposition", "attachment; filename=\""+
+							new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");	
+					
+				}else {
+					headers.setContentType(mType);	
+				}
+				
+			}else{
+				
+				fileName = fileName.substring(fileName.indexOf("_")+1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment; filename=\""+
+						new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");				
+			}
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),
+					headers,
+					HttpStatus.CREATED);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		}finally{
+			in.close();
+		}
+		return entity;
+	} 
 
 }
+

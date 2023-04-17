@@ -170,4 +170,12 @@ FROM ROOM r, roomprice p
 WHERE r.roomNo = p.roomNo and r.roomNo NOT IN (SELECT roomNo FROM roomprice WHERE DATE_ BETWEEN '2023-04-09' AND '2023-04-29' AND RESERVYN='I' GROUP BY ROOMNO)
 ORDER BY r.roomNo ASC;
 
+SELECT * FROM member1230;
+
+DELETE FROM member1230;
+DELETE FROM board1230;
+
+COMMIT;
+
+ALTER TABLE member1230 MODIFY memberpw VARCHAR2(70);
 

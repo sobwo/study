@@ -38,8 +38,8 @@
 	</select>
 	
 	<insert id="boardInsert" parameterType="bv">
-		INSERT INTO board1230(bidx,originbidx,subject,contents,writer,midx,pwd) 
-		VALUES(bidx_seq.nextval,bidx_seq.nextval,#{subject},#{contents},#{writer},#{midx},#{pwd})
+		INSERT INTO board1230(bidx,originbidx,subject,contents,writer,midx,pwd,ip,fileName) 
+		VALUES(bidx_seq.nextval,bidx_seq.nextval,#{subject},#{contents},#{writer},#{midx},#{pwd},#{ip},#{fileName})
 	</insert>
 	
 	<update id="boardModify" parameterType="bv">

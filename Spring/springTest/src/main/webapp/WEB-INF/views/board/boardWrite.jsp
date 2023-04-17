@@ -112,7 +112,7 @@
 				</tbody>
 			</table>
 			<div id="submit">
-				<span><input type="file"></span>
+				<span><input type="file" name="fileName"></span>
 				<span><input type="button" onclick="check()" value="등록"></span>
 				<span><input type="reset" value="초기화"></span>
 			</div>
@@ -146,6 +146,7 @@
 				
 				if(isYN==1){
 					fm.action = "${pageContext.request.contextPath}/board/boardWriteAction.do";
+					fm.enctype ="multipart/form-data";
 					fm.method="post";
 					fm.submit();
 				}
