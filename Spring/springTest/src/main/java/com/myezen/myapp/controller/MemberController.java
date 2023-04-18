@@ -104,9 +104,15 @@ public class MemberController {
 		MemberVo mv = ms.memberLogin(memberId);
 		
 		if(mv != null && bcryptPasswordEncoder.matches(memberPw, mv.getMemberPw())) {
-			session.setAttribute("midx", mv.getMidx());
-			session.setAttribute("memberName", mv.getMemberName());
-			path = "redirect:/";
+			rttr.addAttribute("midx",mv.getMidx());
+			rttr.addAttribute("memberName",mv.getMemberName());
+			
+			if(session.getAttribute("dest")==null)
+				path = "redirect:/";
+			else {
+				String dest = (String) session.getAttribute("dest");
+				path = "redirect:"+dest;
+			}
 		}
 		else {
 			System.out.println("½ÇÆÐ");

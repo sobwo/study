@@ -147,6 +147,16 @@
 							<%} }%>
 					</tr>
 					<tr>
+						<td colspan='2' style='font-size:18px;font-weight:bold;height:80px;vertical-align:bottom;border:0'>댓글</td>
+					</tr>
+					<tr>
+						<td style='width:70%;height:40px;border-right:0'><input type='text' name='cwriter' style='width:100%;border:0' placeholder='작성자를 입력해 주세요.'></td>
+						<td style='width:30%;height:40px;border-left:0;text-align:right'><input type='button' value='등록'></td>
+					</tr>
+					<tr>
+						<td colspan="2" style='height:100px;'><textarea name='ccontents' style='width:100%;height:100%;border:1px solid #e4e4e4;resize: none;'placeholder='댓글을 입력해 주세요.'></textarea></td>
+					</tr>
+					<tr>
 						<td style="width:400px; border:0;"></td>
 						<td style="border:0;">
 							<form>
@@ -161,6 +171,7 @@
 					</tr>
 				</tbody>
 			</table>
+			
 		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){

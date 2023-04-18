@@ -35,7 +35,7 @@ public class UploadFileUtiles {
 		
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		System.out.println("formatName:"+formatName);
-		MultipartFile uploadedFileName = null;
+		String uploadedFileName = null;
 		
 		if(MediaUtils.getMediaType(formatName) != null){
 			uploadedFileName = makeThumbnail(uploadPath,savedPath, savedName);
@@ -92,7 +92,7 @@ public class UploadFileUtiles {
 		}
 	}
 	
-	private static MultipartFile makeThumbnail(String uploadPath,
+	private static String makeThumbnail(String uploadPath,
 			String path,
 			String fileName) throws Exception{
 		

@@ -2,11 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.myezen.myapp.domain.BoardVo" %>  
-<%
-	if (session.getAttribute("midx") == null){	
-		out.println("<script>alert('로그인 하셔야 합니다.'); history.back(-1);</script>");
-}
-%>  
 <% BoardVo bv   = (BoardVo)request.getAttribute("bv"); %>   
 <!DOCTYPE html>
 <html>

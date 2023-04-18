@@ -23,14 +23,36 @@
 	
 	<!-- 파일업로드시 multipart 받는 resolver 클래스 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	<beans:property name="maxUploadSize" value="10485760" />	
+		<beans:property name="maxUploadSize" value="10485760" />	
 	</beans:bean>
 
 	
-	<beans:bean class="java.lang.String" id="uploadPath">
+	<beans:bean id="uploadPath" class="java.lang.String" >
 		<beans:constructor-arg value="D:/study/Spring/uploadFiles"/>
 	</beans:bean>
-	<context:component-scan base-package="com.myezen.myapp" />
+	
+	<beans:bean id="authInterceptor" class="com.myezen.myapp.interceptor.AuthInterceptor">
+	</beans:bean>
+	
+	<beans:bean id="loginInterceptor" class="com.myezen.myapp.interceptor.LoginInterceptor">
+	</beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/boardWrite.do"/>
+			<mapping path="/board/boardModify.do"/>
+			<mapping path="/board/boardDelete.do"/>
+			<mapping path="/board/boardReply.do"/>
+			<beans:ref bean="authInterceptor"></beans:ref>
+		</interceptor>
+		<interceptor>
+			<mapping path="/member/memberLoginAction.do"/>
+			<beans:ref bean="loginInterceptor"></beans:ref>
+		</interceptor>
+	</interceptors>
+	
+	
+	<context:component-scan base-package="com.myezen.myapp.controller" />
 	
 	
 	

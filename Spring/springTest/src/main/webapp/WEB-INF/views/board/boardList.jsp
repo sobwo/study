@@ -251,6 +251,7 @@
 			$(document).ready(function(){
 				var msg = <%=msg%>;
 				if(msg!="") alert(msg);
+				
 				var dataPerPage = ${dataPerPage};
 				if(dataPerPage==10)
 					$("#dataPerPage").val("10").prop("selected",true);
