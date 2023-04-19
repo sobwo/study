@@ -44,7 +44,7 @@
 			
 			th,
 			td {
-			  width: 400px;
+			  width: 800px;
 			  height: 40px;
 			  border: 1px solid #e4e4e4;
 			}
@@ -92,8 +92,8 @@
 			}
 			
 			#btn {
-			  float: right;
 			  margin-top: 20px;
+			  text-align:right;
 			}
 			
 			input {
@@ -138,7 +138,7 @@
 						<td id="download" colspan="2" style="height:30px;"></td>
 					</tr>
 					<tr>
-						<td colspan="2" style="height:400px;">
+						<td colspan="2" style="height:200px;">
 							<%
 								if (bv.getFileName() ==null){
 								}else{
@@ -159,9 +159,12 @@
 					<tr>
 						<td colspan="2" style='height:100px;'><textarea id="ccontents" name='ccontents' style='width:100%;height:100%;border:1px solid #e4e4e4;resize: none;'placeholder='댓글을 입력해 주세요.'></textarea></td>
 					</tr>
+					<tr style="height:40px; border:0">
+					</tr>
+					<tr id="tbl">
+					</tr>
 					<tr>
-						<td style="width:800px; border:0;"></td>
-						<td style="border:0;">
+						<td style="border:0;" colspan='2'>
 							<form>
 								<div id="btn">
 									<input id="nextBlock" type="hidden" value="2" />
@@ -175,7 +178,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<div id="tbl"></div>
 			
 		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script type="text/javascript">
@@ -213,6 +215,7 @@
 						cache : false,
 						success : function(data){
 									alert("등록성공");
+									$.boardCommentList();
 						},
 						error : function(){
 									alert("등록실패");
@@ -254,8 +257,7 @@
 					dataType : "json",
 					cache : false,
 					success : function(data){
-						alert("등록성공");	
-						commentList(data);
+						commentList(data.alist);
 					},
 					error : function(){
 							alert("등록실패");						
@@ -264,13 +266,12 @@
 			}
 			
 			function commentList(data){
-				alert(data.length);
 				var str = "";
 				$(data).each(function(){
-					str += "<div>"+this.cwriter+"</div><div>"+this.ccontents+"</div>" ;
+					str += "<tr><td colspan='2' style='border-top:2px solid #444;height:40px;'>"+this.cwriter+"</td></tr><tr><td colspan='2' style='height:100px;'>"+this.ccontents+"</tr></td>" ;
 				});
 				
-				$("#tbl").html(str);
+				$("#tbl").after(str);
 			}
 			
 		</script>

@@ -44,7 +44,7 @@ public class CommentController {
 	public JSONObject commentList(@PathVariable("bidx") int bidx) {
 		JSONObject jsArray = new JSONObject();
 		ArrayList<CommentVo> alist =  cs.commentSelectAll(bidx);
-
+		
 		jsArray.put("alist", alist);
 		
 		return jsArray;
