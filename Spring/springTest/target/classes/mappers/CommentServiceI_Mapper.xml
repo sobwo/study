@@ -4,6 +4,12 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.myezen.myapp.persistance.CommentService_Mapper">
+	<insert id="commentInsert" parameterType="cv">
+		INSERT INTO COMMENT1230(CIDX,CWRITER,CCONTENTS,MIDX,BIDX,IP)
+		VALUES(CIDX_SEQ.NEXTVAL,#{cwriter},#{ccontents},#{midx},#{bidx},#{ip})
+	</insert>
 
-
+	<select id="commentSelectAll" parameterType="int" resultType="cv">
+		SELECT * FROM COMMENT1230 WHERE BIDX = #{bidx}
+	</select>
 </mapper>

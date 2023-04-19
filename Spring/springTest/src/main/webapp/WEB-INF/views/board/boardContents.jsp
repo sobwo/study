@@ -104,6 +104,9 @@
 			  font-size:14px;
 			  cursor:pointer;
 			}
+			input:focus,textarea:focus{
+				outline:1px solid #e4e4e4;
+			}
 			
 			a:link,	a:visited {
 				  text-decoration: none;
@@ -150,17 +153,18 @@
 						<td colspan='2' style='font-size:18px;font-weight:bold;height:80px;vertical-align:bottom;border:0'>댓글</td>
 					</tr>
 					<tr>
-						<td style='width:70%;height:40px;border-right:0'><input type='text' name='cwriter' style='width:100%;border:0' placeholder='작성자를 입력해 주세요.'></td>
-						<td style='width:30%;height:40px;border-left:0;text-align:right'><input type='button' value='등록'></td>
+						<td style='width:70%;height:40px;border-right:0'><input type='text' id="cwriter" name='cwriter' style='width:100%;border:0' placeholder='작성자를 입력해 주세요.'></td>
+						<td style='width:30%;height:40px;border-left:0;text-align:right'><input type='button' id="save" value='등록'></td>
 					</tr>
 					<tr>
-						<td colspan="2" style='height:100px;'><textarea name='ccontents' style='width:100%;height:100%;border:1px solid #e4e4e4;resize: none;'placeholder='댓글을 입력해 주세요.'></textarea></td>
+						<td colspan="2" style='height:100px;'><textarea id="ccontents" name='ccontents' style='width:100%;height:100%;border:1px solid #e4e4e4;resize: none;'placeholder='댓글을 입력해 주세요.'></textarea></td>
 					</tr>
 					<tr>
-						<td style="width:400px; border:0;"></td>
+						<td style="width:800px; border:0;"></td>
 						<td style="border:0;">
 							<form>
 								<div id="btn">
+									<input id="nextBlock" type="hidden" value="2" />
 									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardModify.do?bidx=${bv.bidx}'" value="수정">
 									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardDelete.do?bidx=${bv.bidx}'" value="삭제">
 									<input type=button onclick="location.href='${pageContext.request.contextPath}/board/boardReply.do?bidx=${bv.bidx}&originbidx=${bv.originbidx}&depth=${bv.depth}&level_=${bv.level_}'" value="답변">
@@ -171,6 +175,7 @@
 					</tr>
 				</tbody>
 			</table>
+			<div id="tbl"></div>
 			
 		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script type="text/javascript">
@@ -185,6 +190,38 @@
 				str = "<div><a href='<%=request.getContextPath()%>/board/displayFile.do?fileName="+str2+"'>"+originalFileName+"</a></div>";
 				
 				$("#download").html(str);
+				
+				$.boardCommentList();
+				
+				$("#save").click(function(){
+					var bidx = ("${bv.bidx}");
+					var cwriter = $("#cwriter").val();
+					var ccontents = $("#ccontents").val();
+					var nextBlock = $("#nextBlock").val();
+					var midx = <%= session.getAttribute("midx")%>;
+					$.ajax({
+						type: "post",
+						url: "${pageContext.request.contextPath}/comment/commentWrite.do" ,
+						dataType : "json",
+						data : {
+								"bidx" : bidx,
+								"cwriter" :  cwriter,
+								"ccontents" : ccontents,
+								"nextBlock" : nextBlock,
+								"midx" : midx
+						},
+						cache : false,
+						success : function(data){
+									alert("등록성공");
+						},
+						error : function(){
+									alert("등록실패");
+									alert("bidx : "+bidx+" cwriter : "+cwriter+" ccontents : "+ccontents+" midx : "+midx);
+									
+									
+						} 	
+					});	
+				});
 			});
 			function getOriginalFileName(fileName){
 				var idx = fileName.lastIndexOf("_")+1;
@@ -208,6 +245,32 @@
 				var pattern  = /jpg$|gif$|png$|jpeg$/i;
 				
 				return fileName.match(pattern);
+			}
+			
+			$.boardCommentList = function(){
+				$.ajax({
+					type: "get",
+					url: "${pageContext.request.contextPath}/comment/<%=bv.getBidx()%>/commentList.do",
+					dataType : "json",
+					cache : false,
+					success : function(data){
+						alert("등록성공");	
+						commentList(data);
+					},
+					error : function(){
+							alert("등록실패");						
+					} 	
+				});	
+			}
+			
+			function commentList(data){
+				alert(data.length);
+				var str = "";
+				$(data).each(function(){
+					str += "<div>"+this.cwriter+"</div><div>"+this.ccontents+"</div>" ;
+				});
+				
+				$("#tbl").html(str);
 			}
 			
 		</script>

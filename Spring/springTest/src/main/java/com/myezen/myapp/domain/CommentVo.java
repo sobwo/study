@@ -2,7 +2,7 @@ package com.myezen.myapp.domain;
 
 public class CommentVo {
 	private int cidx,midx,bidx;
-	private String writer,contents,ip,writeDay;
+	private String cwriter,ccontents,ip,cwriteDay;
 	public int getCidx() {
 		return cidx;
 	}
@@ -21,17 +21,17 @@ public class CommentVo {
 	public void setBidx(int bidx) {
 		this.bidx = bidx;
 	}
-	public String getWriter() {
-		return writer;
+	public String getCwriter() {
+		return cwriter;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setCwriter(String cwriter) {
+		this.cwriter = cwriter;
 	}
-	public String getContents() {
-		return contents;
+	public String getCcontents() {
+		return ccontents;
 	}
-	public void setContents(String contents) {
-		this.contents = contents;
+	public void setCcontents(String ccontents) {
+		this.ccontents = ccontents;
 	}
 	public String getIp() {
 		return ip;
@@ -39,11 +39,11 @@ public class CommentVo {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	public String getWriteDay() {
-		return writeDay;
+	public String getCwriteDay() {
+		return cwriteDay;
 	}
-	public void setWriteDay(String writeDay) {
-		this.writeDay = writeDay;
+	public void setCwriteDay(String cwriteDay) {
+		this.cwriteDay = cwriteDay;
 	}
-	
+
 }

@@ -1,5 +1,13 @@
 package com.myezen.myapp.persistance;
 
-public class CommentService_Mapper {
+import java.util.ArrayList;
+
+import com.myezen.myapp.domain.CommentVo;
+
+public interface CommentService_Mapper {
+	
+	public int commentInsert(CommentVo cv);
+	
+	public ArrayList<CommentVo> commentSelectAll(int bidx);
 
 }
