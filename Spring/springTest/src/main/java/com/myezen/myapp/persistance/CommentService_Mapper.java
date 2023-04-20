@@ -8,6 +8,9 @@ public interface CommentService_Mapper {
 	
 	public int commentInsert(CommentVo cv);
 	
-	public ArrayList<CommentVo> commentSelectAll(int bidx);
-
+	public ArrayList<CommentVo> commentSelectAll(int bidx, int nextBlock);
+	
+	public int commentTotalCnt(int bidx);
+	
+	public int commentDelete(int bidx,int cidx);
 }

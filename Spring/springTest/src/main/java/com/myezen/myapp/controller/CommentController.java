@@ -40,16 +40,48 @@ public class CommentController {
 		return js;
 	}
 	
-	@RequestMapping(value="/{bidx}/commentList.do")
-	public JSONObject commentList(@PathVariable("bidx") int bidx) {
+	@RequestMapping(value="/{bidx}/{nextBlock}/commentList.do")
+	public JSONObject commentList(
+			@PathVariable("bidx") int bidx,
+			@PathVariable("nextBlock") int nextBlock) {
+		
 		JSONObject jsArray = new JSONObject();
-		ArrayList<CommentVo> alist =  cs.commentSelectAll(bidx);
+		ArrayList<CommentVo> alist =  cs.commentSelectAll(bidx,nextBlock);
+		int totalCnt = cs.commentTotalCnt(bidx);
+		String moreView = "N";
+		
+		if(totalCnt > nextBlock*15) moreView = "Y";
 		
 		jsArray.put("alist", alist);
+		jsArray.put("moreView",moreView);
 		
 		return jsArray;
 	}
 	
+	@RequestMapping(value ="/{bidx}/{nextBlock}/more.do")
+	public JSONObject more(
+			@PathVariable("bidx") int bidx,
+			@PathVariable("nextBlock") int nextBlock) {
+		
+		JSONObject jsArray = new JSONObject();
+		
+		ArrayList<CommentVo> alist =  cs.commentSelectAll(bidx,nextBlock);
+		int totalCnt = cs.commentTotalCnt(bidx);
+		
+		if(totalCnt > nextBlock*15) nextBlock++; 
+			
+		jsArray.put("alist", alist);
+		jsArray.put("nextBlock", nextBlock);
+		
+		return jsArray;
+	}
 	
-	
+	@RequestMapping(value="/{bidx}/{cidx}/commentDelete.do")
+	public int commentDelete(
+			@PathVariable("bidx") int bidx,
+			@PathVariable("cidx") int cidx) {
+		int value = 0;
+		value = cs.commentDelete(bidx,cidx);
+		return value;
+	}
 }

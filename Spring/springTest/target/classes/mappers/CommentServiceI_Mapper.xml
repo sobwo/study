@@ -9,7 +9,21 @@
 		VALUES(CIDX_SEQ.NEXTVAL,#{cwriter},#{ccontents},#{midx},#{bidx},#{ip})
 	</insert>
 
-	<select id="commentSelectAll" parameterType="int" resultType="cv">
-		SELECT * FROM COMMENT1230 WHERE BIDX = #{bidx} ORDER BY CIDX DESC
+	<select id="commentSelectAll" parameterType="Integer" resultType="cv">
+		SELECT * FROM (
+    	SELECT ROWNUM AS rnum, A.* FROM (
+	      	SELECT *
+	      	FROM comment1230
+	      	WHERE bidx=#{0}
+	      	ORDER BY cidx desc) A) B
+  		WHERE B.rnum BETWEEN 1 AND #{1}*15
 	</select>
+	
+	<select id="commentTotalCnt" parameterType="Integer" resultType="Integer">
+		SELECT count(*) as cnt from comment1230 where bidx = #{bidx}
+	</select>
+	
+	<delete id="commentDelete" parameterType="Integer">
+		DELETE FROM COMMENT1230 WHERE BIDX = #{0} AND CIDX = #{1}
+	</delete>
 </mapper>

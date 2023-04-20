@@ -29,11 +29,21 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public ArrayList<CommentVo> commentSelectAll(int bidx) {
+	public ArrayList<CommentVo> commentSelectAll(int bidx, int nextBlock) {
 		
-		ArrayList<CommentVo> alist = csm.commentSelectAll(bidx);
+		ArrayList<CommentVo> alist = csm.commentSelectAll(bidx, nextBlock);
 		
 		return alist;
+	}
+	@Override
+	public int commentTotalCnt(int bidx) {
+		int totalCnt = csm.commentTotalCnt(bidx);
+		return totalCnt;
+	}
+	@Override
+	public int commentDelete(int bidx, int cidx) {
+		int value = csm.commentDelete(bidx,cidx);
+		return value;
 	}
 
 

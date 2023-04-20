@@ -108,6 +108,10 @@
 				outline:1px solid #e4e4e4;
 			}
 			
+			input[name=deleteBtn]:focus{
+				outline:none;
+			}
+			
 			a:link,	a:visited {
 				  text-decoration: none;
 				  color: black;
@@ -164,6 +168,9 @@
 					<tr id="tbl">
 					</tr>
 					<tr>
+						<td colspan="2" style='height:40px;border:0;text-align:center'><input type='button' id="moreBtn" value="더보기"></td>
+					</tr>
+					<tr>
 						<td style="border:0;" colspan='2'>
 							<form>
 								<div id="btn">
@@ -193,7 +200,7 @@
 				
 				$("#download").html(str);
 				
-				$.boardCommentList();
+				$.boardCommentList(0);
 				
 				$("#save").click(function(){
 					var bidx = ("${bv.bidx}");
@@ -201,6 +208,7 @@
 					var ccontents = $("#ccontents").val();
 					var nextBlock = $("#nextBlock").val();
 					var midx = <%= session.getAttribute("midx")%>;
+					
 					$.ajax({
 						type: "post",
 						url: "${pageContext.request.contextPath}/comment/commentWrite.do" ,
@@ -209,23 +217,40 @@
 								"bidx" : bidx,
 								"cwriter" :  cwriter,
 								"ccontents" : ccontents,
-								"nextBlock" : nextBlock,
 								"midx" : midx
 						},
 						cache : false,
 						success : function(data){
 									alert("등록성공");
-									$.boardCommentList();
+									$.boardCommentList(0);
 						},
 						error : function(){
 									alert("등록실패");
-									alert("bidx : "+bidx+" cwriter : "+cwriter+" ccontents : "+ccontents+" midx : "+midx);
-									
-									
+									alert("bidx : "+bidx+" cwriter : "+cwriter+" ccontents : "+ccontents+" midx : "+midx);		
 						} 	
 					});	
 				});
+				
+				$("#moreBtn").click(function(){
+					var nextBlock = $("#nextBlock").val();
+					$.ajax({
+						type : "get",
+						url : "${pageContext.request.contextPath}/comment/<%=bv.getBidx()%>/"+nextBlock+"/more.do",
+						dataType : "json",
+						cache : false,
+						success : function(data){
+							$("#nextBlock").val(data.nextBlock);
+							$.boardCommentList(nextBlock);
+
+						},
+						error : function(){
+							alert("실패");
+						}
+					});
+				});
 			});
+			
+
 			function getOriginalFileName(fileName){
 				var idx = fileName.lastIndexOf("_")+1;
 					
@@ -250,29 +275,62 @@
 				return fileName.match(pattern);
 			}
 			
-			$.boardCommentList = function(){
+			$(document).on("click","input[name=deleteBtn]",function(){
+				var cidx = $(this).closest("tr").find("input[name=cidx]").val();
+				$.commentDelete(cidx);
+			});
+			
+			$.commentDelete = function(cidx){
+				$.ajax({
+					type:"post",
+					url:"${pageContext.request.contextPath}/comment/<%=bv.getBidx()%>/"+cidx+"/commentDelete.do",
+					dataType : "json",
+					success : function(data){
+						alert("성공");
+						$.boardCommentList(0);
+					},
+					error : function(){
+						alert("실패");
+					}
+				});
+			}
+			
+			
+			$.boardCommentList = function(nb){
+				var nextBlock;
+				if(nb == 0) nextBlock = 1;
+				else nextBlock = nb;
 				$.ajax({
 					type: "get",
-					url: "${pageContext.request.contextPath}/comment/<%=bv.getBidx()%>/commentList.do",
+					url: "${pageContext.request.contextPath}/comment/<%=bv.getBidx()%>/"+nextBlock+"/commentList.do",
 					dataType : "json",
 					cache : false,
 					success : function(data){
 						commentList(data.alist);
+						
+						if(data.moreView == "N") $("#moreBtn").hide();
+						else $("#moreBtn").show();
 					},
 					error : function(){
 							alert("등록실패");						
 					} 	
+
 				});	
 			}
 			
 			function commentList(data){
 				var str = "";
 				$(data).each(function(){
-					str += "<tr><td colspan='2' style='border-top:2px solid #444;height:40px;'>"+this.cwriter+"</td></tr><tr><td colspan='2' style='height:100px;'>"+this.ccontents+"</tr></td>" ;
+					str += ""
+					str += "<tr><td style='border-top:2px solid #444; border-right:0; width:80%;height:40px;'><input type='hidden' name='cidx' id='cidx' value='"+this.cidx+"'/>"+this.cwriter+"</td>";
+					str += "<td style='width:20%;height:40px; border-top:2px solid #444;border-left:0; text-align:right'><input type='button' id='deleteBtn' name='deleteBtn' value='삭제' style='border:0;background:0'/></td></tr>"
+					str += "<tr><td colspan='2' style='height:100px;'>"+this.ccontents+"</td></tr>";
 				});
 				
-				$("#tbl").after(str);
+				$("#tbl").html(str);
 			}
+			
+			
 			
 		</script>
 	</body>
